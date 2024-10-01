@@ -14,4 +14,17 @@ public class Attendee extends User {
 	public Attendee (String firstName, String lastName, String emailAddress, String accountPassword, String address, String phoneNumber) {
 		super(firstName, lastName, emailAddress, accountPassword, address, phoneNumber);
 	}
+	
+	/**
+	* A method to return the details of the Attendee as a String. A concrete implementation of the parent (User)'s abstract toString() method.
+	* @return String a String representation of the Attendee
+	*/
+	public String toString() {
+		String ret = ("Attendee " + firstName + " " + lastName);
+		ret += ("\tEmail Address: " + email + "\n");
+		ret += ("\tAccount Password: " + accountPassword + "\n");
+		ret += ("\tAddress: " + address + "\n");
+		ret += ("\tPhone Number: " + phoneNumber + "\n");
+		return ret;
+	}
 }

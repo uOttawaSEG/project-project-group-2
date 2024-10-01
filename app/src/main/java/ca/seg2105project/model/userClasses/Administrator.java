@@ -10,4 +10,14 @@ public class Administrator extends User {
 	public Administrator (String emailAddress, String accountPassword) {
 		super(null, null, emailAddress, accountPassword, null, null);
 	}
+	
+	/**
+	* A method to return the details of the Administrator. A concrete implementation of the parent (User)'s abstract toString() method.
+	* @return String a String representation of the Administrator
+	*/
+	public String toString() {
+		String ret = ("Administrator Email Address: " + email);
+		ret += ("\tAccount Password: " + password + "\n");
+		return ret;
+	}
 }

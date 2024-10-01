@@ -35,4 +35,18 @@ public class Organizer extends User {
 	public void setOrganizationName(String organizationName) {
 		this.organizationName = organizationName;
 	}
+	
+	/**
+	* A method to return the details of the Organizer as a String. A concrete implementation of the parent (User)'s abstract toString() method.
+	* @return String a String representation of the Organizer
+	*/
+	public String toString() {
+		String ret = ("Organizer " + firstName + " " + lastName);
+		ret += ("\tEmail Address: " + email + "\n");
+		ret += ("\tAccount Password: " + password + "\n");
+		ret += ("\tAddress: " + address + "\n");
+		ret += ("\tPhone Number: " + phoneNumber + "\n");
+		ret += ("\tOrganization Name: " + organizationName + "\n");
+		return ret;
+	}
 }
