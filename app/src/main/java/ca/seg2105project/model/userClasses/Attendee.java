@@ -22,7 +22,7 @@ public class Attendee extends User {
 	public String toString() {
 		String ret = ("Attendee " + firstName + " " + lastName);
 		ret += ("\tEmail Address: " + email + "\n");
-		ret += ("\tAccount Password: " + accountPassword + "\n");
+		ret += ("\tAccount Password: " + password + "\n");
 		ret += ("\tAddress: " + address + "\n");
 		ret += ("\tPhone Number: " + phoneNumber + "\n");
 		return ret;
