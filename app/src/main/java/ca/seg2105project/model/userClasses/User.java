@@ -33,7 +33,7 @@ public abstract class User {
      * Gets the first name of the user 
      * @return the first name of the user
      */
-    protected String getFirstName() {
+    public String getFirstName() {
         return firstName; 
     }
 
@@ -41,7 +41,7 @@ public abstract class User {
     * Gets the last name of the user 
     * @return the last name of the user
     */
-    protected String getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
@@ -49,7 +49,7 @@ public abstract class User {
      * Gets the email of the user 
      * @return the email of the user
      */
-    protected String getEmail() {
+    public String getEmail() {
         return email; 
     }
     
@@ -57,7 +57,7 @@ public abstract class User {
      * Gets the password of the user 
      * @return the password of the user
      */
-    protected String getPassword() {
+    public String getPassword() {
         return password; 
     }
 
@@ -65,7 +65,7 @@ public abstract class User {
      * Gets the address of the user 
      * @return the address of the user
      */
-    protected String getAddress() {
+    public String getAddress() {
         return address; 
     } 
 
@@ -73,7 +73,7 @@ public abstract class User {
      * Gets the phone number of the user 
      * @return the phone number of the user
      */
-    protected String getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber; 
     }
 
@@ -83,7 +83,7 @@ public abstract class User {
      * Sets the first name of the user  
      * @param firstName the first name of the user 
      */
-    protected void setFirstName(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
@@ -91,7 +91,7 @@ public abstract class User {
      * Sets the last name of the user  
      * @param lastName the last name of the user 
      */
-    protected void setLastName(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName; 
     }
 
@@ -99,7 +99,7 @@ public abstract class User {
      * Sets the email of the user  
      * @param email the email of the user 
      */
-    protected void setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email; 
     }
     
@@ -107,7 +107,7 @@ public abstract class User {
      * Sets the password of the user  
      * @param password the password of the user 
      */
-    protected void setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password; 
     }
 
@@ -115,7 +115,7 @@ public abstract class User {
      * Sets the address of the user  
      * @param address the address of the user 
      */
-    protected void setAddress(String address) {
+    public void setAddress(String address) {
         this.address = address; 
     }
 
@@ -123,7 +123,7 @@ public abstract class User {
      * Sets the phone number of the user  
      * @param phoneNumber the phone number of the user 
      */
-    protected void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;  
     } 
 
