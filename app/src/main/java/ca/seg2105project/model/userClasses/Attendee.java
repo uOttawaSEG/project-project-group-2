@@ -20,7 +20,7 @@ public class Attendee extends User {
 	* @return String a String representation of the Attendee
 	*/
 	public String toString() {
-		String ret = ("Attendee " + firstName + " " + lastName);
+		String ret = ("Attendee " + firstName + " " + lastName + "\n");
 		ret += ("\tEmail Address: " + email + "\n");
 		ret += ("\tAccount Password: " + password + "\n");
 		ret += ("\tAddress: " + address + "\n");

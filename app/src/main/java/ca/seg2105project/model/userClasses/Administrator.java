@@ -16,7 +16,7 @@ public class Administrator extends User {
 	* @return String a String representation of the Administrator
 	*/
 	public String toString() {
-		String ret = ("Administrator Email Address: " + email);
+		String ret = ("Administrator Email Address: " + email + "\n");
 		ret += ("\tAccount Password: " + password + "\n");
 		return ret;
 	}

@@ -41,7 +41,7 @@ public class Organizer extends User {
 	* @return String a String representation of the Organizer
 	*/
 	public String toString() {
-		String ret = ("Organizer " + firstName + " " + lastName);
+		String ret = ("Organizer " + firstName + " " + lastName + "\n");
 		ret += ("\tEmail Address: " + email + "\n");
 		ret += ("\tAccount Password: " + password + "\n");
 		ret += ("\tAddress: " + address + "\n");
