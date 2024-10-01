@@ -66,5 +66,4 @@ public abstract class User {
     protected void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;  
     }
->>>>>>> c69eb8c96dbac32eabd8d8064aecd1137fd94049
 }
