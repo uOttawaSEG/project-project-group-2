@@ -3,7 +3,10 @@
 */
 public class Organizer extends User {
 	
-	protected String organizationName; //the only unique field the Organizer has compared to User
+	/**
+	* An additional instance variable for Organizers.
+	*/
+	protected String organizationName;
 	
 	/**
 	* A paramterized constructor for Organizer. Calls the parent (User)'s paramterized constructor. Additionally, sets the organizationName too.
@@ -22,7 +25,7 @@ public class Organizer extends User {
 	
 	/**
 	* A getter for organizationName.
-	* @return String the organizer's organization name
+	* @return the organizer's organization name
 	*/
 	public String getOrganizationName() {
 		return this.organizationName;
@@ -38,7 +41,7 @@ public class Organizer extends User {
 	
 	/**
 	* A method to return the details of the Organizer as a String. A concrete implementation of the parent (User)'s abstract toString() method.
-	* @return String a String representation of the Organizer
+	* @return a String representation of the Organizer
 	*/
 	public String toString() {
 		String ret = ("Organizer " + firstName + " " + lastName + "\n");

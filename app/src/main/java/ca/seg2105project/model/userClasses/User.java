@@ -130,7 +130,7 @@ public abstract class User {
         this.phoneNumber = phoneNumber;  
     } 
 
-    /*
+    /**
      * Forces the children classes to have a toString() method that returns the details of the user 
      */
     public abstract String toString(); 

@@ -17,7 +17,7 @@ public class Attendee extends User {
 	
 	/**
 	* A method to return the details of the Attendee as a String. A concrete implementation of the parent (User)'s abstract toString() method.
-	* @return String a String representation of the Attendee
+	* @return a String representation of the Attendee
 	*/
 	public String toString() {
 		String ret = ("Attendee " + firstName + " " + lastName + "\n");
