@@ -131,9 +131,11 @@ public abstract class User {
     } 
 
     /**
-     * Forces the children classes to have a toString() method that returns the details of the user 
+     * Forces the children classes to have a toString() method that returns the details of the user. Includes the password in the details if the parameter includePassword == true, othewise omits it.
+	 * @param includePassword determines whether or not to include the password in the (returned) details of the user
+	 * @return a representation of the user as a String
      */
-    public abstract String toString(); 
+    public abstract String toString(boolean includePassword); 
 
  
 }

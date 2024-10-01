@@ -15,11 +15,12 @@ public class Administrator extends User {
 	
 	/**
 	* A method to return the details of the Administrator. A concrete implementation of the parent (User)'s abstract toString() method.
+	* @param includePassword determines whether or not to include the account password in the (returned) details of the administrator
 	* @return a String representation of the Administrator
 	*/
-	public String toString() {
+	public String toString(boolean includePassword) {
 		String ret = ("Administrator Email Address: " + email + "\n");
-		ret += ("\tAccount Password: " + password + "\n");
+		if (includePassword) ret += ("\tAccount Password: " + password + "\n");
 		return ret;
 	}
 }

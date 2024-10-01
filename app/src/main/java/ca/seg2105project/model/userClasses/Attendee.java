@@ -17,12 +17,13 @@ public class Attendee extends User {
 	
 	/**
 	* A method to return the details of the Attendee as a String. A concrete implementation of the parent (User)'s abstract toString() method.
+	* @param includePassword determines whether or not to include the account password in the (returned) details of the attendee
 	* @return a String representation of the Attendee
 	*/
-	public String toString() {
+	public String toString(boolean includePassword) {
 		String ret = ("Attendee " + firstName + " " + lastName + "\n");
 		ret += ("\tEmail Address: " + email + "\n");
-		ret += ("\tAccount Password: " + password + "\n");
+		if (includePassword) ret += ("\tAccount Password: " + password + "\n");
 		ret += ("\tAddress: " + address + "\n");
 		ret += ("\tPhone Number: " + phoneNumber + "\n");
 		return ret;
