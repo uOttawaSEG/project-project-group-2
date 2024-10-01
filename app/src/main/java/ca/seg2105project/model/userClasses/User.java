@@ -42,7 +42,7 @@ public abstract class User {
     * @return the last name of the user
     */
     protected String getLastName() {
-        return getLastName; 
+        return lastName;
     }
 
     /**
@@ -84,7 +84,7 @@ public abstract class User {
      * @param firstName the first name of the user 
      */
     protected void setFirstName(String firstName) {
-        this.firstName = firatName; 
+        this.firstName = firstName;
     }
 
     /**
