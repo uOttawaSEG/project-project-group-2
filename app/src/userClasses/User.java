@@ -81,7 +81,7 @@ public abstract class User {
     //setter methods 
     /**
      * Sets the first name of the user  
-     * @params firstName the first name of the user 
+     * @param firstName the first name of the user 
      */
     protected void setFirstName(String firstName) {
         this.firstName = firatName; 
@@ -89,7 +89,7 @@ public abstract class User {
 
     /**
      * Sets the last name of the user  
-     * @params lastName the last name of the user 
+     * @param lastName the last name of the user 
      */
     protected void setLastName(String lastName) {
         this.lastName = lastName; 
@@ -97,7 +97,7 @@ public abstract class User {
 
     /**
      * Sets the email of the user  
-     * @params email the email of the user 
+     * @param email the email of the user 
      */
     protected void setEmail(String email) {
         this.email = email; 
@@ -105,7 +105,7 @@ public abstract class User {
     
     /**
      * Sets the password of the user  
-     * @params password the password of the user 
+     * @param password the password of the user 
      */
     protected void setPassword(String password) {
         this.password = password; 
@@ -113,7 +113,7 @@ public abstract class User {
 
     /** 
      * Sets the address of the user  
-     * @params address the address of the user 
+     * @param address the address of the user 
      */
     protected void setAddress(String address) {
         this.address = address; 
@@ -121,7 +121,7 @@ public abstract class User {
 
     /** 
      * Sets the phone number of the user  
-     * @params phoneNumber the phone number of the user 
+     * @param phoneNumber the phone number of the user 
      */
     protected void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;  
