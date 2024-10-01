@@ -3,7 +3,10 @@
  * Used by the children classes to extend and get the variables inside that they all share 
  */
 public abstract class User { 
-    //variables all children will need
+    
+	/**
+	* Instance variables for User and its subclasses.
+	*/
     protected String firstName, lastName, email, password, address, phoneNumber;  
 
 
