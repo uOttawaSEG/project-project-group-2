@@ -1,3 +1,5 @@
+package ca.seg2105project.model.userClasses;
+
 /**
 * A concrete class to model an Administrator. An administrator only has an email address and a password but is made a child of User (and thus technically has access to far more instance variables) in order to remain consistent with the 'isa' rule as an Administrator is a User.
 * <p>
