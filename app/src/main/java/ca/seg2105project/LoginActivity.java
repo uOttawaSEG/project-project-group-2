@@ -13,7 +13,10 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.viewmodel.CreationExtras;
 
+import java.util.List;
+
 import ca.seg2105project.model.UserRepository;
+import ca.seg2105project.model.userClasses.User;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -30,6 +33,9 @@ public class LoginActivity extends AppCompatActivity {
 
         UserRepository userRepository = new UserRepository();
         final TextView loginTextView = findViewById(R.id.logintextview);
-        loginTextView.setText(userRepository.getAllRegisteredUsers().get(0).getFirstName());
+        List<User> allRegisteredUsers = userRepository.getAllRegisteredUsers();
+        String testText = allRegisteredUsers.get(0).getFirstName() + " " +
+                allRegisteredUsers.get(2).getPassword();
+        loginTextView.setText(testText);
     }
 }
