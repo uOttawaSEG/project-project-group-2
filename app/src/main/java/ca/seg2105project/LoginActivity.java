@@ -1,18 +1,12 @@
 package ca.seg2105project;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
-import java.util.List;
-
-import ca.seg2105project.model.UserRepository;
-import ca.seg2105project.model.userClasses.User;
 
 public class LoginActivity extends AppCompatActivity {
 
