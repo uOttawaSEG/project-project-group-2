@@ -27,9 +27,8 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
-        UserRepository userRepository = new UserRepository();
         final TextView loginTextView = findViewById(R.id.logintextview);
-        List<User> allRegisteredUsers = userRepository.getAllRegisteredUsers();
+        List<User> allRegisteredUsers = UserRepository.getAllRegisteredUsers();
         String testText = allRegisteredUsers.get(0).getFirstName() + " " +
                 allRegisteredUsers.get(2).getPassword();
         loginTextView.setText(testText);

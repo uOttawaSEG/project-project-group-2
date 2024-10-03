@@ -14,9 +14,8 @@ public class Authenticator {
 	 * @param password the password attatched to the email to be checked
 	 * @return true if the email-password pair was found in user repository, false if not found
 	 */
-	public boolean authenticate(String email, String password) { //O(n)
-		UserRepository userrep = new UserRepository();
-		List<User> users = userrep.getAllRegisteredUsers();
+	public static boolean authenticate(String email, String password) { //O(n)
+		List<User> users = UserRepository.getAllRegisteredUsers();
 		int n = users.size();
 		for (int x = 0; x < n; x++) {
 			User u = users.get(x);
