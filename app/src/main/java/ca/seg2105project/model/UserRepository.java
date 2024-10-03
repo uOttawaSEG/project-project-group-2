@@ -34,6 +34,21 @@ public class UserRepository {
         allRegisteredUsers.add(new Administrator("admin@gmail.com",
                 "adminpwd"));
 
+        /*
+        //Additional test cases I added before I approve of PR (Rachel)
+        //It works!
+        allRegisteredUsers.add(new Attendee("Rachel", "Luo",
+                "rluo123@gmail.com", "walkingIsOverrated",
+                "39 Mann", "6471234567"));
+
+        allRegisteredUsers.add(new Organizer("Kunala", "Deotare",
+                "kdeotare@gmail.com", "the_best_pass",
+                "29 Mann", "4161234567", "Best Org."));
+
+        allRegisteredUsers.add(new Administrator("shawn@gmail.com",
+                "secure_pass"));
+        */
+
         return allRegisteredUsers;
     }
 }
