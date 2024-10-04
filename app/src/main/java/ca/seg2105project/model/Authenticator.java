@@ -2,7 +2,10 @@ package ca.seg2105project.model;
 
 import java.util.List;
 
+
 import ca.seg2105project.model.userClasses.User;
+
+
 
 /**
  * A class to see if a given email and password match any of the email-password pairs in the user repository.
