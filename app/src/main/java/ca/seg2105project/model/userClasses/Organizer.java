@@ -1,3 +1,5 @@
+package ca.seg2105project.model.userClasses;
+
 /**
 * A concrete class to model an Organizer.
 */
