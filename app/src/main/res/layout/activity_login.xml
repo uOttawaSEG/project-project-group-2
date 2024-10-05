@@ -105,13 +105,15 @@
                 tools:ignore="ExtraText">
 
                 <TextView
+                    android:id="@+id/create_accountBTN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Create Accout"
+                    android:text="Create Account"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="8dp"/>
 
             </RelativeLayout>
 
@@ -120,6 +122,7 @@
                 android:layout_height="10dp"/>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/loginBTN"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:gravity="center"
