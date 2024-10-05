@@ -9,6 +9,8 @@ activity = "1.8.0"
 constraintlayout = "2.1.4"
 
 [libraries]
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout" }
+androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
