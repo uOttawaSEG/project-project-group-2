@@ -1,7 +1,6 @@
 package ca.seg2105project;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,32 +26,6 @@ public class LoginActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        final TextView loginTextView = findViewById(R.id.logintextview);
-        List<User> allRegisteredUsers = UserRepository.getAllRegisteredUsers();
-        String testText = allRegisteredUsers.get(0).getFirstName() + " " +
-                allRegisteredUsers.get(2).getPassword();
-        loginTextView.setText(testText);
-
-
-        /*
-        //Additional test cases I added before I approve of PR (Rachel)
-        //It works!
-
-        StringBuilder s = new StringBuilder(" ");
-        User cur = null;
-        for(int i = 0; i<allRegisteredUsers.size(); i++) {
-            cur = allRegisteredUsers.get(i);
-            s.append(cur.toString(true));
-        }
-
-        loginTextView.setText(s.toString());
-
-
-         */
-
-
-
 
         //Tests added for Authenticator
         String s = "";
@@ -112,11 +85,5 @@ public class LoginActivity extends AppCompatActivity {
         s+= String.valueOf(answer) + "\n";
         answer = Authenticator.authenticate("hussein.alosman@uottawa.ca", "the most amazing password ever"); //false
         s+= String.valueOf(answer) + "\n";
-
-
-        loginTextView.setText(s);
-
-
-
     }
 }
