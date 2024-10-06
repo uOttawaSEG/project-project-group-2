@@ -21,7 +21,7 @@ public class UserRepository {
      * In an even later implementation likely in deliverable 2 this will access the database.
      * @return a full list of all registered users
      */
-    public List<User> getAllRegisteredUsers() {
+    public static List<User> getAllRegisteredUsers() {
         ArrayList<User> allRegisteredUsers = new ArrayList<>();
         allRegisteredUsers.add(new Attendee("Isaac", "Jensen-Large",
                 "jensenlarge.isaac@gmail.com", "awesomepassword",
@@ -34,9 +34,6 @@ public class UserRepository {
         allRegisteredUsers.add(new Administrator("admin@gmail.com",
                 "adminpwd"));
 
-        /*
-        //Additional test cases I added before I approve of PR (Rachel)
-        //It works!
         allRegisteredUsers.add(new Attendee("Rachel", "Luo",
                 "rluo123@gmail.com", "walkingIsOverrated",
                 "39 Mann", "6471234567"));
@@ -47,8 +44,25 @@ public class UserRepository {
 
         allRegisteredUsers.add(new Administrator("shawn@gmail.com",
                 "secure_pass"));
-        */
 
         return allRegisteredUsers;
+    }
+
+    /**
+     * A method to see if an email-password pair exist in set of all registered users.
+     * @param email the email to be checked
+     * @param password the password attatched to the email to be checked
+     * @return true if the email-password pair was found in user repository, false if not found
+     */
+    public static boolean authenticate(String email, String password) { //O(n)
+        List<User> users = getAllRegisteredUsers();
+        int n = users.size();
+        for (int x = 0; x < n; x++) {
+            User u = users.get(x);
+            if (u.getEmail().equals(email) && u.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
