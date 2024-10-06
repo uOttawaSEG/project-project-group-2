@@ -48,14 +48,12 @@
             tools:layout_editor_absoluteY="237dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <!-- Create Password TextBox-->
-
+    <!-- Create password TextBox-->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="212dp"
+        android:layout_marginTop="276dp"
         android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -67,17 +65,17 @@
             android:layout_width="248dp"
             android:layout_height="46dp"
             android:ems="10"
-            android:inputType="textPassword"
-            android:hint="Create password"/>
+            android:hint="Create password"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <!-- Confirm Password TextBox-->
+    <!-- Confirm password TextBox-->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="276dp"
+        android:layout_marginTop="340dp"
         android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -92,5 +90,6 @@
             android:hint="Confirm password"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
