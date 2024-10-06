@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">EAMS</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="create_password">Create password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="address">Address</string>
+    <string name="name_of_organization">Name of Organization</string>
 </resources>
