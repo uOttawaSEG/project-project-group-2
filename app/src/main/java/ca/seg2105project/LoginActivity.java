@@ -8,12 +8,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.util.List;
-
-import ca.seg2105project.model.UserRepository;
-import ca.seg2105project.model.userClasses.User;
-import ca.seg2105project.model.Authenticator;
-
 public class LoginActivity extends AppCompatActivity {
 
     @Override
