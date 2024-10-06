@@ -13,14 +13,18 @@ public class userClassesTester {
 	* - creates an object of that type
 	* - prints it out using both toString(true) and toString(false)
 	* - gets and prints each attribute (only email and password for Administrator, though)
-	* - sets each attribute (only email and password for Administrator though) to another value and then calls toString(true) to show the updated attributes
-	* - casts it to User (the parent) and then uses toString(true) and toString(false) on it, gets and sets (and gets again) each attribute (only email and password for Administrator, though, and excluding organization name for Organizer as User does not have that attribute)
+	* - sets each attribute (only email and password for Administrator though) to another value and then calls
+		 * 	toString(true) to show the updated attributes
+	* - casts it to User (the parent) and then uses toString(true) and toString(false) on it, gets and sets (and gets
+		 * again) each attribute (only email and password for Administrator, though, and excluding organization name for
+		 * Organizer as User does not have that attribute)
 	* @param args the command line arguments, will not be used
 	*/
 	public static void main (String[] args) {
 		
 		//Attendee stuff begins here
-		Attendee att = new Attendee ("Kunala", "Deotare", "kdeot090@uottawa.ca", "myPassword", "myAddress", "123-456-789");
+		Attendee att = new Attendee ("Kunala", "Deotare", "kdeot090@uottawa.ca",
+				"myPassword", "myAddress", "123-456-789");
 		System.out.println("Calling toString() on attendee with password showing:\n" + att.toString(true));
 		System.out.println("Calling toString() on attendee without password showing:\n" + att.toString(false));
 		System.out.println("Getting attendee's first name: " + att.getFirstName());
@@ -41,7 +45,8 @@ public class userClassesTester {
 		System.out.println("----------------\n");
 		
 		//Organizer stuff begins here
-		Organizer org = new Organizer ("Rachel", "Luo", "rachelluo@uottawa.ca", "herPassword", "herAddress", "987-654-321", "herOrganization");
+		Organizer org = new Organizer ("Rachel", "Luo", "rachelluo@uottawa.ca",
+				"herPassword", "herAddress", "987-654-321", "herOrganization");
 		System.out.println("Calling toString() on organizer with password showing:\n" + org.toString(true));
 		System.out.println("Calling toString() on organizer without password showing:\n" + org.toString(false));
 		System.out.println("Getting organizer's first name: " + org.getFirstName());
