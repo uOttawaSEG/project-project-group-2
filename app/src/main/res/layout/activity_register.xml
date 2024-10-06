@@ -7,7 +7,26 @@
     android:layout_height="match_parent"
     tools:context="RegisterActivity">
 
+    <!--Register Page Title-->
+    <TextView
+        android:id="@+id/RegisterTitle"
+        android:layout_width="313dp"
+        android:layout_height="97dp"
+        android:layout_marginStart="173dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="181dp"
+        android:layout_marginBottom="521dp"
+        android:text="Create your Account"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.243"/>
 
+
+    <!-- Organization CheckBox-->
     <CheckBox
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
@@ -22,13 +41,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="136dp"
-        android:layout_height="61dp"
-        android:text="Button"
-        tools:layout_editor_absoluteX="142dp"
-        tools:layout_editor_absoluteY="632dp" />
 
+    <!--Create Account Button-->
+    <Button
+        android:id="@+id/createAccountBTN"
+        android:layout_width="121dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="145dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="145dp"
+        android:layout_marginBottom="27dp"
+        android:text="Create Account"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
