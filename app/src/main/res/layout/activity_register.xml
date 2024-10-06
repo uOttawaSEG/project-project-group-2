@@ -9,7 +9,7 @@
 
     <!--Register Page Title-->
     <TextView
-        android:id="@+id/RegisterTitle"
+        android:id="@+id/RegisterPageTitle"
         android:layout_width="266dp"
         android:layout_height="39dp"
         android:layout_marginStart="92dp"
