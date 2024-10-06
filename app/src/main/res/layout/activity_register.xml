@@ -9,22 +9,22 @@
 
     <!-- Email TextBox-->
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="276dp"
-        android:layout_height="56dp"
+        android:layout_width="322dp"
+        android:layout_height="65dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="644dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginTop="212dp"
+        android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.619"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="248dp"
             android:layout_height="46dp"
-            android:layout_marginTop="56dp"
-            android:layout_marginEnd="58dp"
-            android:hint="Email Address" />
+            android:hint="Email"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="237dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
