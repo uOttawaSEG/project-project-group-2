@@ -21,7 +21,7 @@ public class UserRepository {
      * In an even later implementation likely in deliverable 2 this will access the database.
      * @return a full list of all registered users
      */
-    public List<User> getAllRegisteredUsers() {
+    public static List<User> getAllRegisteredUsers() {
         ArrayList<User> allRegisteredUsers = new ArrayList<>();
         allRegisteredUsers.add(new Attendee("Isaac", "Jensen-Large",
                 "jensenlarge.isaac@gmail.com", "awesomepassword",
