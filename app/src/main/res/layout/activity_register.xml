@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="RegisterActivity">
+    tools:context="RegisterActivity"
+    android:background="@color/pastel_purple">
 
     <!-- Email TextBox-->
     <com.google.android.material.textfield.TextInputLayout
@@ -24,7 +25,9 @@
             android:layout_height="46dp"
             android:hint="Email"
             tools:layout_editor_absoluteX="111dp"
-            tools:layout_editor_absoluteY="237dp" />
+            tools:layout_editor_absoluteY="237dp"
+            android:background="@color/white"
+            android:textStyle="bold"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
