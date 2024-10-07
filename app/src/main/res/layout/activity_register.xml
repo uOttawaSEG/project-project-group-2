@@ -8,7 +8,51 @@
     tools:context="RegisterActivity"
     android:background="@color/pastel_purple">
 
-    <!-- Email TextBox-->
+
+    <!-- First Name TextBox-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="322dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="148dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="248dp"
+            android:layout_height="46dp"
+            android:hint="Last Name"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="237dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <!-- Last Name TextBox-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="322dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="248dp"
+            android:layout_height="46dp"
+            android:hint="First Name"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="237dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <!-- Create Password TextBox-->
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="322dp"
         android:layout_height="65dp"
@@ -20,14 +64,101 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
+            android:id="@+id/editTextTextPassword"
             android:layout_width="248dp"
             android:layout_height="46dp"
-            android:hint="Email"
-            tools:layout_editor_absoluteX="111dp"
-            tools:layout_editor_absoluteY="237dp"
-            android:background="@color/white"
-            android:textStyle="bold"/>
+            android:ems="10"
+            android:inputType="textPassword"
+            android:hint="Create password"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <!-- Confirm Password TextBox-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="322dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="276dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/editTextTextPassword4"
+            android:layout_width="248dp"
+            android:layout_height="46dp"
+            android:ems="10"
+            android:hint="Confirm password"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <!-- Phone number TextBox-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="322dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="404dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/PhoneNumberTB"
+            android:layout_width="248dp"
+            android:layout_height="46dp"
+            android:ems="10"
+            android:hint="@string/phone_number"
+            android:inputType="phone|number" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <!-- Address TextBox-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="322dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="468dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/AddressTB"
+            android:layout_width="248dp"
+            android:layout_height="46dp"
+            android:ems="10"
+            android:hint="@string/address"
+            android:inputType="textPostalAddress"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <!-- Organization TextBox-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="322dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="532dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/OrganizationTB"
+            android:layout_width="248dp"
+            android:layout_height="46dp"
+            android:ems="10"
+            android:hint="@string/name_of_organization"
+            android:inputType="text"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
