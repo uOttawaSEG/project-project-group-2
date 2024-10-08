@@ -5,8 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="RegisterActivity"
-    android:background="@color/pastel_purple">
+    android:background="@color/pastel_purple"
+    tools:context="RegisterActivity">
 
     <!--Register Page Title-->
     <TextView
@@ -102,7 +102,7 @@
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.967"
@@ -124,15 +124,19 @@
 
 
     <!-- Confirm Password TextBox-->
+
+
+    <!-- Phone number TextBox-->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/confirmPasswordET"
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="32dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.967"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
 
@@ -149,8 +153,6 @@
             tools:layout_editor_absoluteY="237dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <!-- Phone number TextBox-->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout3"
         android:layout_width="322dp"
