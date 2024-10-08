@@ -15,21 +15,22 @@ import ca.seg2105project.model.userClasses.User;
 
 public class LoginSessionRepository {
 
-    public void registerLoginSession(String username, Context applicationContext){
-
-    }
-
-
-
-    public static Boolean loginSession(String email, String password, Context applicationContext){
-        List<User> users = UserRepository.getAllRegisteredUsers();
-        for(int i = 0; i < users.size(); i++){
-            if( (Objects.equals(users.get(i).getEmail(), email)) && (Objects.equals(users.get(i).getPassword(), password))){
-                return true;
-            }
+    public static boolean isLoggedIn(String username, Context applicationContext){
+        SharedPreferences sharedPref = applicationContext.getSharedPreferences("session", Context.MODE_PRIVATE);
+        if(sharedPref.getString(username, null) == null){
+            return false;
         }
-        return false;
+        return true;
     }
+
+    public static void loggingIn(String email, Context applicationContext){
+        SharedPreferences sharedPref = applicationContext.getSharedPreferences("session", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("email", email);
+        editor.apply();
+    }
+
+
 }
 
 
