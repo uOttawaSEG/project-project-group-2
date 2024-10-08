@@ -14,7 +14,7 @@
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="84dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,11 +24,11 @@
             android:id="@+id/firstNameET"
             android:layout_width="248dp"
             android:layout_height="46dp"
-            tools:layout_editor_absoluteX="111dp"
-            tools:layout_editor_absoluteY="237dp"
             android:background="@color/white"
+            android:hint="First Name"
             android:textStyle="bold"
-            android:hint="First Name"/>
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="237dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -38,7 +38,7 @@
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="148dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,11 +48,11 @@
             android:id="@+id/lastNameET"
             android:layout_width="248dp"
             android:layout_height="46dp"
-            tools:layout_editor_absoluteX="111dp"
-            tools:layout_editor_absoluteY="237dp"
             android:background="@color/white"
+            android:hint="Last Name"
             android:textStyle="bold"
-            android:hint="Last Name"/>
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="237dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -63,7 +63,7 @@
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="212dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,13 +73,13 @@
             android:id="@+id/createPasswordET"
             android:layout_width="248dp"
             android:layout_height="46dp"
-            tools:layout_editor_absoluteX="111dp"
-            tools:layout_editor_absoluteY="237dp"
-            android:ems="10"
-            android:inputType="textPassword"
             android:background="@color/white"
+            android:ems="10"
+            android:hint="Create password"
+            android:inputType="textPassword"
             android:textStyle="bold"
-            android:hint="Create password"/>
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="237dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -90,8 +90,7 @@
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="276dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="63dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -101,13 +100,13 @@
             android:id="@+id/editTextTextPassword4"
             android:layout_width="248dp"
             android:layout_height="46dp"
-            tools:layout_editor_absoluteX="111dp"
-            tools:layout_editor_absoluteY="237dp"
-            android:ems="10"
-            android:inputType="textPassword"
             android:background="@color/white"
+            android:ems="10"
+            android:hint="Confirm password"
+            android:inputType="textPassword"
             android:textStyle="bold"
-            android:hint="Confirm password"/>
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="237dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -117,7 +116,7 @@
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="404dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -127,13 +126,13 @@
             android:id="@+id/phoneNumberET"
             android:layout_width="248dp"
             android:layout_height="46dp"
-            tools:layout_editor_absoluteX="111dp"
-            tools:layout_editor_absoluteY="237dp"
-            android:ems="10"
-            android:inputType="phone|number"
             android:background="@color/white"
+            android:ems="10"
+            android:hint="@string/phone_number"
+            android:inputType="phone|number"
             android:textStyle="bold"
-            android:hint="@string/phone_number"/>
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="237dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -143,7 +142,7 @@
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="468dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -153,13 +152,11 @@
             android:id="@+id/addressET"
             android:layout_width="248dp"
             android:layout_height="46dp"
-            tools:layout_editor_absoluteX="111dp"
-            tools:layout_editor_absoluteY="237dp"
-            android:ems="10"
-            android:inputType="textPostalAddress"
             android:background="@color/white"
-            android:textStyle="bold"
-            android:hint="@string/address"/>
+            android:ems="10"
+            android:hint="@string/address"
+            android:inputType="textPostalAddress"
+            android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -169,8 +166,7 @@
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="532dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="134dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -180,13 +176,11 @@
             android:id="@+id/OrganizationET"
             android:layout_width="248dp"
             android:layout_height="46dp"
-            tools:layout_editor_absoluteX="111dp"
-            tools:layout_editor_absoluteY="237dp"
-            android:ems="10"
-            android:inputType="text"
             android:background="@color/white"
-            android:textStyle="bold"
-            android:hint="@string/name_of_organization"/>
+            android:ems="10"
+            android:hint="@string/name_of_organization"
+            android:inputType="text"
+            android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
