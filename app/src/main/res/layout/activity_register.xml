@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="RegisterActivity">
+    tools:context="RegisterActivity"
+    android:background="@color/pastel_purple">
 
 
     <!-- First Name TextBox-->
@@ -22,8 +23,8 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/firstNameET"
-            android:layout_width="248dp"
-            android:layout_height="46dp"
+            android:layout_width="260dp"
+            android:layout_height="60dp"
             android:background="@color/white"
             android:hint="First Name"
             android:textStyle="bold"
@@ -37,7 +38,7 @@
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="148dp"
+        android:layout_marginTop="156dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -46,8 +47,8 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/lastNameET"
-            android:layout_width="248dp"
-            android:layout_height="46dp"
+            android:layout_width="260dp"
+            android:layout_height="60dp"
             android:background="@color/white"
             android:hint="Last Name"
             android:textStyle="bold"
@@ -58,11 +59,13 @@
 
     <!-- Create Password TextBox-->
 
+
+    <!-- Confirm Password TextBox-->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="212dp"
+        android:layout_marginTop="228dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -71,8 +74,8 @@
 
         <EditText
             android:id="@+id/createPasswordET"
-            android:layout_width="248dp"
-            android:layout_height="46dp"
+            android:layout_width="260dp"
+            android:layout_height="60dp"
             android:background="@color/white"
             android:ems="10"
             android:hint="Create password"
@@ -83,13 +86,14 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <!-- Confirm Password TextBox-->
+    <!-- Phone number TextBox-->
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/confirmPasswordET"
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="276dp"
+        android:layout_marginTop="300dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -98,8 +102,8 @@
 
         <EditText
             android:id="@+id/editTextTextPassword4"
-            android:layout_width="248dp"
-            android:layout_height="46dp"
+            android:layout_width="260dp"
+            android:layout_height="60dp"
             android:background="@color/white"
             android:ems="10"
             android:hint="Confirm password"
@@ -110,12 +114,37 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <!-- Phone number TextBox-->
+    <!-- Address TextBox-->
+
+
+    <!-- Organization TextBox-->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="404dp"
+        android:layout_marginTop="536dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/addressET"
+            android:layout_width="260dp"
+            android:layout_height="60dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:hint="@string/address"
+            android:inputType="textPostalAddress"
+            android:textStyle="bold" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="322dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="448dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -124,8 +153,8 @@
 
         <EditText
             android:id="@+id/phoneNumberET"
-            android:layout_width="248dp"
-            android:layout_height="46dp"
+            android:layout_width="260dp"
+            android:layout_height="60dp"
             android:background="@color/white"
             android:ems="10"
             android:hint="@string/phone_number"
@@ -135,37 +164,11 @@
             tools:layout_editor_absoluteY="237dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <!-- Address TextBox-->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="468dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <EditText
-            android:id="@+id/addressET"
-            android:layout_width="248dp"
-            android:layout_height="46dp"
-            android:background="@color/white"
-            android:ems="10"
-            android:hint="@string/address"
-            android:inputType="textPostalAddress"
-            android:textStyle="bold" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <!-- Organization TextBox-->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="322dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="532dp"
+        android:layout_marginTop="624dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -174,8 +177,8 @@
 
         <EditText
             android:id="@+id/OrganizationET"
-            android:layout_width="248dp"
-            android:layout_height="46dp"
+            android:layout_width="260dp"
+            android:layout_height="60dp"
             android:background="@color/white"
             android:ems="10"
             android:hint="@string/name_of_organization"
