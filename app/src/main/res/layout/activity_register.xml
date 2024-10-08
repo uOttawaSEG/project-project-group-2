@@ -15,85 +15,83 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="84dp"
         android:layout_marginEnd="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/firstNameET"
             android:layout_width="248dp"
             android:layout_height="46dp"
-            android:background="@color/white"
-            android:hint="First Name"
-            android:textStyle="bold"
             tools:layout_editor_absoluteX="111dp"
-            tools:layout_editor_absoluteY="237dp" />
+            tools:layout_editor_absoluteY="237dp"
+            android:background="@color/white"
+            android:textStyle="bold"
+            android:hint="First Name"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <!-- Last Name TextBox-->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="148dp"
         android:layout_marginEnd="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lastNameET"
             android:layout_width="248dp"
             android:layout_height="46dp"
-            android:background="@color/white"
-            android:hint="Last Name"
-            android:textStyle="bold"
             tools:layout_editor_absoluteX="111dp"
-            tools:layout_editor_absoluteY="237dp" />
+            tools:layout_editor_absoluteY="237dp"
+            android:background="@color/white"
+            android:textStyle="bold"
+            android:hint="Last Name"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <!-- Create Password TextBox-->
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout2"
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="212dp"
         android:layout_marginEnd="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/createPasswordET"
             android:layout_width="248dp"
             android:layout_height="46dp"
-            android:background="@color/white"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="237dp"
             android:ems="10"
-            android:hint="Create password"
             android:inputType="textPassword"
-            android:textStyle="bold" />
+            android:background="@color/white"
+            android:textStyle="bold"
+            android:hint="Create password"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <!-- Confirm Password TextBox-->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout3"
+        android:id="@+id/confirmPasswordET"
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="276dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="63dp"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,90 +101,92 @@
             android:id="@+id/editTextTextPassword4"
             android:layout_width="248dp"
             android:layout_height="46dp"
-            android:background="@color/white"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="237dp"
             android:ems="10"
-            android:hint="Confirm password"
             android:inputType="textPassword"
-            android:textStyle="bold" />
+            android:background="@color/white"
+            android:textStyle="bold"
+            android:hint="Confirm password"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <!-- Phone number TextBox-->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout4"
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="404dp"
         android:layout_marginEnd="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/PhoneNumberTB"
+            android:id="@+id/phoneNumberET"
             android:layout_width="248dp"
             android:layout_height="46dp"
-            android:background="@color/white"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="237dp"
             android:ems="10"
-            android:hint="@string/phone_number"
             android:inputType="phone|number"
-            android:textStyle="bold" />
+            android:background="@color/white"
+            android:textStyle="bold"
+            android:hint="@string/phone_number"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <!-- Address TextBox-->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout5"
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="468dp"
         android:layout_marginEnd="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/AddressTB"
+            android:id="@+id/addressET"
             android:layout_width="248dp"
             android:layout_height="46dp"
-            android:background="@color/white"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="237dp"
             android:ems="10"
-            android:hint="@string/address"
             android:inputType="textPostalAddress"
-            android:textStyle="bold" />
+            android:background="@color/white"
+            android:textStyle="bold"
+            android:hint="@string/address"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <!-- Organization TextBox-->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout6"
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="532dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="134dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/OrganizationTB"
+            android:id="@+id/OrganizationET"
             android:layout_width="248dp"
             android:layout_height="46dp"
-            android:background="@color/white"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="237dp"
             android:ems="10"
-            android:hint="@string/name_of_organization"
             android:inputType="text"
-            android:textStyle="bold" />
+            android:background="@color/white"
+            android:textStyle="bold"
+            android:hint="@string/name_of_organization"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
