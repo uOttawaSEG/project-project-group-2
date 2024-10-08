@@ -5,8 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="RegisterActivity"
-    android:background="@color/pastel_purple">
+    tools:context="RegisterActivity">
 
 
     <!-- First Name TextBox-->
@@ -58,14 +57,11 @@
 
 
     <!-- Create Password TextBox-->
-
-
-    <!-- Confirm Password TextBox-->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="228dp"
+        android:layout_marginTop="304dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -86,14 +82,13 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <!-- Phone number TextBox-->
-
+    <!-- Confirm Password TextBox-->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/confirmPasswordET"
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="380dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -114,37 +109,12 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <!-- Address TextBox-->
-
-
-    <!-- Organization TextBox-->
+    <!-- Phone number TextBox-->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="536dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <EditText
-            android:id="@+id/addressET"
-            android:layout_width="260dp"
-            android:layout_height="60dp"
-            android:background="@color/white"
-            android:ems="10"
-            android:hint="@string/address"
-            android:inputType="textPostalAddress"
-            android:textStyle="bold" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="322dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="448dp"
+        android:layout_marginTop="452dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -164,11 +134,37 @@
             tools:layout_editor_absoluteY="237dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
+    <!-- Address TextBox-->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="624dp"
+        android:layout_marginTop="524dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/addressET"
+            android:layout_width="260dp"
+            android:layout_height="60dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:hint="@string/address"
+            android:inputType="textPostalAddress"
+            android:textStyle="bold" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <!-- Organization TextBox-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="322dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="596dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
