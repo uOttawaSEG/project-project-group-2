@@ -14,50 +14,38 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.util.List;
-
 import ca.seg2105project.model.LoginSessionRepository;
 import ca.seg2105project.model.UserRepository;
-import ca.seg2105project.model.userClasses.User;
 
 public class LoginActivity extends AppCompatActivity {
-
-    EditText editEmail, editPassword;
-    Button loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         if(!LoginSessionRepository.isLoggedIn("email", getApplicationContext())){
-            setContentView(R.layout.activity_login);
+            EditText editEmail = findViewById(R.id.email);
+            EditText editPassword = findViewById(R.id.password);
+            Button loginButton = findViewById(R.id.loginBTN);
 
-            ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-                return insets;
-            });
+            loginButton.setOnClickListener(v -> {
+                String email, password;
+                email = String.valueOf(editEmail.getText());
+                password = String.valueOf(editPassword.getText());
 
-            editEmail = findViewById(R.id.email);
-            editPassword = findViewById(R.id.password);
-            loginButton = findViewById(R.id.loginBTN);
-
-            loginButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String email, password;
-                    email = String.valueOf(editEmail.getText());
-                    password = String.valueOf(editPassword.getText());
-
-                    if (UserRepository.authenticate(email, password)) {
-                        LoginSessionRepository.loggingIn(email, getApplicationContext());
-                        Toast.makeText(getApplicationContext(), "Logging In", Toast.LENGTH_LONG).show();
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(), "Incorrect Login Information", Toast.LENGTH_LONG).show();
-                    }
+                if (UserRepository.authenticate(email, password)) {
+                    LoginSessionRepository.login(email, getApplicationContext());
+                    Toast.makeText(getApplicationContext(), "Logging In", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "No account exists for that email or password is incorrect", Toast.LENGTH_LONG).show();
                 }
             });
         }
