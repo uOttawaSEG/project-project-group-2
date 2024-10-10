@@ -9,30 +9,57 @@
     tools:context="RegisterActivity">
 
     <!--Register Page Title-->
-    <TextView
-        android:id="@+id/RegisterPageTitle"
-        android:layout_width="266dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="92dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="53dp"
-        android:text="Create your Account"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- First Name TextBox-->
+
+
+    <!-- Last Name TextBox-->
+
+
+    <!-- Email TextBox-->
+
+    <!-- Create Password TextBox-->
+
+
+    <!-- Confirm Password Textbox-->
+
+
+    <!--Phone Number Title-->
+
+    <!-- Address TextBox-->
+
+
+    <!-- Organization TextBox-->
+
+
+    <!-- Organization Checkbox-->
+
+
+    <!--Create Account Button-->
+
+    <Button
+        android:id="@+id/createAccountBTN"
+        android:layout_width="121dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="48dp"
+        android:text="Create Account"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.967"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/RegisterPageTitle">
 
@@ -47,56 +74,21 @@
             tools:layout_editor_absoluteY="237dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <!-- Last Name TextBox-->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout2"
-        android:layout_width="322dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="32dp"
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="133dp"
+        android:layout_marginBottom="10dp"
+        android:text="Are you an Organization?"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.967"
+        app:layout_constraintHorizontal_bias="0.886"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout7"
+        app:layout_constraintVertical_bias="0.0" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/lastNameET"
-            android:layout_width="260dp"
-            android:layout_height="60dp"
-            android:background="@color/white"
-            android:hint="Last Name"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="111dp"
-            tools:layout_editor_absoluteY="237dp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <!-- Email TextBox-->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout5"
-        android:layout_width="322dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.967"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="260dp"
-            android:layout_height="60dp"
-            android:background="@color/white"
-            android:hint="Email"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="111dp"
-            tools:layout_editor_absoluteY="237dp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Create Password TextBox-->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout6"
         android:layout_width="322dp"
@@ -105,7 +97,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.967"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
 
@@ -122,8 +114,51 @@
             tools:layout_editor_absoluteY="237dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout5"
+        android:layout_width="322dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
-    <!-- Confirm Password Textbox-->
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="260dp"
+            android:layout_height="60dp"
+            android:background="@color/white"
+            android:hint="Email"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="237dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout7"
+        android:layout_width="322dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
+
+        <EditText
+            android:id="@+id/OrganizationET"
+            android:layout_width="260dp"
+            android:layout_height="60dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:hint="Name of Organization"
+            android:inputType="text"
+            android:textStyle="bold" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/confirmPasswordET"
         android:layout_width="322dp"
@@ -133,7 +168,7 @@
         android:layout_marginEnd="32dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.967"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
 
@@ -150,8 +185,6 @@
             tools:layout_editor_absoluteY="237dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <!--Phone Number Title-->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout3"
         android:layout_width="322dp"
@@ -177,13 +210,35 @@
             tools:layout_editor_absoluteY="237dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Address TextBox-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout2"
+        android:layout_width="322dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lastNameET"
+            android:layout_width="260dp"
+            android:layout_height="60dp"
+            android:background="@color/white"
+            android:hint="Last Name"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="237dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout4"
         android:layout_width="322dp"
         android:layout_height="65dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -201,62 +256,18 @@
             android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <!-- Organization TextBox-->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout7"
-        android:layout_width="322dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="32dp"
+    <TextView
+        android:id="@+id/RegisterPageTitle"
+        android:layout_width="266dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="53dp"
+        android:text="Create your Account"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
-
-        <EditText
-            android:id="@+id/OrganizationET"
-            android:layout_width="260dp"
-            android:layout_height="60dp"
-            android:background="@color/white"
-            android:ems="10"
-            android:hint="Name of Organization"
-            android:inputType="text"
-            android:textStyle="bold" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <!-- Organization Checkbox-->
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginEnd="133dp"
-        android:layout_marginBottom="10dp"
-        android:text="Are you an Organization?"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.681"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout7"
-        app:layout_constraintVertical_bias="0.049" />
-
-
-    <!--Create Account Button-->
-    <Button
-        android:id="@+id/createAccountBTN"
-        android:layout_width="121dp"
-        android:layout_height="59dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="44dp"
-        android:text="Create Account"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
