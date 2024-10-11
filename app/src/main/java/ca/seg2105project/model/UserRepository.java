@@ -49,7 +49,7 @@ public class UserRepository {
     }
 
     /**
-     * A method to see if an email-password pair exist in the list of all registered users.
+     * A method to see if an email-password pair exists in the list of all registered users.
      * @param email the email to be checked
      * @param password the password attatched to the email to be checked
      * @return true if the email-password pair was found in the list of registered users, false if not found
@@ -93,7 +93,6 @@ public class UserRepository {
 		int n = users.size();
 		Administrator adm = new Administrator(null, null);
 		Attendee att = new Attendee(null, null, null, null, null, null);
-		Attendee att = new Attendee(null, null, null, null, null, null, null);
 		for (int x = 0; x < n; x++) {
 			User u = users.get(x);
 			if (u.getEmail().equals(email)) {
