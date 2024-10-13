@@ -54,7 +54,7 @@ public class UserRepository {
      * @param password the password attatched to the email to be checked
      * @return true if the email-password pair was found in the list of registered users, false if not found
      */
-    public static boolean authenticateEmailAndPassword(String email, String password) { //O(n), where n = # of registered users
+    public static boolean authenticate(String email, String password) { //O(n), where n = # of registered users
         List<User> users = getAllRegisteredUsers();
         int n = users.size();
         for (int x = 0; x < n; x++) {
@@ -71,7 +71,7 @@ public class UserRepository {
      * @param email the email to be checked
      * @return true if the email was found in the list of users, false if not found
      */
-	public static boolean authenticateEmail(String email) { //O(n), where n = # of registered users
+	public static boolean isEmailRegistered(String email) { //O(n), where n = # of registered users
 		List<User> users = getAllRegisteredUsers();
 		int n = users.size();
 		for (int x = 0; x < n; x++) {
