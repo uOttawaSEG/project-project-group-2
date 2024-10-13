@@ -3,6 +3,8 @@ package ca.seg2105project.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.annotation.Nullable;
+
 public class LoginSessionRepository {
 
     /**
@@ -25,11 +27,23 @@ public class LoginSessionRepository {
      * @param email the email of the successfully authenticated user
      * @param applicationContext Android application context
      */
-    public static void startLoginSession(String email, Context applicationContext){
+    public static void startLoginSession(String email, Context applicationContext) {
         SharedPreferences sharedPref = applicationContext.getSharedPreferences("session",
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("email", email);
         editor.apply();
+    }
+
+    /**
+     * @param applicationContext Android application context
+     * @return the user email of the active login session. Will be null if there is no active login
+     * session
+     */
+    @Nullable
+    public static String getActiveLoginSessionEmail(Context applicationContext) {
+        SharedPreferences sharedPref = applicationContext.getSharedPreferences("session",
+                Context.MODE_PRIVATE);
+        return sharedPref.getString("email", null);
     }
 }

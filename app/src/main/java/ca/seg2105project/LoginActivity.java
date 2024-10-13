@@ -49,7 +49,8 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
         else{
-            Toast.makeText(this, "Logged in as ", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Logged in as " +
+                    LoginSessionRepository.getActiveLoginSessionEmail(getApplicationContext()), Toast.LENGTH_LONG).show();
         }
     }
 }
