@@ -1,11 +1,10 @@
 package ca.seg2105project;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -31,26 +30,43 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         if(!LoginSessionRepository.isLoggedIn("email", getApplicationContext())){
-            EditText editEmail = findViewById(R.id.email);
-            EditText editPassword = findViewById(R.id.password);
-            Button loginButton = findViewById(R.id.loginBTN);
-
-            loginButton.setOnClickListener(v -> {
-                String email, password;
-                email = String.valueOf(editEmail.getText());
-                password = String.valueOf(editPassword.getText());
-
-                if (UserRepository.authenticate(email, password)) {
-                    LoginSessionRepository.login(email, getApplicationContext());
-                    Toast.makeText(getApplicationContext(), "Logging In", Toast.LENGTH_LONG).show();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "No account exists for that email or password is incorrect", Toast.LENGTH_LONG).show();
-                }
-            });
+            setLoginLogic();
+            setRegistrationLinkLogic();
         }
         else{
+            // TODO: redirect to welcome page here
             Toast.makeText(this, "Logged in as ", Toast.LENGTH_LONG).show();
         }
+    }
+
+    // below is view logic setup
+
+    private void setLoginLogic() {
+        EditText editEmail = findViewById(R.id.email);
+        EditText editPassword = findViewById(R.id.password);
+        Button loginButton = findViewById(R.id.loginBTN);
+
+        loginButton.setOnClickListener(v -> {
+            String email, password;
+            email = String.valueOf(editEmail.getText());
+            password = String.valueOf(editPassword.getText());
+
+            if (UserRepository.authenticate(email, password)) {
+                LoginSessionRepository.login(email, getApplicationContext());
+                Toast.makeText(getApplicationContext(), "Logging In", Toast.LENGTH_LONG).show();
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "No account exists for that email or password is incorrect", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void setRegistrationLinkLogic() {
+        TextView registrationTextView = findViewById(R.id.create_accountBTN);
+
+        registrationTextView.setOnClickListener(v -> {
+            Intent launchRegisterActivityIntent = new Intent(this, RegisterActivity.class);
+            startActivity(launchRegisterActivityIntent);
+        });
     }
 }
