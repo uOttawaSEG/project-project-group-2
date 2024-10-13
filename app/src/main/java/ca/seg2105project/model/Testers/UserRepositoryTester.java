@@ -8,95 +8,95 @@ import ca.seg2105project.model.UserRepository;
 public class UserRepositoryTester {
 
 	/**
-	* A method to test the implementation of the UserRepository methods authenticateEmailAndPassword, authenticateEmail, and getUserTypeByEmail. 
+	* A method to test the implementation of the UserRepository methods authenticate, isEmailRegistered, and getUserTypeByEmail. 
 	* Prints out a string containing lines of format "value=returned_value_from_method". As long as the two values on either sides of the = sign are the same, the method is working as intended.
 	* @param args the command line arguments, will not be used
 	*/
     public static void main(String[] args) {
 		
-        //Tests added for UserRepository.authenticateEmailAndPassword
+        //Tests added for UserRepository.authenticate
         String s = "";
         boolean answer;
 		String temp = "";
-        answer = UserRepository.authenticateEmailAndPassword("", ""); //false
+        answer = UserRepository.authenticate("", ""); //false
         s+= "false=" + answer + "\n";
 
         //Test for existing accounts (and added mispellings for it to return false)
-        answer = UserRepository.authenticateEmailAndPassword("jensenlarge.isaac@gmail.com", "awesomepassword"); //true
+        answer = UserRepository.authenticate("jensenlarge.isaac@gmail.com", "awesomepassword"); //true
         s+= "true=" + answer + "\n";
-        answer = UserRepository.authenticateEmailAndPassword("isaac@gmail.com", "awesomepassword"); //false
+        answer = UserRepository.authenticate("isaac@gmail.com", "awesomepassword"); //false
         s+= "false=" + answer + "\n";
-        answer = UserRepository.authenticateEmailAndPassword("jensenlarge.isaac@gmail.com", "THE BEST PASSWORD EVER"); //false
+        answer = UserRepository.authenticate("jensenlarge.isaac@gmail.com", "THE BEST PASSWORD EVER"); //false
         s+= "false=" + answer + "\n";
 
-        answer = UserRepository.authenticateEmailAndPassword("ronisemail@gmail.com", "epicpassword"); //true
+        answer = UserRepository.authenticate("ronisemail@gmail.com", "epicpassword"); //true
         s+="true=" +  answer + "\n";
-        answer = UserRepository.authenticateEmailAndPassword("roniemail@gmail.com", "epicpassword"); //false
+        answer = UserRepository.authenticate("roniemail@gmail.com", "epicpassword"); //false
         s+="false=" +  answer + "\n";
-        answer = UserRepository.authenticateEmailAndPassword("ronisemail@gmail.com", "coolpassword"); //false
+        answer = UserRepository.authenticate("ronisemail@gmail.com", "coolpassword"); //false
         s+="false=" +  answer + "\n";
 
-        answer = UserRepository.authenticateEmailAndPassword("admin@gmail.com", "adminpwd"); //true
+        answer = UserRepository.authenticate("admin@gmail.com", "adminpwd"); //true
         s+="true=" +  answer + "\n";
-        answer = UserRepository.authenticateEmailAndPassword("administrator@gmail.com", "adminpwd"); //false
+        answer = UserRepository.authenticate("administrator@gmail.com", "adminpwd"); //false
         s+="false=" +  answer + "\n";
-        answer = UserRepository.authenticateEmailAndPassword("admin@gmail.com", "adminpassword"); //false
+        answer = UserRepository.authenticate("admin@gmail.com", "adminpassword"); //false
         s+="false=" +  answer + "\n";
 
-        answer = UserRepository.authenticateEmailAndPassword("rluo123@gmail.com", "walkingIsOverrated"); //true
+        answer = UserRepository.authenticate("rluo123@gmail.com", "walkingIsOverrated"); //true
         s+="true=" +  answer + "\n";
-        answer = UserRepository.authenticateEmailAndPassword("rluo123@gmail.com", "walkingIsNotOverrated"); //false
+        answer = UserRepository.authenticate("rluo123@gmail.com", "walkingIsNotOverrated"); //false
         s+="false=" +  answer + "\n";
-        answer = UserRepository.authenticateEmailAndPassword("rluo12@gmail.com", "walkingIsOverrated"); //false
+        answer = UserRepository.authenticate("rluo12@gmail.com", "walkingIsOverrated"); //false
         s+="false=" +  answer + "\n";
 
-        answer = UserRepository.authenticateEmailAndPassword("kdeotare@gmail.com", "the_best_pass"); //true
+        answer = UserRepository.authenticate("kdeotare@gmail.com", "the_best_pass"); //true
         s+="true=" +  answer + "\n";
-        answer = UserRepository.authenticateEmailAndPassword("kdeotare@gmail.com", "THE_best_pass"); //false
+        answer = UserRepository.authenticate("kdeotare@gmail.com", "THE_best_pass"); //false
         s+="false=" +  answer + "\n";
-        answer = UserRepository.authenticateEmailAndPassword("kunaladeotare@gmail.com", "the_best_pass"); //false
+        answer = UserRepository.authenticate("kunaladeotare@gmail.com", "the_best_pass"); //false
         s+="false=" +  answer + "\n";
 
-        answer = UserRepository.authenticateEmailAndPassword("shawn@gmail.com", "secure_pass"); //true
+        answer = UserRepository.authenticate("shawn@gmail.com", "secure_pass"); //true
         s+="true=" +  answer + "\n";
-        answer = UserRepository.authenticateEmailAndPassword("shawn@gmail.com", "not_secure_pass"); //false
+        answer = UserRepository.authenticate("shawn@gmail.com", "not_secure_pass"); //false
         s+="false=" +  answer + "\n";
-        answer = UserRepository.authenticateEmailAndPassword("shawnH@gmail.com", "secure_pass"); //false
+        answer = UserRepository.authenticate("shawnH@gmail.com", "secure_pass"); //false
         s+="false=" +  answer + "\n";
 
 
         //Test for non-existing accounts (should always be false)
-        answer = UserRepository.authenticateEmailAndPassword("JohnDoe@gmail.com", "anonPassword0"); //false
+        answer = UserRepository.authenticate("JohnDoe@gmail.com", "anonPassword0"); //false
         s+="false=" +  answer + "\n";
-        answer = UserRepository.authenticateEmailAndPassword("BobRoss@gmail.com", "proAt Painting"); //false
+        answer = UserRepository.authenticate("BobRoss@gmail.com", "proAt Painting"); //false
         s+="false=" +  answer + "\n";
-        answer = UserRepository.authenticateEmailAndPassword("hussein.alosman@uottawa.ca", "the most amazing password ever"); //false
+        answer = UserRepository.authenticate("hussein.alosman@uottawa.ca", "the most amazing password ever"); //false
         s+="false=" +  answer + "\n";
 
         s+="\n";
 		
-		//Tests added for UserRepository.authenticateEmail
+		//Tests added for UserRepository.isEmailRegistered
 		
 		//Test for existing accounts (should always be true)
-		answer = UserRepository.authenticateEmail("jensenlarge.isaac@gmail.com"); //true
+		answer = UserRepository.isEmailRegistered("jensenlarge.isaac@gmail.com"); //true
         s+="true=" +  answer + "\n";
-		answer = UserRepository.authenticateEmail("ronisemail@gmail.com"); //true
+		answer = UserRepository.isEmailRegistered("ronisemail@gmail.com"); //true
         s+="true=" +  answer + "\n";
-		answer = UserRepository.authenticateEmail("admin@gmail.com"); //true
+		answer = UserRepository.isEmailRegistered("admin@gmail.com"); //true
         s+="true=" +  answer + "\n";
-		answer = UserRepository.authenticateEmail("rluo123@gmail.com"); //true
+		answer = UserRepository.isEmailRegistered("rluo123@gmail.com"); //true
         s+="true=" +  answer + "\n";
-		answer = UserRepository.authenticateEmail("kdeotare@gmail.com"); //true
+		answer = UserRepository.isEmailRegistered("kdeotare@gmail.com"); //true
         s+="true=" +  answer + "\n";
-		answer = UserRepository.authenticateEmail("shawn@gmail.com"); //true
+		answer = UserRepository.isEmailRegistered("shawn@gmail.com"); //true
         s+="true=" +  answer + "\n";
 		
 		//Test for non-existing accounts (should always be false)
-		answer = UserRepository.authenticateEmail("JohnDoe@gmail.com"); //false
+		answer = UserRepository.isEmailRegistered("JohnDoe@gmail.com"); //false
         s+="false=" +  answer + "\n";
-        answer = UserRepository.authenticateEmail("BobRoss@gmail.com"); //false
+        answer = UserRepository.isEmailRegistered("BobRoss@gmail.com"); //false
         s+="false=" +  answer + "\n";
-        answer = UserRepository.authenticateEmail("hussein.alosman@uottawa.ca"); //false
+        answer = UserRepository.isEmailRegistered("hussein.alosman@uottawa.ca"); //false
         s+="false=" +  answer + "\n";
 		
 		s+="\n";
