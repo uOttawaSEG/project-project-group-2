@@ -32,10 +32,8 @@ public class LoginActivity extends AppCompatActivity {
         if(!LoginSessionRepository.isLoggedIn("email", getApplicationContext())){
             setLoginLogic();
             setRegistrationLinkLogic();
-        }
-        else{
-            // TODO: redirect to welcome page here
-            Toast.makeText(this, "Logged in as ", Toast.LENGTH_LONG).show();
+        } else {
+            launchWelcomeActivity();
         }
     }
 
@@ -53,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if (UserRepository.authenticate(email, password)) {
                 LoginSessionRepository.login(email, getApplicationContext());
-                Toast.makeText(getApplicationContext(), "Logging In", Toast.LENGTH_LONG).show();
+                launchWelcomeActivity();
             }
             else{
                 Toast.makeText(getApplicationContext(), "No account exists for that email or password is incorrect", Toast.LENGTH_LONG).show();
@@ -68,5 +66,11 @@ public class LoginActivity extends AppCompatActivity {
             Intent launchRegisterActivityIntent = new Intent(this, RegisterActivity.class);
             startActivity(launchRegisterActivityIntent);
         });
+    }
+
+    private void launchWelcomeActivity() {
+        Intent launchWelcomeActivityIntent = new Intent(this, WelcomeActivity.class);
+        // TODO: make sure that the user can't get back to the login screen after going to welcome screen
+        startActivity(launchWelcomeActivityIntent);
     }
 }
