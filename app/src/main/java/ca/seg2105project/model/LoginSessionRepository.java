@@ -46,4 +46,17 @@ public class LoginSessionRepository {
                 Context.MODE_PRIVATE);
         return sharedPref.getString("email", null);
     }
+
+    /**
+     * Used to end a login session for a user. Make sure that there is an active login session
+     * before calling this method using hasActiveLoginSession()
+     * @param applicationContext Android application context
+     */
+    public static void endLoginSession(Context applicationContext) {
+        SharedPreferences sharedPref = applicationContext.getSharedPreferences("session",
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove("email");
+        editor.apply();
+    }
 }
