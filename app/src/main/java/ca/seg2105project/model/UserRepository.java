@@ -5,7 +5,6 @@ import java.util.List;
 
 import ca.seg2105project.model.userClasses.Administrator;
 import ca.seg2105project.model.userClasses.Attendee;
-import ca.seg2105project.model.userClasses.Organizer;
 import ca.seg2105project.model.userClasses.User;
 
 /**
@@ -15,6 +14,19 @@ import ca.seg2105project.model.userClasses.User;
  */
 public class UserRepository {
 
+	private static final List<User> registeredUsers = new ArrayList<>();
+
+	/**
+	 * Makes sure that an admin account exists in the user repository.
+	 * This is a very messy way to implement the desired behaviour.
+	 * Will hopefully refactor this for deliverable II.
+	 * Right now the only place where this is called in the app is in the OnCreate of LoginActivity
+	 * which makes this more safe because the LoginActivity is always run in any instance of our app.
+	 */
+	public static void init() {
+		registeredUsers.add(new Administrator("admin@gmail.com", "adminpwd"));
+	}
+
     /**
      * In later implementations of this class this will actually return a List of Users that
      * have been added in the course of the app running.
@@ -22,31 +34,21 @@ public class UserRepository {
      * @return a full list of all registered users
      */
     public static List<User> getAllRegisteredUsers() {
-        ArrayList<User> allRegisteredUsers = new ArrayList<>();
-        allRegisteredUsers.add(new Attendee("Isaac", "Jensen-Large",
-                "jensenlarge.isaac@gmail.com", "awesomepassword",
-                "54 Awesome St.", "6139835504"));
-
-        allRegisteredUsers.add(new Organizer("Roni", "Nartatez",
-                "ronisemail@gmail.com", "epicpassword",
-        "57 Awesome St.", "6131234567", "Awesome Org."));
-
-        allRegisteredUsers.add(new Administrator("admin@gmail.com",
-                "adminpwd"));
-
-        allRegisteredUsers.add(new Attendee("Rachel", "Luo",
-                "rluo123@gmail.com", "walkingIsOverrated",
-                "39 Mann", "6471234567"));
-
-        allRegisteredUsers.add(new Organizer("Kunala", "Deotare",
-                "kdeotare@gmail.com", "the_best_pass",
-                "29 Mann", "4161234567", "Best Org."));
-
-        allRegisteredUsers.add(new Administrator("shawn@gmail.com",
-                "secure_pass"));
-
-        return allRegisteredUsers;
+		return registeredUsers;
     }
+
+	/**
+	 * Always run isEmailRegistered on the new users email before running this method.
+	 * This method will do nothing if the provided user email is already in use.
+	 * This method adds a provided User to the list of registered users for our application.
+	 * In future implementations this will make a DB call instead of using a list in memory.
+	 * @param user the user to be added
+	 */
+	public static void registerUser(User user) {
+		if (!isEmailRegistered(user.getEmail())) {
+			registeredUsers.add(user);
+		}
+	}
 
     /**
      * A method to see if an email-password pair exists in the list of all registered users.
