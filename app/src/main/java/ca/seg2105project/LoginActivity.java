@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(!LoginSessionRepository.isLoggedIn("email", getApplicationContext())){
+        if (!LoginSessionRepository.hasActiveLoginSession(getApplicationContext())) {
             EdgeToEdge.enable(this);
             setContentView(R.layout.activity_login);
             ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -53,11 +53,13 @@ public class LoginActivity extends AppCompatActivity {
             // TODO: add email format check here
 
             if (UserRepository.authenticate(email, password)) {
-                LoginSessionRepository.login(email, getApplicationContext());
+                LoginSessionRepository.startLoginSession(email, getApplicationContext());
+                Toast.makeText(getApplicationContext(), "Logged in successfully", Toast.LENGTH_LONG).show();
                 launchWelcomeActivity();
             }
-            else{
-                Toast.makeText(getApplicationContext(), "No account exists for that email or password is incorrect", Toast.LENGTH_LONG).show();
+            else {
+                Toast.makeText(getApplicationContext(), "Either there isn't an account " +
+                        "associated with that email or the password is incorrect", Toast.LENGTH_LONG).show();
             }
         });
     }
