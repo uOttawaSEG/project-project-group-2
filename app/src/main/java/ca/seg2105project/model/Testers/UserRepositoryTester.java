@@ -2,12 +2,22 @@ package ca.seg2105project.model.Testers;
 
 import ca.seg2105project.model.UserRepository;
 
+/**
+* A class to test the methods in UserRepository.java
+*/
 public class UserRepositoryTester {
 
+	/**
+	* A method to test the implementation of the UserRepository methods authenticate, isEmailRegistered, and getUserTypeByEmail. 
+	* Prints out a string containing lines of format "value=returned_value_from_method". As long as the two values on either sides of the = sign are the same, the method is working as intended.
+	* @param args the command line arguments, will not be used
+	*/
     public static void main(String[] args) {
-        //Tests added for Authenticator
+		
+        //Tests added for UserRepository.authenticate
         String s = "";
         boolean answer;
+		String temp = "";
         answer = UserRepository.authenticate("", ""); //false
         s+= "false=" + answer + "\n";
 
@@ -63,6 +73,62 @@ public class UserRepositoryTester {
         answer = UserRepository.authenticate("hussein.alosman@uottawa.ca", "the most amazing password ever"); //false
         s+="false=" +  answer + "\n";
 
-        System.out.println(s);
+        s+="\n";
+		
+		//Tests added for UserRepository.isEmailRegistered
+		
+		//Test for existing accounts (should always be true)
+		answer = UserRepository.isEmailRegistered("jensenlarge.isaac@gmail.com"); //true
+        s+="true=" +  answer + "\n";
+		answer = UserRepository.isEmailRegistered("ronisemail@gmail.com"); //true
+        s+="true=" +  answer + "\n";
+		answer = UserRepository.isEmailRegistered("admin@gmail.com"); //true
+        s+="true=" +  answer + "\n";
+		answer = UserRepository.isEmailRegistered("rluo123@gmail.com"); //true
+        s+="true=" +  answer + "\n";
+		answer = UserRepository.isEmailRegistered("kdeotare@gmail.com"); //true
+        s+="true=" +  answer + "\n";
+		answer = UserRepository.isEmailRegistered("shawn@gmail.com"); //true
+        s+="true=" +  answer + "\n";
+		
+		//Test for non-existing accounts (should always be false)
+		answer = UserRepository.isEmailRegistered("JohnDoe@gmail.com"); //false
+        s+="false=" +  answer + "\n";
+        answer = UserRepository.isEmailRegistered("BobRoss@gmail.com"); //false
+        s+="false=" +  answer + "\n";
+        answer = UserRepository.isEmailRegistered("hussein.alosman@uottawa.ca"); //false
+        s+="false=" +  answer + "\n";
+		
+		s+="\n";
+		
+		//Tests added for UserRepository.getUserTypeByEmail
+		
+		//Test for Attendee accounts (should always be "Attendee")
+        temp = UserRepository.getUserTypeByEmail("jensenlarge.isaac@gmail.com"); //Attendee
+        s+="Attendee=" +  temp + "\n";
+        temp = UserRepository.getUserTypeByEmail("rluo123@gmail.com"); //Attendee
+        s+="Attendee=" +  temp + "\n";
+		
+		//Test for Organizer accounts (should always be "Organizer")
+        temp = UserRepository.getUserTypeByEmail("ronisemail@gmail.com"); //Organizer
+        s+="Organizer=" +  temp + "\n";
+        temp = UserRepository.getUserTypeByEmail("kdeotare@gmail.com"); //Organizer
+        s+="Organizer=" +  temp + "\n";
+		
+		//Test for Administrator accounts (should always be "Administrator")
+        temp = UserRepository.getUserTypeByEmail("shawn@gmail.com"); //Administrator
+        s+="Administrator=" +  temp + "\n";
+        temp = UserRepository.getUserTypeByEmail("admin@gmail.com"); //Administrator
+        s+="Administrator=" +  temp + "\n";
+		
+		//Test for non-existing accounts (should always be null)
+		temp = UserRepository.getUserTypeByEmail("JohnDoe@gmail.com"); //null
+        s+="null=" +  temp + "\n";
+        temp = UserRepository.getUserTypeByEmail("BobRoss@gmail.com"); //null
+        s+="null=" +  temp + "\n";
+        temp = UserRepository.getUserTypeByEmail("hussein.alosman@uottawa.ca"); //null
+        s+="null=" +  temp + "\n";
+		
+		System.out.println(s);
     }
 }

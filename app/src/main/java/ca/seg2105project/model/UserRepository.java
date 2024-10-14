@@ -49,12 +49,12 @@ public class UserRepository {
     }
 
     /**
-     * A method to see if an email-password pair exist in set of all registered users.
+     * A method to see if an email-password pair exists in the list of all registered users.
      * @param email the email to be checked
      * @param password the password attatched to the email to be checked
-     * @return true if the email-password pair was found in user repository, false if not found
+     * @return true if the email-password pair was found in the list of registered users, false if not found
      */
-    public static boolean authenticate(String email, String password) { //O(n)
+    public static boolean authenticate(String email, String password) { //O(n), where n = # of registered users
         List<User> users = getAllRegisteredUsers();
         int n = users.size();
         for (int x = 0; x < n; x++) {
@@ -65,4 +65,47 @@ public class UserRepository {
         }
         return false;
     }
+	
+	/**
+     * A method to see if an email exists in the list of all registered users.
+     * @param email the email to be checked
+     * @return true if the email was found in the list of users, false if not found
+     */
+	public static boolean isEmailRegistered(String email) { //O(n), where n = # of registered users
+		List<User> users = getAllRegisteredUsers();
+		int n = users.size();
+		for (int x = 0; x < n; x++) {
+			User u = users.get(x);
+			if (u.getEmail().equals(email)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+     * A method to return the type of user of the email provided (Administrator, Attendee, or Organizer).
+     * @param email the email whose user type is to be returned
+     * @return a string representation of the user type of the email provided, null if the email is not found
+     */
+	public static String getUserTypeByEmail(String email) {
+		List<User> users = getAllRegisteredUsers();
+		int n = users.size();
+		Administrator adm = new Administrator(null, null);
+		Attendee att = new Attendee(null, null, null, null, null, null);
+		for (int x = 0; x < n; x++) {
+			User u = users.get(x);
+			if (u.getEmail().equals(email)) {
+				if (u.getClass().equals(adm.getClass())) {
+					return "Administrator";
+				} else if (u.getClass().equals(att.getClass())) {
+					return "Attendee";
+				} else { //if u is not Attendee, Administrator, u must be Organizer since User is abstract and thus uninstantiable
+					return "Organizer";
+				}
+			}
+		}
+		//have not found email in the list of registered users
+		return null;
+	}
 }
