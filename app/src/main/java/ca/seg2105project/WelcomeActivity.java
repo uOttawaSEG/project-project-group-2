@@ -1,6 +1,7 @@
 package ca.seg2105project;
 
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,5 +20,10 @@ public class WelcomeActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        Button logoutButton = findViewById(R.id.Logout_BTN);
+        logoutButton.setOnClickListener(v -> {
+
         });
     }}
