@@ -21,16 +21,17 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_login);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         if(!LoginSessionRepository.isLoggedIn("email", getApplicationContext())){
-            setLoginLogic();
+            EdgeToEdge.enable(this);
+            setContentView(R.layout.activity_login);
+            ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+                return insets;
+            });
+
+            setLoginViewLogic();
             setRegistrationLinkLogic();
         } else {
             launchWelcomeActivity();
@@ -39,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // below is view logic setup
 
-    private void setLoginLogic() {
+    private void setLoginViewLogic() {
         EditText editEmail = findViewById(R.id.email);
         EditText editPassword = findViewById(R.id.password);
         Button loginButton = findViewById(R.id.loginBTN);
@@ -48,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
             String email, password;
             email = String.valueOf(editEmail.getText());
             password = String.valueOf(editPassword.getText());
+
+            // TODO: add email format check here
 
             if (UserRepository.authenticate(email, password)) {
                 LoginSessionRepository.login(email, getApplicationContext());
