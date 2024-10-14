@@ -18,11 +18,17 @@ import ca.seg2105project.model.UserRepository;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private LoginSessionRepository loginSessionRepository;
+    private EAMSApplication eamsApplication;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!LoginSessionRepository.hasActiveLoginSession(getApplicationContext())) {
+        eamsApplication = (EAMSApplication) getApplication();
+        loginSessionRepository = eamsApplication.getLoginSessionRepository();
+
+        if (!loginSessionRepository.hasActiveLoginSession()) {
             EdgeToEdge.enable(this);
             setContentView(R.layout.activity_login);
             ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -30,10 +36,6 @@ public class LoginActivity extends AppCompatActivity {
                 v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
                 return insets;
             });
-
-
-            // Make sure that the admin is able to log in with admin@gmail.com and adminpwd
-            UserRepository.init();
 
             // Set up view logic
             setLoginViewLogic();
@@ -56,9 +58,10 @@ public class LoginActivity extends AppCompatActivity {
             password = String.valueOf(editPassword.getText());
 
             // TODO: add email format check here
+            UserRepository userRepository = eamsApplication.getUserRepository();
 
-            if (UserRepository.authenticate(email, password)) {
-                LoginSessionRepository.startLoginSession(email, getApplicationContext());
+            if (userRepository.authenticate(email, password)) {
+                loginSessionRepository.startLoginSession(email);
                 Toast.makeText(getApplicationContext(), "Logged in successfully", Toast.LENGTH_LONG).show();
                 launchWelcomeActivityAndFinish();
             }
