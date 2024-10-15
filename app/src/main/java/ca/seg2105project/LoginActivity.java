@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(!LoginSessionRepository.isLoggedIn("email", getApplicationContext())){
+        if(!LoginSessionRepository.hasActiveLoginSession(getApplicationContext())){
             EdgeToEdge.enable(this);
             setContentView(R.layout.activity_login);
             ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -50,10 +50,11 @@ public class LoginActivity extends AppCompatActivity {
             email = String.valueOf(editEmail.getText());
             password = String.valueOf(editPassword.getText());
 
-            // TODO: add email format check here
+            // TODO: check for empty email or password and check email format here
 
             if (UserRepository.authenticate(email, password)) {
-                LoginSessionRepository.login(email, getApplicationContext());
+                LoginSessionRepository.startLoginSession(email, getApplicationContext());
+                Toast.makeText(getApplicationContext(), "Logging In", Toast.LENGTH_LONG).show();
                 launchWelcomeActivity();
             }
             else{
