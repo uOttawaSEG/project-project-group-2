@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(!LoginSessionRepository.hasActiveLoginSession(getApplicationContext())){
+        if (!LoginSessionRepository.hasActiveLoginSession(getApplicationContext())) {
             EdgeToEdge.enable(this);
             setContentView(R.layout.activity_login);
             ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -57,8 +57,9 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Logging In", Toast.LENGTH_LONG).show();
                 launchWelcomeActivity();
             }
-            else{
-                Toast.makeText(getApplicationContext(), "No account exists for that email or password is incorrect", Toast.LENGTH_LONG).show();
+            else {
+                Toast.makeText(getApplicationContext(), "No account exists for that email or " +
+                        "password is incorrect", Toast.LENGTH_LONG).show();
             }
         });
     }

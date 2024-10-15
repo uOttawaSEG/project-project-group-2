@@ -1,12 +1,17 @@
 package ca.seg2105project;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import ca.seg2105project.model.LoginSessionRepository;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -19,5 +24,19 @@ public class WelcomeActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        Button logoutButton = findViewById(R.id.Logout_BTN);
+        logoutButton.setOnClickListener(v -> {
+            // Removes email from our shared preferences
+            LoginSessionRepository.endLoginSession(getApplicationContext());
+
+            // Let user know they are logged out
+            Toast.makeText(getApplicationContext(), "Logged out successfully",
+                    Toast.LENGTH_LONG).show();
+
+            // Sends user back to login screen
+            Intent launchLoginActivityIntent = new Intent(this, LoginActivity.class);
+            startActivity(launchLoginActivityIntent);
         });
     }}
