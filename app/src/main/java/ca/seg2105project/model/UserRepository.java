@@ -14,16 +14,10 @@ import ca.seg2105project.model.userClasses.User;
  */
 public class UserRepository {
 
-	private static final List<User> registeredUsers = new ArrayList<>();
+	private final List<User> registeredUsers;
 
-	/**
-	 * Makes sure that an admin account exists in the user repository.
-	 * This is a very messy way to implement the desired behaviour.
-	 * Will hopefully refactor this for deliverable II.
-	 * Right now the only place where this is called in the app is in the OnCreate of LoginActivity
-	 * which makes this more safe because the LoginActivity is always run in any instance of our app.
-	 */
-	public static void init() {
+	public UserRepository() {
+		registeredUsers = new ArrayList<>();
 		registeredUsers.add(new Administrator("admin@gmail.com", "adminpwd"));
 	}
 
@@ -33,7 +27,7 @@ public class UserRepository {
      * In an even later implementation likely in deliverable 2 this will access the database.
      * @return a full list of all registered users
      */
-    public static List<User> getAllRegisteredUsers() {
+    public List<User> getAllRegisteredUsers() {
 		return registeredUsers;
     }
 
@@ -44,7 +38,7 @@ public class UserRepository {
 	 * In future implementations this will make a DB call instead of using a list in memory.
 	 * @param user the user to be added
 	 */
-	public static void registerUser(User user) {
+	public void registerUser(User user) {
 		if (!isEmailRegistered(user.getEmail())) {
 			registeredUsers.add(user);
 		}
@@ -56,7 +50,7 @@ public class UserRepository {
      * @param password the password attatched to the email to be checked
      * @return true if the email-password pair was found in the list of registered users, false if not found
      */
-    public static boolean authenticate(String email, String password) { //O(n), where n = # of registered users
+    public boolean authenticate(String email, String password) { //O(n), where n = # of registered users
         List<User> users = getAllRegisteredUsers();
         int n = users.size();
         for (int x = 0; x < n; x++) {
@@ -73,7 +67,7 @@ public class UserRepository {
      * @param email the email to be checked
      * @return true if the email was found in the list of users, false if not found
      */
-	public static boolean isEmailRegistered(String email) { //O(n), where n = # of registered users
+	public boolean isEmailRegistered(String email) { //O(n), where n = # of registered users
 		List<User> users = getAllRegisteredUsers();
 		int n = users.size();
 		for (int x = 0; x < n; x++) {
@@ -90,7 +84,7 @@ public class UserRepository {
      * @param email the email whose user type is to be returned
      * @return a string representation of the user type of the email provided, null if the email is not found
      */
-	public static String getUserTypeByEmail(String email) {
+	public String getUserTypeByEmail(String email) {
 		List<User> users = getAllRegisteredUsers();
 		int n = users.size();
 		Administrator adm = new Administrator(null, null);

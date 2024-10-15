@@ -40,13 +40,16 @@ public class RegisterActivity extends AppCompatActivity {
         EditText organizationEditText = findViewById(R.id.OrganizationET);
         CheckBox isOrganizerCheckBox = findViewById(R.id.isOrganizationCB);
 
+        EAMSApplication eamsApplication = (EAMSApplication) getApplication();
+        UserRepository userRepository = eamsApplication.getUserRepository();
+
         Button createAccountButton = findViewById(R.id.createAccountBTN);
         createAccountButton.setOnClickListener(v -> {
             // TODO: do all field validation and format checking here
 
             // Check if email entered by user is already registered for another account
             String enteredEmail = emailEditText.getText().toString();
-            if (UserRepository.isEmailRegistered(enteredEmail)) {
+            if (userRepository.isEmailRegistered(enteredEmail)) {
                 Toast.makeText(this, "The email you entered is already used for " +
                         "an existing account, please enter a different email", Toast.LENGTH_LONG).show();
             } else {
@@ -75,12 +78,12 @@ public class RegisterActivity extends AppCompatActivity {
                         Organizer newOrganizer = new Organizer(enteredFirstName, enteredLastName,
                                 enteredEmail, enteredPassword, enteredAddress, enteredPhoneNumber,
                                 enteredOrganizationName);
-                        UserRepository.registerUser(newOrganizer);
+                        userRepository.registerUser(newOrganizer);
                     } else {
                         // User is registered as Attendee
                         Attendee newAttendee = new Attendee(enteredFirstName, enteredLastName,
                                 enteredEmail, enteredPassword, enteredAddress, enteredPhoneNumber);
-                        UserRepository.registerUser(newAttendee);
+                        userRepository.registerUser(newAttendee);
                     }
 
                     Toast.makeText(this, "Successfully registered, please login",

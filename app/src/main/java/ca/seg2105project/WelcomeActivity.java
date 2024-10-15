@@ -26,10 +26,15 @@ public class WelcomeActivity extends AppCompatActivity {
             return insets;
         });
 
+        // TODO: add user type to welcome message here
+
+        EAMSApplication eamsApplication = (EAMSApplication) getApplication();
+        LoginSessionRepository loginSessionRepository = eamsApplication.getLoginSessionRepository();
+
         Button logoutButton = findViewById(R.id.Logout_BTN);
         logoutButton.setOnClickListener(v -> {
             // Removes email from our shared preferences
-            LoginSessionRepository.endLoginSession(getApplicationContext());
+            loginSessionRepository.endLoginSession();
 
             // Let user know they are logged out
             Toast.makeText(getApplicationContext(), "Logged out successfully",
