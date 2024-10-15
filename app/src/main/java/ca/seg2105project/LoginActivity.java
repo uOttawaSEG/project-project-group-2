@@ -55,16 +55,16 @@ public class LoginActivity extends AppCompatActivity {
             email = String.valueOf(editEmail.getText());
             password = String.valueOf(editPassword.getText());
 
-            // TODO: add email format check here
+            // TODO: check for empty email or password and check email format here
 
             if (UserRepository.authenticate(email, password)) {
                 LoginSessionRepository.startLoginSession(email, getApplicationContext());
-                Toast.makeText(getApplicationContext(), "Logged in successfully", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Logging In", Toast.LENGTH_LONG).show();
                 launchWelcomeActivityAndFinish();
             }
             else {
-                Toast.makeText(getApplicationContext(), "Either there isn't an account " +
-                        "associated with that email or the password is incorrect", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "No account exists for that email or " +
+                        "password is incorrect", Toast.LENGTH_LONG).show();
             }
         });
     }
