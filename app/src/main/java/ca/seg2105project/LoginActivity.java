@@ -29,13 +29,12 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
-        if(!LoginSessionRepository.isLoggedIn("email", getApplicationContext())){
+        if(!LoginSessionRepository.hasActiveLoginSession(getApplicationContext())){
             setLoginLogic();
             setRegistrationLinkLogic();
-        }
-        else{
-            // TODO: redirect to welcome page here
-            Toast.makeText(this, "Logged in as ", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Logged in as " +
+                    LoginSessionRepository.getActiveLoginSessionEmail(getApplicationContext()), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -51,8 +50,9 @@ public class LoginActivity extends AppCompatActivity {
             email = String.valueOf(editEmail.getText());
             password = String.valueOf(editPassword.getText());
 
+            // TODO: check for empty email or password and check email format here
             if (UserRepository.authenticate(email, password)) {
-                LoginSessionRepository.login(email, getApplicationContext());
+                LoginSessionRepository.startLoginSession(email, getApplicationContext());
                 Toast.makeText(getApplicationContext(), "Logging In", Toast.LENGTH_LONG).show();
             }
             else{
