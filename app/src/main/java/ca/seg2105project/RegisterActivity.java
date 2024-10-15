@@ -47,7 +47,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         Button createAccountButton = findViewById(R.id.createAccountBTN);
         createAccountButton.setOnClickListener(v -> {
-            // TODO: do all field validation and format checking here
 
             String enteredEmail = emailEditText.getText().toString();
             if (userRepository.isEmailRegistered(enteredEmail)) {
