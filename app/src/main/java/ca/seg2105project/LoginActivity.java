@@ -58,8 +58,8 @@ public class LoginActivity extends AppCompatActivity {
                 launchWelcomeActivity();
             }
             else {
-                Toast.makeText(getApplicationContext(), "Either there isn't an account " +
-                        "associated with that email or the password is incorrect", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "No account exists for that email or " +
+                        "password is incorrect", Toast.LENGTH_LONG).show();
             }
         });
     }
