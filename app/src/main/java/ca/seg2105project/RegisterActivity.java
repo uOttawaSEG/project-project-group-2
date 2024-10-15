@@ -2,6 +2,7 @@ package ca.seg2105project;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
+import androidx.core.util.PatternsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
@@ -47,14 +49,12 @@ public class RegisterActivity extends AppCompatActivity {
         createAccountButton.setOnClickListener(v -> {
             // TODO: do all field validation and format checking here
 
-            // Check if email entered by user is already registered for another account
             String enteredEmail = emailEditText.getText().toString();
             if (userRepository.isEmailRegistered(enteredEmail)) {
                 Toast.makeText(this, "The email you entered is already used for " +
                         "an existing account, please enter a different email", Toast.LENGTH_LONG).show();
             } else {
-                // Now we know the email entered by the user is available to register, next check
-                // if the password and confirm password strings match
+                // Now we know the email entered by the user is available to register
                 String enteredPassword = createPasswordEditText.getText().toString();
                 String enteredConfirmPassword = confirmPAsswordEditText.getText().toString();
 
@@ -64,37 +64,68 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     // Now we know that the email entered by the user is available to register,
                     // and the entered passwords match.
-                    // Now we register the user either as an Organizer or Attendee based on
-                    // if they've checked the 'Are you an Organization?' checkbox
                     String enteredFirstName = firstNameEditText.getText().toString();
                     String enteredLastName = lastNameEditText.getText().toString();
                     String enteredPhoneNumber = phoneNumberEditText.getText().toString();
                     String enteredAddress = addressEditText.getText().toString();
 
-                    if (isOrganizerCheckBox.isChecked()) {
-                        // User is registered as Organizer
-                        String enteredOrganizationName = organizationEditText.getText().toString();
-
-                        Organizer newOrganizer = new Organizer(enteredFirstName, enteredLastName,
-                                enteredEmail, enteredPassword, enteredAddress, enteredPhoneNumber,
-                                enteredOrganizationName);
-                        userRepository.registerUser(newOrganizer);
+                    if (enteredFirstName.isEmpty() || enteredLastName.isEmpty() || enteredEmail.isEmpty() ||
+                            enteredPassword.isEmpty() || enteredAddress.isEmpty() || enteredPhoneNumber.isEmpty()) {
+                        Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_LONG).show();
                     } else {
-                        // User is registered as Attendee
-                        Attendee newAttendee = new Attendee(enteredFirstName, enteredLastName,
-                                enteredEmail, enteredPassword, enteredAddress, enteredPhoneNumber);
-                        userRepository.registerUser(newAttendee);
-                    }
+                        // Now we know that the email entered by the user is available to register,
+                        // the entered passwords match, and the user has entered text for every field
 
-                    Toast.makeText(this, "Successfully registered, please login",
-                            Toast.LENGTH_LONG).show();
-                    launchLoginActivityAndFinishRegistration();
+                        if (!PatternsCompat.EMAIL_ADDRESS.matcher(enteredEmail).matches()) {
+                            Toast.makeText(this, "Provided email isn't a valid email address", Toast.LENGTH_LONG).show();
+                        } else {
+                            // Now we know that the email entered by the user is available to register,
+                            // the entered passwords match, the user has entered text for every field
+                            // and the email is formatted properly
+
+                            if (!Patterns.PHONE.matcher(enteredPhoneNumber).matches()) {
+                                Toast.makeText(this, "Provided phone number isn't a valid phone number", Toast.LENGTH_LONG).show();
+                            } else {
+                                // Now we know that the email entered by the user is available to register,
+                                // the entered passwords match, the user has entered text for every field
+                                // the email is formatted properly, and the phone number is formatted properly
+
+                                if (isOrganizerCheckBox.isChecked()) {
+                                    String enteredOrganizationName = organizationEditText.getText().toString();
+
+                                    if (enteredOrganizationName.isEmpty()) {
+                                        Toast.makeText(this, "If you're an event organizer, " +
+                                                "we need an organization name", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        // User is registered as Organizer
+                                        Organizer newOrganizer = new Organizer(enteredFirstName, enteredLastName,
+                                                enteredEmail, enteredPassword, enteredAddress, enteredPhoneNumber,
+                                                enteredOrganizationName);
+                                        userRepository.registerUser(newOrganizer);
+
+                                        // Successful registration, send user back to login screen
+                                        launchLoginActivityAndFinishRegistration();
+                                    }
+                                } else {
+                                    // User is registered as Attendee
+                                    Attendee newAttendee = new Attendee(enteredFirstName, enteredLastName,
+                                            enteredEmail, enteredPassword, enteredAddress, enteredPhoneNumber);
+                                    userRepository.registerUser(newAttendee);
+
+                                    // Successful registration, send user back to login screen
+                                    launchLoginActivityAndFinishRegistration();
+                                }
+                            }
+                        }
+                    }
                 }
             }
         });
     }
 
     private void launchLoginActivityAndFinishRegistration() {
+        Toast.makeText(this, "Successfully registered, please login",
+                Toast.LENGTH_LONG).show();
         Intent launchLoginActivityIntent = new Intent(this, LoginActivity.class);
         startActivity(launchLoginActivityIntent);
         finish();
