@@ -1,9 +1,6 @@
 package ca.seg2105project;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -30,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
-        if(!LoginSessionRepository.isLoggedIn("email", getApplicationContext())){
+        if (!LoginSessionRepository.hasActiveLoginSession(getApplicationContext())) {
             EditText editEmail = findViewById(R.id.email);
             EditText editPassword = findViewById(R.id.password);
             Button loginButton = findViewById(R.id.loginBTN);
@@ -40,17 +37,20 @@ public class LoginActivity extends AppCompatActivity {
                 email = String.valueOf(editEmail.getText());
                 password = String.valueOf(editPassword.getText());
 
+                // TODO: Check for empty email or password and check email format here
                 if (UserRepository.authenticate(email, password)) {
-                    LoginSessionRepository.login(email, getApplicationContext());
-                    Toast.makeText(getApplicationContext(), "Logging In", Toast.LENGTH_LONG).show();
+                    LoginSessionRepository.startLoginSession(email, getApplicationContext());
+                    Toast.makeText(getApplicationContext(), "Logged in successfully", Toast.LENGTH_LONG).show();
                 }
-                else{
-                    Toast.makeText(getApplicationContext(), "No account exists for that email or password is incorrect", Toast.LENGTH_LONG).show();
+                else {
+                    Toast.makeText(getApplicationContext(), "Either there isn't an account " +
+                            "associated with that email or the password is incorrect", Toast.LENGTH_LONG).show();
                 }
             });
         }
         else{
-            Toast.makeText(this, "Logged in as ", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Logged in as " +
+                    LoginSessionRepository.getActiveLoginSessionEmail(getApplicationContext()), Toast.LENGTH_LONG).show();
         }
     }
 }
