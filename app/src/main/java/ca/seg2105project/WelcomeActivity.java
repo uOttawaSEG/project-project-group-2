@@ -3,6 +3,7 @@ package ca.seg2105project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -12,6 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import ca.seg2105project.model.LoginSessionRepository;
+import ca.seg2105project.model.UserRepository;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -26,10 +28,14 @@ public class WelcomeActivity extends AppCompatActivity {
             return insets;
         });
 
-        // TODO: add user type to welcome message here
 
         EAMSApplication eamsApplication = (EAMSApplication) getApplication();
         LoginSessionRepository loginSessionRepository = eamsApplication.getLoginSessionRepository();
+        UserRepository userRepository = eamsApplication.getUserRepository();
+
+        TextView welcomeMessageTV = findViewById(R.id.welcome_message_tv);
+        String welcomeMessage = "Welcome! You are logged in as " + userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail());
+        welcomeMessageTV.setText(welcomeMessage);
 
         Button logoutButton = findViewById(R.id.Logout_BTN);
         logoutButton.setOnClickListener(v -> {
