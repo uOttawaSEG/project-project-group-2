@@ -1,6 +1,9 @@
 package ca.seg2105project.model.Testers;
 
 import ca.seg2105project.model.UserRepository;
+import ca.seg2105project.model.userClasses.Administrator;
+import ca.seg2105project.model.userClasses.Attendee;
+import ca.seg2105project.model.userClasses.Organizer;
 
 /**
 * A class to test the methods in UserRepository.java
@@ -13,6 +16,28 @@ public class UserRepositoryTester {
 	* @param args the command line arguments, will not be used
 	*/
     public static void main(String[] args) {
+
+        UserRepository.init();
+
+
+        UserRepository.registerUser(new Attendee("Isaac", "Jensen-Large",
+                "jensenlarge.isaac@gmail.com", "awesomepassword",
+                "54 Awesome St.", "6139835504"));
+
+        UserRepository.registerUser(new Organizer("Roni", "Nartatez",
+                "ronisemail@gmail.com", "epicpassword",
+                "57 Awesome St.", "6131234567", "Awesome Org."));
+
+        UserRepository.registerUser(new Attendee("Rachel", "Luo",
+                "rluo123@gmail.com", "walkingIsOverrated",
+                "39 Mann", "6471234567"));
+
+        UserRepository.registerUser(new Organizer("Kunala", "Deotare",
+                "kdeotare@gmail.com", "the_best_pass",
+                "29 Mann", "4161234567", "Best Org."));
+
+        UserRepository.registerUser(new Administrator("shawn@gmail.com",
+                "secure_pass"));
 		
         //Tests added for UserRepository.authenticate
         String s = "";

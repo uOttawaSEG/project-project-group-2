@@ -31,10 +31,15 @@ public class LoginActivity extends AppCompatActivity {
                 return insets;
             });
 
+
+            // Make sure that the admin is able to log in with admin@gmail.com and adminpwd
+            UserRepository.init();
+
+            // Set up view logic
             setLoginViewLogic();
             setRegistrationLinkLogic();
         } else {
-            launchWelcomeActivity();
+            launchWelcomeActivityAndFinish();
         }
     }
 
@@ -55,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
             if (UserRepository.authenticate(email, password)) {
                 LoginSessionRepository.startLoginSession(email, getApplicationContext());
                 Toast.makeText(getApplicationContext(), "Logging In", Toast.LENGTH_LONG).show();
-                launchWelcomeActivity();
+                launchWelcomeActivityAndFinish();
             }
             else {
                 Toast.makeText(getApplicationContext(), "No account exists for that email or " +
@@ -73,9 +78,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void launchWelcomeActivity() {
+    private void launchWelcomeActivityAndFinish() {
         Intent launchWelcomeActivityIntent = new Intent(this, WelcomeActivity.class);
         // TODO: make sure that the user can't get back to the login screen after going to welcome screen
         startActivity(launchWelcomeActivityIntent);
+        finish();
     }
 }
