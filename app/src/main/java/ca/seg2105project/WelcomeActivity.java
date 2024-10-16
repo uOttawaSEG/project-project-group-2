@@ -28,13 +28,13 @@ public class WelcomeActivity extends AppCompatActivity {
             return insets;
         });
 
-
         EAMSApplication eamsApplication = (EAMSApplication) getApplication();
         LoginSessionRepository loginSessionRepository = eamsApplication.getLoginSessionRepository();
         UserRepository userRepository = eamsApplication.getUserRepository();
 
         TextView welcomeMessageTV = findViewById(R.id.welcome_message_tv);
-        String welcomeMessage = "Welcome! You are logged in as " + userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail());
+        String welcomeMessage = "Welcome! You are logged in as " +
+                userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail());
         welcomeMessageTV.setText(welcomeMessage);
 
         Button logoutButton = findViewById(R.id.Logout_BTN);
@@ -48,6 +48,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
             // Sends user back to login screen
             Intent launchLoginActivityIntent = new Intent(this, LoginActivity.class);
+            // TODO: make sure user can't get back to this screen from login screen
             startActivity(launchLoginActivityIntent);
+            finish();
         });
     }}

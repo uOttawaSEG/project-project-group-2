@@ -3,6 +3,7 @@ package ca.seg2105project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -15,11 +16,26 @@ import androidx.core.util.PatternsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import ca.seg2105project.model.UserRepository;
 import ca.seg2105project.model.userClasses.Attendee;
 import ca.seg2105project.model.userClasses.Organizer;
 
 public class RegisterActivity extends AppCompatActivity {
+
+    private UserRepository userRepository;
+
+    private EditText firstNameEditText;
+    private EditText lastNameEditText;
+    private EditText emailEditText;
+    private EditText createPasswordEditText;
+    private EditText confirmPAsswordEditText;
+    private EditText phoneNumberEditText;
+    private EditText addressEditText;
+    private CheckBox isOrganizationCheckBox;
+    private TextInputLayout organizationEditTextLayout;
+    private EditText organizationEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,19 +48,25 @@ public class RegisterActivity extends AppCompatActivity {
             return insets;
         });
 
-        EditText firstNameEditText = findViewById(R.id.firstNameET);
-        EditText lastNameEditText = findViewById(R.id.lastNameET);
-        EditText emailEditText = findViewById(R.id.emailET);
-        EditText createPasswordEditText = findViewById(R.id.createPasswordET);
-        EditText confirmPAsswordEditText = findViewById(R.id.confirmPasswordET);
-        EditText phoneNumberEditText = findViewById(R.id.phoneNumberET);
-        EditText addressEditText = findViewById(R.id.addressET);
-        EditText organizationEditText = findViewById(R.id.OrganizationET);
-        CheckBox isOrganizerCheckBox = findViewById(R.id.isOrganizationCB);
+        firstNameEditText = findViewById(R.id.firstNameET);
+        lastNameEditText = findViewById(R.id.lastNameET);
+        emailEditText = findViewById(R.id.emailET);
+        createPasswordEditText = findViewById(R.id.createPasswordET);
+        confirmPAsswordEditText = findViewById(R.id.confirmPasswordET);
+        phoneNumberEditText = findViewById(R.id.phoneNumberET);
+        addressEditText = findViewById(R.id.addressET);
+        organizationEditText = findViewById(R.id.OrganizationET);
+        organizationEditTextLayout = findViewById(R.id.organization_ET_layout);
+        isOrganizationCheckBox = findViewById(R.id.isOrganizationCB);
 
         EAMSApplication eamsApplication = (EAMSApplication) getApplication();
-        UserRepository userRepository = eamsApplication.getUserRepository();
+        userRepository = eamsApplication.getUserRepository();
 
+        setCreateAccountButtonBehaviour();
+        setIsOrganizationCheckBoxBehaviour();
+    }
+
+    private void setCreateAccountButtonBehaviour() {
         Button createAccountButton = findViewById(R.id.createAccountBTN);
         createAccountButton.setOnClickListener(v -> {
 
@@ -73,23 +95,23 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_LONG).show();
                     } else {
                         // Now we know that the email entered by the user is available to register,
-                        // the entered passwords match, and the user has entered text for every field
+                        // the entered passwords match, and the user has entered text for every attendee related field
 
                         if (!PatternsCompat.EMAIL_ADDRESS.matcher(enteredEmail).matches()) {
                             Toast.makeText(this, "Provided email isn't a valid email address", Toast.LENGTH_LONG).show();
                         } else {
                             // Now we know that the email entered by the user is available to register,
-                            // the entered passwords match, the user has entered text for every field
+                            // the entered passwords match, the user has entered text for every attendee related field
                             // and the email is formatted properly
 
                             if (!Patterns.PHONE.matcher(enteredPhoneNumber).matches()) {
                                 Toast.makeText(this, "Provided phone number isn't a valid phone number", Toast.LENGTH_LONG).show();
                             } else {
                                 // Now we know that the email entered by the user is available to register,
-                                // the entered passwords match, the user has entered text for every field
+                                // the entered passwords match, the user has entered text for every attendee related field
                                 // the email is formatted properly, and the phone number is formatted properly
 
-                                if (isOrganizerCheckBox.isChecked()) {
+                                if (isOrganizationCheckBox.isChecked()) {
                                     String enteredOrganizationName = organizationEditText.getText().toString();
 
                                     if (enteredOrganizationName.isEmpty()) {
@@ -118,6 +140,16 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     }
                 }
+            }
+        });
+    }
+
+    private void setIsOrganizationCheckBoxBehaviour() {
+        isOrganizationCheckBox.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            if (isChecked) {
+                organizationEditTextLayout.setVisibility(View.VISIBLE);
+            } else {
+                organizationEditTextLayout.setVisibility(View.INVISIBLE);
             }
         });
     }
