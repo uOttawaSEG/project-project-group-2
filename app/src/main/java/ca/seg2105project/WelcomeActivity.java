@@ -48,8 +48,9 @@ public class WelcomeActivity extends AppCompatActivity {
 
             // Sends user back to login screen
             Intent launchLoginActivityIntent = new Intent(this, LoginActivity.class);
-            // TODO: make sure user can't get back to this screen from login screen
             startActivity(launchLoginActivityIntent);
+
+            // User shouldn't be able to return to this instance of WelcomeActivity
             finish();
         });
     }}
