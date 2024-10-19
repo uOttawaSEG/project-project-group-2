@@ -21,7 +21,7 @@ public class AccountRegistrationRequestTester {
 	*/
 	public static void main (String[] args) {
 		String s = "";
-		
+
 		//An attendee making a request r1
 		AccountRegistrationRequest r1 = new AccountRegistrationRequest("Kunala", "Deotare", "kdeot090@uottawa.ca", "mypassword", "45 Mann", "1234567890", null);
 		s += "Kunala=";
@@ -43,9 +43,10 @@ public class AccountRegistrationRequestTester {
 		r1.setStatus(AccountRegistrationRequestStatus.REJECTED);
 		s += "REJECTED=";
 		s += getStatusAsString(r1.getStatus()) + "\n";
-		
+
 		s += "\n";
-		
+
+
 		//An organizer making a request r2
 		AccountRegistrationRequest r2 = new AccountRegistrationRequest("Rachel", "Luo", "raclu@uottawa.ca", "herpassword", "Uottawa", "0987654321", "Events App");
 		s += "Rachel=";
@@ -67,7 +68,82 @@ public class AccountRegistrationRequestTester {
 		r2.setStatus(AccountRegistrationRequestStatus.APPROVED);
 		s += "APPROVED=";
 		s += getStatusAsString(r2.getStatus()) + "\n";
-		
+
+		s += "\n";
+
+
+		//An attendee making a request r3
+		AccountRegistrationRequest r3 = new AccountRegistrationRequest("Roni", "N", "rn@uottawa.ca", "pass", "Uottawa", "4161231234", null);
+		s += "Roni=";
+		s += r3.getFirstName() + "\n";
+		s += "N=";
+		s += r3.getLastName() + "\n";
+		s += "rn@uottawa.ca=";
+		s += r3.getEmail() + "\n";
+		s += "pass=";
+		s += r3.getPassword() + "\n";
+		s += "Uottawa=";
+		s += r3.getAddress() + "\n";
+		s += "4161231234=";
+		s += r3.getPhoneNumber() + "\n";
+		s += "null=";
+		s += r3.getOrganizationName() + "\n";
+		s += "PENDING=";
+		s += getStatusAsString(r3.getStatus()) + "\n";
+		r3.setStatus(AccountRegistrationRequestStatus.APPROVED);
+		s += "APPROVED=";
+		s += getStatusAsString(r3.getStatus()) + "\n";
+
+		s += "\n";
+
+
+		//An organizer making a request r4
+		AccountRegistrationRequest r4 = new AccountRegistrationRequest("Shawn", "H", "sh@uottawa.ca", "password", "somewhere", "1239876543", "EAMS");
+		s += "Shawn=";
+		s += r4.getFirstName() + "\n";
+		s += "H=";
+		s += r4.getLastName() + "\n";
+		s += "sh@uottawa.ca=";
+		s += r4.getEmail() + "\n";
+		s += "password=";
+		s += r4.getPassword() + "\n";
+		s += "somewhere=";
+		s += r4.getAddress() + "\n";
+		s += "1239876543=";
+		s += r4.getPhoneNumber() + "\n";
+		s += "EAMS=";
+		s += r4.getOrganizationName() + "\n";
+		s += "PENDING=";
+		s += getStatusAsString(r4.getStatus()) + "\n";
+		r4.setStatus(AccountRegistrationRequestStatus.REJECTED);
+		s += "REJECTED=";
+		s += getStatusAsString(r4.getStatus()) + "\n";
+
+		s += "\n";
+
+
+		//An organizer making a request r5
+		AccountRegistrationRequest r5 = new AccountRegistrationRequest("Issac", "J", "ij@uottawa.ca", "hispassword", "somewhere as well", "1111111111", "EAMS");
+		s += "Issac=";
+		s += r5.getFirstName() + "\n";
+		s += "J=";
+		s += r5.getLastName() + "\n";
+		s += "ij@uottawa.ca=";
+		s += r5.getEmail() + "\n";
+		s += "hispassword=";
+		s += r5.getPassword() + "\n";
+		s += "somewhere as well=";
+		s += r5.getAddress() + "\n";
+		s += "1111111111=";
+		s += r5.getPhoneNumber() + "\n";
+		s += "EAMS=";
+		s += r5.getOrganizationName() + "\n";
+		s += "PENDING=";
+		s += getStatusAsString(r5.getStatus()) + "\n";
+		r5.setStatus(AccountRegistrationRequestStatus.APPROVED);
+		s += "APPROVED=";
+		s += getStatusAsString(r5.getStatus()) + "\n";
+
 		System.out.println(s);
 	}
 	
