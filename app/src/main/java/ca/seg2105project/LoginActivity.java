@@ -78,13 +78,16 @@ public class LoginActivity extends AppCompatActivity {
         registrationTextView.setOnClickListener(v -> {
             Intent launchRegisterActivityIntent = new Intent(this, RegisterActivity.class);
             startActivity(launchRegisterActivityIntent);
+
+            // Don't finish the activity here because the user will want to return to this LoginActivity instance
         });
     }
 
     private void launchWelcomeActivityAndFinish() {
         Intent launchWelcomeActivityIntent = new Intent(this, WelcomeActivity.class);
-        // TODO: make sure that the user can't get back to the login screen after going to welcome screen
         startActivity(launchWelcomeActivityIntent);
+
+        // Login is done, so finish this instance of LoginActivity
         finish();
     }
 }

@@ -158,6 +158,11 @@ public class RegisterActivity extends AppCompatActivity {
         Toast.makeText(this, "Successfully registered, please login",
                 Toast.LENGTH_LONG).show();
         Intent launchLoginActivityIntent = new Intent(this, LoginActivity.class);
+
+        // Make sure we re-use the instance of LoginActivity that brought the user to this register
+        // activity
+        launchLoginActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
         startActivity(launchLoginActivityIntent);
         finish();
     }
