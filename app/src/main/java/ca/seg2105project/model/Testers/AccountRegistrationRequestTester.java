@@ -1,7 +1,7 @@
 package ca.seg2105project.model.Testers;
 
-import ca.seg2105project.model.requestClasses.AccountRegistrationRequest;
-import ca.seg2105project.model.requestClasses.AccountRegistrationRequestStatus;
+import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
+import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
 
 /**
 * A class to test the implementation of AccountRegistrationRequest.java
