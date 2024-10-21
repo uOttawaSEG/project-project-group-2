@@ -22,6 +22,12 @@ import ca.seg2105project.model.UserRepository;
 import ca.seg2105project.model.userClasses.Attendee;
 import ca.seg2105project.model.userClasses.Organizer;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private UserRepository userRepository;
@@ -36,6 +42,9 @@ public class RegisterActivity extends AppCompatActivity {
     private CheckBox isOrganizationCheckBox;
     private TextInputLayout organizationEditTextLayout;
     private EditText organizationEditText;
+	
+	//firebase database reference
+	private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
