@@ -1,5 +1,6 @@
 package ca.seg2105project;
 
+import android.accounts.Account;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -8,6 +9,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.List;
+import java.util.ArrayList;
+import androidx.annotation.NonNull;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +24,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.textfield.TextInputLayout;
 
 import ca.seg2105project.model.UserRepository;
+import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
 import ca.seg2105project.model.userClasses.Attendee;
 import ca.seg2105project.model.userClasses.Organizer;
 
@@ -42,6 +48,9 @@ public class RegisterActivity extends AppCompatActivity {
     private CheckBox isOrganizationCheckBox;
     private TextInputLayout organizationEditTextLayout;
     private EditText organizationEditText;
+
+    // List to hold requests
+    private List<AccountRegistrationRequest> requestList;
 	
 	//firebase database reference
 	private DatabaseReference mDatabase;
@@ -76,6 +85,29 @@ public class RegisterActivity extends AppCompatActivity {
 		
 		// Initializing Firebase database reference
         mDatabase = FirebaseDatabase.getInstance().getReference("requests");
+
+        //intialize request list
+        requestList = new ArrayList<>();
+        readRequests();
+    }
+
+
+    // Method to read requests from Firebase
+    private void readRequests() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                requestList.clear();
+                for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
+                    AccountRegistrationRequest request = requestSnapshot.getValue(AccountRegistrationRequest.class);
+
+                    requestList.add(request);
+                }
+            }
+
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(RegisterActivity.this, "Failed to read request: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setCreateAccountButtonBehaviour() {
