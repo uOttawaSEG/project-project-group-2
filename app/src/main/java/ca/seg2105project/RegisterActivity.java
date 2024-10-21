@@ -73,6 +73,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         setCreateAccountButtonBehaviour();
         setIsOrganizationCheckBoxBehaviour();
+		
+		// Initializing Firebase database reference
+        mDatabase = FirebaseDatabase.getInstance().getReference("requests");
     }
 
     private void setCreateAccountButtonBehaviour() {
