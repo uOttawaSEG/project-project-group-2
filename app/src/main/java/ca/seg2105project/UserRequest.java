@@ -1,18 +1,18 @@
 package ca.seg2105project;
 
-public class RequestBox {
+public class UserRequest {
 
     String firstName;
     String lastName;
     String email;
-    String phoneNumber;
+    long phoneNumber;
     String address;
     String organizationName;
 
     int image;
 
     //Constructor that creates a requestBox for Attendee
-    public RequestBox(String firstName, String lastName, String email, String phoneNumber, String address, int image) {
+    public UserRequest(String firstName, String lastName, String email,long phoneNumber, String address, int image) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -22,7 +22,7 @@ public class RequestBox {
     }
 
     //Constructor that creates a requestBox for Organiser
-    public RequestBox(String firstName, String lastName, String email, String phoneNumber, String address, String organizationName, int image) {
+    public UserRequest(String firstName, String lastName, String email,long phoneNumber, String address, String organizationName, int image) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -31,6 +31,7 @@ public class RequestBox {
         this.organizationName = organizationName;
         this.image = image;
     }
+
 
     //getters
     public String getFirstName() {
@@ -45,7 +46,7 @@ public class RequestBox {
         return email;
     }
 
-    public String getPhoneNumber() {
+    public long getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -61,6 +62,7 @@ public class RequestBox {
         return image;
     }
 
+
     //setters
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -74,7 +76,7 @@ public class RequestBox {
         this.email = email;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(long phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

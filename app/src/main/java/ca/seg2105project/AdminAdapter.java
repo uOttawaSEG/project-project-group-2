@@ -8,19 +8,18 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class AdminAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class AdminAdapter extends RecyclerView.Adapter<RequestViewHolder> {
 
     Context context;
-    List<RequestBox>
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RequestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return null;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RequestViewHolder holder, int position) {
 
     }
 
