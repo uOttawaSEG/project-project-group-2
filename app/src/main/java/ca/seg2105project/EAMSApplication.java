@@ -2,8 +2,9 @@ package ca.seg2105project;
 
 import android.app.Application;
 
-import ca.seg2105project.model.LoginSessionRepository;
-import ca.seg2105project.model.UserRepository;
+import ca.seg2105project.model.repositories.AccountRegistrationRequestRepository;
+import ca.seg2105project.model.repositories.LoginSessionRepository;
+import ca.seg2105project.model.repositories.UserRepository;
 
 /**
  * Custom application class to be able to access single instances of repository classes
@@ -14,6 +15,7 @@ public class EAMSApplication extends Application {
 
     private UserRepository userRepository;
     private LoginSessionRepository loginSessionRepository;
+    private AccountRegistrationRequestRepository accountRegistrationRequestRepository;
 
     @Override
     public void onCreate() {
@@ -21,6 +23,7 @@ public class EAMSApplication extends Application {
 
         userRepository = new UserRepository();
         loginSessionRepository = new LoginSessionRepository(getApplicationContext());
+        accountRegistrationRequestRepository = new AccountRegistrationRequestRepository();
 
         // Invalidate potentially outdated login session
         if (loginSessionRepository.hasActiveLoginSession()) {
@@ -36,5 +39,9 @@ public class EAMSApplication extends Application {
 
     public LoginSessionRepository getLoginSessionRepository() {
         return loginSessionRepository;
+    }
+
+    public AccountRegistrationRequestRepository getAccountRegistrationRequestRepository() {
+        return accountRegistrationRequestRepository;
     }
 }

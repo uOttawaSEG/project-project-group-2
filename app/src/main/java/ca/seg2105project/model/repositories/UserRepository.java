@@ -1,4 +1,4 @@
-package ca.seg2105project.model;
+package ca.seg2105project.model.repositories;
 
 import java.util.ArrayList;
 import java.util.List;
