@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    tools:context="InboxReqActivity"
+    tools:ignore="ExtraText">
+
+    <!--Request Box-->
+    <ImageView
+        android:id="@+id/IVrequestBox"
+        android:layout_width="31dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true" />
+
+    <!--First Name-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="17dp"
+        android:id="@+id/userFName"
+        android:layout_toEndOf="@+id/IVrequestBox"
+        android:textColor="@color/black"
+        tools:text="First Name"/>
+
+    <!--Last Name-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="17dp"
+        android:id="@+id/userLName"
+        android:layout_toEndOf="@+id/IVrequestBox"
+        android:layout_below="@+id/userFName"
+        android:textColor="@color/black"
+        tools:text="Last Name"/>
+
+    <!--Email-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:id="@+id/email"
+        android:layout_toEndOf="@+id/IVrequestBox"
+        android:layout_below="@+id/userLName"
+        android:textColor="@color/black"
+        tools:text="email@email.com"/>
+
+    <!--Phone Number-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:id="@+id/phoneNumber"
+        android:layout_toEndOf="@+id/IVrequestBox"
+        android:layout_below="@+id/email"
+        android:textColor="@color/black"
+        tools:text="1234567890"/>
+
+    <!--Address-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:id="@+id/address"
+        android:layout_toEndOf="@+id/IVrequestBox"
+        android:layout_below="@+id/phoneNumber"
+        android:textColor="@color/black"
+        tools:text="Address"/>
+
+    <!--Organization Name-->
+    <TextView
+        android:id="@+id/address2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/phoneNumber"
+        android:layout_toEndOf="@+id/IVrequestBox"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        tools:text="Address" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:id="@+id/organizationName"
+        android:layout_toEndOf="@+id/IVrequestBox"
+        android:layout_below="@+id/address"
+        android:textColor="@color/black"
+        tools:text="Organization Name"/>
+
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/address"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="117dp"
+        android:layout_marginBottom="18dp"
+        android:backgroundTint="@color/green"
+        android:text="Approve"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/address"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="18dp"
+        android:backgroundTint="@color/red"
+        android:text="Reject"
+        android:textColor="@color/black" />
+
+
+</RelativeLayout>
