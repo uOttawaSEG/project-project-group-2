@@ -13,14 +13,14 @@ public class RequestViewHolder extends RecyclerView.ViewHolder{
     TextView firstName, lastName, email, phoneNumber,address, organizationName;
 
     //Constructor for RequestViewHolder
-    public RequestViewHolder(@NonNull View itemView) {
-        super(itemView);
-        IVrequestBox = itemView.findViewById(R.id.IVrequestBox);
-        firstName = itemView.findViewById(R.id.firstName);
-        lastName = itemView.findViewById(R.id.lastName);
-        email = itemView.findViewById(R.id.email);
-        phoneNumber = itemView.findViewById(R.id.phoneNumber);
-        address = itemView.findViewById(R.id.address);
-        organizationName = itemView.findViewById(R.id.organizationName);
+    public RequestViewHolder(@NonNull View requestItemView) {
+        super(requestItemView);
+        IVrequestBox = requestItemView.findViewById(R.id.IVrequestBox);
+        firstName = requestItemView.findViewById(R.id.firstName);
+        lastName = requestItemView.findViewById(R.id.lastName);
+        email = requestItemView.findViewById(R.id.email);
+        phoneNumber = requestItemView.findViewById(R.id.phoneNumber);
+        address = requestItemView.findViewById(R.id.address);
+        organizationName = requestItemView.findViewById(R.id.organizationName);
     }
 }
