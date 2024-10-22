@@ -95,6 +95,8 @@ public class RegisterActivity extends AppCompatActivity {
     // Method to read requests from Firebase
     private void readRequests() {
         mDatabase.addValueEventListener(new ValueEventListener() {
+
+            @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 requestList.clear();
                 for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
@@ -104,8 +106,10 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
 
+            @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(RegisterActivity.this, "Failed to read request: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(RegisterActivity.this, "Failed to read request: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                //the toast here was being activated too early. Need to figure out why and fix it. @TODO
             }
         });
     }
@@ -162,11 +166,16 @@ public class RegisterActivity extends AppCompatActivity {
                                         Toast.makeText(this, "If you're an event organizer, " +
                                                 "we need an organization name", Toast.LENGTH_LONG).show();
                                     } else {
-                                        // User is registered as Organizer
-                                        Organizer newOrganizer = new Organizer(enteredFirstName, enteredLastName,
-                                                enteredEmail, enteredPassword, enteredAddress, enteredPhoneNumber,
-                                                enteredOrganizationName);
-                                        userRepository.registerUser(newOrganizer);
+                                        // creating a new request
+                                        AccountRegistrationRequest newOrganizerRequest = new AccountRegistrationRequest(enteredFirstName, enteredLastName, enteredEmail, enteredPassword, enteredAddress, enteredPhoneNumber, enteredOrganizationName);
+
+                                        // generating a unique key for the request
+                                        String requestID = mDatabase.push().getKey();
+
+                                        // setting the requestID key's value to the request
+                                        mDatabase.child(requestID).setValue(newOrganizerRequest);
+
+                                        //TODO make a toast to announce to the user that their request has been processed
 
                                         // Successful registration, send user back to login screen
                                         launchLoginActivityAndFinishRegistration();
