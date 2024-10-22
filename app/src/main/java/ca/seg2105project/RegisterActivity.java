@@ -100,9 +100,9 @@ public class RegisterActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 requestList.clear();
                 for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
-                    AccountRegistrationRequest request = requestSnapshot.getValue(AccountRegistrationRequest.class);
+                    Object request = requestSnapshot.getValue(AccountRegistrationRequest.class);
 
-                    requestList.add(request);
+                    requestList.add(null);
                 }
             }
 
@@ -182,7 +182,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     }
                                 } else {
                                     // User is requesting to be an Attendee
-                                    AccountRegistrationRequest newAttendeeRequest = new AccountRegistrationRequest(enteredFirstName, enteredLastName,enteredEmail, enteredAddress, enteredPassword, enteredPhoneNumber, null);
+                                    AccountRegistrationRequest newAttendeeRequest = new AccountRegistrationRequest(enteredFirstName, enteredLastName, enteredEmail, enteredPassword, enteredAddress, enteredPhoneNumber, null);
 
                                     // generating a unique key for the request
                                     String requestID = mDatabase.push().getKey();
