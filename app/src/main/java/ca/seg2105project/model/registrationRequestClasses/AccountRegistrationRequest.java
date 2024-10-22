@@ -18,17 +18,21 @@ public class AccountRegistrationRequest {
 	 * @param organizationName the name of the organization of the user making the request (null if an Attendee is making the request)
      */ 
 	public AccountRegistrationRequest (String firstName, String lastName, String email, String password, String address, String phoneNumber, String organizationName) {
-		this.firstName = firstName;
-		this.lastName = lastName; 
-        this.email = email; 
-        this.password = password; 
-        this.address = address; 
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.address = address;
         this.phoneNumber = phoneNumber;
-		this.organizationName = organizationName;
-		
-		//when a request is first created, the status is always PENDING until an admin approves it.
-		this.status = AccountRegistrationRequestStatus.PENDING;
-	}
+        this.organizationName = organizationName;
+
+        //when a request is first created, the status is always PENDING until an admin approves it.
+        this.status = AccountRegistrationRequestStatus.PENDING;
+    }
+
+    public AccountRegistrationRequest() {
+
+    }
 	
 	// Getter methods
 	

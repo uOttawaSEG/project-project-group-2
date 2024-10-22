@@ -100,9 +100,9 @@ public class RegisterActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 requestList.clear();
                 for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
-                    Object request = requestSnapshot.getValue(AccountRegistrationRequest.class);
+                    AccountRegistrationRequest request = requestSnapshot.getValue(AccountRegistrationRequest.class);
+                    requestList.add(request);
 
-                    requestList.add(null);
                 }
             }
 
