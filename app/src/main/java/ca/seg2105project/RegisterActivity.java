@@ -88,12 +88,13 @@ public class RegisterActivity extends AppCompatActivity {
 
         //intialize request list
         requestList = new ArrayList<>();
-        readRequests();
+
+        readRequests(); //initializes requestList
     }
 
 
-    // Method to read requests from Firebase
-    private void readRequests() {
+    // Method to read requests from Firebase and return them as a List
+    public List<AccountRegistrationRequest> readRequests() {
         mDatabase.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -102,7 +103,6 @@ public class RegisterActivity extends AppCompatActivity {
                 for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
                     AccountRegistrationRequest request = requestSnapshot.getValue(AccountRegistrationRequest.class);
                     requestList.add(request);
-
                 }
             }
 
@@ -112,6 +112,7 @@ public class RegisterActivity extends AppCompatActivity {
                 //the toast here was being activated too early. Need to figure out why and fix it. @TODO
             }
         });
+        return requestList;
     }
 
     private void setCreateAccountButtonBehaviour() {
