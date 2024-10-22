@@ -181,10 +181,16 @@ public class RegisterActivity extends AppCompatActivity {
                                         launchLoginActivityAndFinishRegistration();
                                     }
                                 } else {
-                                    // User is registered as Attendee
-                                    Attendee newAttendee = new Attendee(enteredFirstName, enteredLastName,
-                                            enteredEmail, enteredPassword, enteredAddress, enteredPhoneNumber);
-                                    userRepository.registerUser(newAttendee);
+                                    // User is requesting to be an Attendee
+                                    AccountRegistrationRequest newAttendeeRequest = new AccountRegistrationRequest(enteredFirstName, enteredLastName,enteredEmail, enteredAddress, enteredPassword, enteredPhoneNumber, null);
+
+                                    // generating a unique key for the request
+                                    String requestID = mDatabase.push().getKey();
+
+                                    // setting the requestID key's value to the request
+                                    mDatabase.child(requestID).setValue(newAttendeeRequest);
+
+                                    //TODO make a toast to announce to the user that their request has been processed
 
                                     // Successful registration, send user back to login screen
                                     launchLoginActivityAndFinishRegistration();
