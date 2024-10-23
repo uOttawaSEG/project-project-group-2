@@ -7,12 +7,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * A class that is responsible for holding references to the UI components of each item of the RecyclerView
+ */
 public class RequestViewHolder extends RecyclerView.ViewHolder{
 
     ImageView IVrequestBox;
     TextView firstName, lastName, email, phoneNumber,address, organizationName;
 
-    //Constructor for RequestViewHolder
+    /**
+     * A parameterized constructor for RequestViewHolder.
+     * @param requestItemView represents the a single item in the RecyclerView
+     */
     public RequestViewHolder(@NonNull View requestItemView) {
         super(requestItemView);
         IVrequestBox = requestItemView.findViewById(R.id.IVrequestBox);
