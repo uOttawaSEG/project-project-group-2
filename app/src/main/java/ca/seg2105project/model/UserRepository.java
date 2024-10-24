@@ -1,11 +1,23 @@
 package ca.seg2105project.model;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
+import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
 import ca.seg2105project.model.userClasses.Administrator;
 import ca.seg2105project.model.userClasses.Attendee;
 import ca.seg2105project.model.userClasses.User;
+import ca.seg2105project.model.userClasses.Organizer;
+
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A class for accessing any information on any registered user.
@@ -15,10 +27,75 @@ import ca.seg2105project.model.userClasses.User;
 public class UserRepository {
 
 	private final List<User> registeredUsers;
+	//firebase database reference
+	private DatabaseReference mDatabase;
 
 	public UserRepository() {
 		registeredUsers = new ArrayList<>();
+
+		//Add admin
 		registeredUsers.add(new Administrator("admin@gmail.com", "adminpwd"));
+
+	}
+
+	public List<User> readUsers() {
+		mDatabase.addValueEventListener(new ValueEventListener() {
+
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				registeredUsers.clear();
+				for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
+					User user = requestSnapshot.getValue(User.class);
+					registeredUsers.add(user);
+				}
+			}
+
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+				//Toast.makeText(RegisterActivity.this, "Failed to read request: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+				//the toast here was being activated too early. Need to figure out why and fix it. @TODO
+			}
+		});
+		return registeredUsers;
+	}
+
+	/**
+	 * Goes through firebase and checks for accepted requests to turn them into users and add back to firebase
+	 * Deletes accepted requests
+	 * Might move to another class
+	 */
+	public void updateToUser() {
+		mDatabase.addValueEventListener(new ValueEventListener() {
+
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
+					AccountRegistrationRequest request = requestSnapshot.getValue(AccountRegistrationRequest.class);
+					//should we do null check?
+					if(request.getStatus()== AccountRegistrationRequestStatus.APPROVED) {
+						User user;
+						if(request.getOrganizationName()==null) {
+							user = new Attendee(request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword(), request.getAddress(), request.getPhoneNumber());
+						}else {
+							user = new Organizer(request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword(), request.getAddress(), request.getPhoneNumber(), request.getOrganizationName());
+						}
+						// generating a unique key for the request
+						String userID = mDatabase.push().getKey();
+
+						// setting the requestID key's value to the request
+						mDatabase.child(userID).setValue(user);
+
+						//TODO: delete accepted request
+					}
+				}
+			}
+
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+				//Toast.makeText(RegisterActivity.this, "Failed to read request: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+				//the toast here was being activated too early. Need to figure out why and fix it. @TODO
+			}
+		});
 	}
 
     /**
@@ -61,7 +138,7 @@ public class UserRepository {
         }
         return false;
     }
-	
+
 	/**
      * A method to see if an email exists in the list of all registered users.
      * @param email the email to be checked
@@ -78,7 +155,7 @@ public class UserRepository {
 		}
 		return false;
 	}
-	
+
 	/**
      * A method to return the type of user of the email provided (Administrator, Attendee, or Organizer).
      * @param email the email whose user type is to be returned
