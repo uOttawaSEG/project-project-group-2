@@ -1,6 +1,6 @@
 package ca.seg2105project.model.Testers;
 
-import ca.seg2105project.model.UserRepository;
+import ca.seg2105project.model.repositories.UserRepository;
 import ca.seg2105project.model.userClasses.Administrator;
 import ca.seg2105project.model.userClasses.Attendee;
 import ca.seg2105project.model.userClasses.Organizer;

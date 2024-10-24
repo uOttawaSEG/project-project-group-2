@@ -12,8 +12,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import ca.seg2105project.model.LoginSessionRepository;
-import ca.seg2105project.model.UserRepository;
+import ca.seg2105project.model.repositories.LoginSessionRepository;
+import ca.seg2105project.model.repositories.UserRepository;
 
 public class WelcomeActivity extends AppCompatActivity {
 

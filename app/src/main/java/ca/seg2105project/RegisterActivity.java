@@ -1,6 +1,5 @@
 package ca.seg2105project;
 
-import android.accounts.Account;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -9,10 +8,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import java.util.List;
-import java.util.ArrayList;
-import androidx.annotation.NonNull;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,20 +18,14 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-import ca.seg2105project.model.UserRepository;
+import ca.seg2105project.model.repositories.AccountRegistrationRequestRepository;
+import ca.seg2105project.model.repositories.UserRepository;
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
-import ca.seg2105project.model.userClasses.Attendee;
-import ca.seg2105project.model.userClasses.Organizer;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private UserRepository userRepository;
+    private AccountRegistrationRequestRepository accountRegistrationRequestRepository;
 
     private EditText firstNameEditText;
     private EditText lastNameEditText;
@@ -48,12 +37,6 @@ public class RegisterActivity extends AppCompatActivity {
     private CheckBox isOrganizationCheckBox;
     private TextInputLayout organizationEditTextLayout;
     private EditText organizationEditText;
-
-    // List to hold requests
-    private List<AccountRegistrationRequest> requestList;
-	
-	//firebase database reference
-	private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,40 +62,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         EAMSApplication eamsApplication = (EAMSApplication) getApplication();
         userRepository = eamsApplication.getUserRepository();
+        accountRegistrationRequestRepository = eamsApplication.getAccountRegistrationRequestRepository();
 
         setCreateAccountButtonBehaviour();
         setIsOrganizationCheckBoxBehaviour();
-		
-		// Initializing Firebase database reference
-        mDatabase = FirebaseDatabase.getInstance().getReference("requests");
-
-        //intialize request list
-        requestList = new ArrayList<>();
-
-        readRequests(); //initializes requestList
-    }
-
-
-    // Method to read requests from Firebase and return them as a List
-    public List<AccountRegistrationRequest> readRequests() {
-        mDatabase.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                requestList.clear();
-                for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
-                    AccountRegistrationRequest request = requestSnapshot.getValue(AccountRegistrationRequest.class);
-                    requestList.add(request);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                //Toast.makeText(RegisterActivity.this, "Failed to read request: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                //the toast here was being activated too early. Need to figure out why and fix it. @TODO
-            }
-        });
-        return requestList;
     }
 
     private void setCreateAccountButtonBehaviour() {
@@ -167,34 +120,16 @@ public class RegisterActivity extends AppCompatActivity {
                                         Toast.makeText(this, "If you're an event organizer, " +
                                                 "we need an organization name", Toast.LENGTH_LONG).show();
                                     } else {
-                                        // creating a new request
+                                        // Make a new Organizer account registration request
                                         AccountRegistrationRequest newOrganizerRequest = new AccountRegistrationRequest(enteredFirstName, enteredLastName, enteredEmail, enteredPassword, enteredAddress, enteredPhoneNumber, enteredOrganizationName);
 
-                                        // generating a unique key for the request
-                                        String requestID = mDatabase.push().getKey();
-
-                                        // setting the requestID key's value to the request
-                                        mDatabase.child(requestID).setValue(newOrganizerRequest);
-
-                                        //TODO make a toast to announce to the user that their request has been processed
-
-                                        // Successful registration, send user back to login screen
-                                        launchLoginActivityAndFinishRegistration();
+                                        submitRequestAndNavigateOnResult(newOrganizerRequest);
                                     }
                                 } else {
-                                    // User is requesting to be an Attendee
+                                    // Make a new Attendee account registration request
                                     AccountRegistrationRequest newAttendeeRequest = new AccountRegistrationRequest(enteredFirstName, enteredLastName, enteredEmail, enteredPassword, enteredAddress, enteredPhoneNumber, null);
 
-                                    // generating a unique key for the request
-                                    String requestID = mDatabase.push().getKey();
-
-                                    // setting the requestID key's value to the request
-                                    mDatabase.child(requestID).setValue(newAttendeeRequest);
-
-                                    //TODO make a toast to announce to the user that their request has been processed
-
-                                    // Successful registration, send user back to login screen
-                                    launchLoginActivityAndFinishRegistration();
+                                    submitRequestAndNavigateOnResult(newAttendeeRequest);
                                 }
                             }
                         }
@@ -202,6 +137,32 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * Attempts to add account registration request to Firebase. If successfully added, user sees
+     * toast saying their request has been submitted and that they should try logging in to see updates on request.
+     * If unsuccessfully added, the user sees toast informing them that we were unable to submit their request.
+     * In this case the user stays in this activity and they're able to press the register button again.
+     * @param newRequest the request that will be attempted to be added to Firebase.
+     */
+    private void submitRequestAndNavigateOnResult(AccountRegistrationRequest newRequest) {
+        boolean requestAddedSuccessfully = accountRegistrationRequestRepository.addNewAccountRegistrationRequest(newRequest);
+        if (requestAddedSuccessfully) {
+            Toast.makeText(this, "Registration request received, please try logging in to see request status",
+                    Toast.LENGTH_LONG).show();
+            Intent launchLoginActivityIntent = new Intent(this, LoginActivity.class);
+
+            // Make sure we re-use the instance of LoginActivity that brought the user to this register
+            // activity
+            launchLoginActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            startActivity(launchLoginActivityIntent);
+            finish();
+        } else {
+            Toast.makeText(this, "Unfortunately we weren't able to submit your registration request, please try again",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
     private void setIsOrganizationCheckBoxBehaviour() {
@@ -212,18 +173,5 @@ public class RegisterActivity extends AppCompatActivity {
                 organizationEditTextLayout.setVisibility(View.INVISIBLE);
             }
         });
-    }
-
-    private void launchLoginActivityAndFinishRegistration() {
-        Toast.makeText(this, "Successfully registered, please login",
-                Toast.LENGTH_LONG).show();
-        Intent launchLoginActivityIntent = new Intent(this, LoginActivity.class);
-
-        // Make sure we re-use the instance of LoginActivity that brought the user to this register
-        // activity
-        launchLoginActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        startActivity(launchLoginActivityIntent);
-        finish();
     }
 }

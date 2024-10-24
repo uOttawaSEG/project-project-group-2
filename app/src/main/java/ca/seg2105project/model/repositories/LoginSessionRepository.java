@@ -1,4 +1,4 @@
-package ca.seg2105project.model;
+package ca.seg2105project.model.repositories;
 
 import android.content.Context;
 import android.content.SharedPreferences;
