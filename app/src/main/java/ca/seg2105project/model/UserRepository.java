@@ -3,7 +3,6 @@ package ca.seg2105project.model;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
@@ -26,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
  */
 public class UserRepository {
 
-	private final List<User> registeredUsers;
+	private final ArrayList<User> registeredUsers;
 	//firebase database reference
 	private DatabaseReference mDatabase;
 
@@ -35,10 +34,9 @@ public class UserRepository {
 
 		//Add admin
 		registeredUsers.add(new Administrator("admin@gmail.com", "adminpwd"));
-
 	}
 
-	public List<User> readUsers() {
+	public ArrayList<User> readUsers() {
 		mDatabase.addValueEventListener(new ValueEventListener() {
 
 			@Override
@@ -71,7 +69,7 @@ public class UserRepository {
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
 					AccountRegistrationRequest request = requestSnapshot.getValue(AccountRegistrationRequest.class);
-					//should we do null check?
+
 					if(request.getStatus()== AccountRegistrationRequestStatus.APPROVED) {
 						User user;
 						if(request.getOrganizationName()==null) {
@@ -82,7 +80,7 @@ public class UserRepository {
 						// generating a unique key for the request
 						String userID = mDatabase.push().getKey();
 
-						// setting the requestID key's value to the request
+						// setting the userID key's value to the user
 						mDatabase.child(userID).setValue(user);
 
 						//TODO: delete accepted request
@@ -104,7 +102,7 @@ public class UserRepository {
      * In an even later implementation likely in deliverable 2 this will access the database.
      * @return a full list of all registered users
      */
-    public List<User> getAllRegisteredUsers() {
+    public ArrayList<User> getAllRegisteredUsers() {
 		return registeredUsers;
     }
 
@@ -128,7 +126,7 @@ public class UserRepository {
      * @return true if the email-password pair was found in the list of registered users, false if not found
      */
     public boolean authenticate(String email, String password) { //O(n), where n = # of registered users
-        List<User> users = getAllRegisteredUsers();
+        ArrayList<User> users = getAllRegisteredUsers();
         int n = users.size();
         for (int x = 0; x < n; x++) {
             User u = users.get(x);
@@ -145,7 +143,7 @@ public class UserRepository {
      * @return true if the email was found in the list of users, false if not found
      */
 	public boolean isEmailRegistered(String email) { //O(n), where n = # of registered users
-		List<User> users = getAllRegisteredUsers();
+		ArrayList<User> users = getAllRegisteredUsers();
 		int n = users.size();
 		for (int x = 0; x < n; x++) {
 			User u = users.get(x);
@@ -162,7 +160,7 @@ public class UserRepository {
      * @return a string representation of the user type of the email provided, null if the email is not found
      */
 	public String getUserTypeByEmail(String email) {
-		List<User> users = getAllRegisteredUsers();
+		ArrayList<User> users = getAllRegisteredUsers();
 		int n = users.size();
 		Administrator adm = new Administrator(null, null);
 		Attendee att = new Attendee(null, null, null, null, null, null);
