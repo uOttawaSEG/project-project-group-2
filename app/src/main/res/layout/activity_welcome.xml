@@ -23,12 +23,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/admin_inbox_btn"
+        android:id="@+id/admin_pending_requests_inbox_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/welcome_message_tv"
         android:backgroundTint="@color/white"
-        android:text="Go to request inbox"
+        android:text="Go to account request inbox"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"

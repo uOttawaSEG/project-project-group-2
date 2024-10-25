@@ -38,17 +38,16 @@ public class WelcomeActivity extends AppCompatActivity {
                 userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail());
         welcomeMessageTV.setText(welcomeMessage);
 
-        // Set up 'go to request inbox' button if the user is admin
+        // Set up 'go to account request inbox' button if the user is admin
         if (userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail()).equals("Administrator")) {
-            Button goToRequestInboxBtn = findViewById(R.id.admin_inbox_btn);
+            Button goToRequestInboxBtn = findViewById(R.id.admin_pending_requests_inbox_btn);
             goToRequestInboxBtn.setVisibility(View.VISIBLE);
             goToRequestInboxBtn.setOnClickListener(v -> {
                 Intent launchPendingRequestsActivityIntent = new Intent(this, PendingRequestsActivity.class);
-
-                // Make sure that we re-use existing pending request activity
-                launchPendingRequestsActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
                 startActivity(launchPendingRequestsActivityIntent);
+
+                // User shouldn't be able to return to this welcome activity
+                finish();
             });
         }
 

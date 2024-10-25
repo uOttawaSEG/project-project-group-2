@@ -3,6 +3,7 @@ package ca.seg2105project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
@@ -10,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import ca.seg2105project.model.repositories.LoginSessionRepository;
 
 public class RejectedRequestsActivity extends AppCompatActivity {
 
@@ -27,11 +30,31 @@ public class RejectedRequestsActivity extends AppCompatActivity {
         Button seePendingRequestsBtn = findViewById(R.id.see_pending_requests_btn);
         seePendingRequestsBtn.setOnClickListener(v -> {
             Intent launchPendingRequestsActivity = new Intent(this, PendingRequestsActivity.class);
-
-            // make sure to re-use any existing instance of pending requests activity
-            launchPendingRequestsActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
             startActivity(launchPendingRequestsActivity);
+
+            // Close this instance of RejectedRequestsActivity in case user logs off. They shouldn't be able to back-navigate
+            // to this activity
+            finish();
+        });
+
+        EAMSApplication eamsApplication = (EAMSApplication) getApplication();
+        LoginSessionRepository loginSessionRepository = eamsApplication.getLoginSessionRepository();
+
+        Button logoffBtn = findViewById(R.id.Logout_BTN);
+        logoffBtn.setOnClickListener(v -> {
+            // Removes email from our shared preferences
+            loginSessionRepository.endLoginSession();
+
+            // Let user know they are logged out
+            Toast.makeText(getApplicationContext(), "Logged out successfully",
+                    Toast.LENGTH_LONG).show();
+
+            // Sends user back to login screen
+            Intent launchLoginActivityIntent = new Intent(this, LoginActivity.class);
+            startActivity(launchLoginActivityIntent);
+
+            // User shouldn't be able to return to this instance of RejectedRequestsActivity
+            finish();
         });
     }
 }
