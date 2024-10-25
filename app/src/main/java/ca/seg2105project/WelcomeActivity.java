@@ -2,6 +2,7 @@ package ca.seg2105project;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,19 @@ public class WelcomeActivity extends AppCompatActivity {
         String welcomeMessage = "Welcome! You are logged in as " +
                 userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail());
         welcomeMessageTV.setText(welcomeMessage);
+
+        // Set up 'go to request inbox' button if the user is admin
+        if (userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail()).equals("Administrator")) {
+            Button goToRequestInboxBtn = findViewById(R.id.admin_inbox_btn);
+            goToRequestInboxBtn.setVisibility(View.VISIBLE);
+            goToRequestInboxBtn.setOnClickListener(v -> {
+                Intent launchPendingRequestsActivity = new Intent(this, InboxReqActivity.class);
+
+                // Make sure that we re-use existing pending request activity
+                launchPendingRequestsActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(launchPendingRequestsActivity);
+            });
+        }
 
         Button logoutButton = findViewById(R.id.Logout_BTN);
         logoutButton.setOnClickListener(v -> {

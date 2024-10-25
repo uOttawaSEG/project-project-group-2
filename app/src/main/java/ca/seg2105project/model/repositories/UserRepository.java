@@ -19,6 +19,9 @@ public class UserRepository {
 	public UserRepository() {
 		registeredUsers = new ArrayList<>();
 		registeredUsers.add(new Administrator("admin@gmail.com", "adminpwd"));
+		registeredUsers.add(new Attendee("Isaac", "Jensen-Large",
+				"jensenlarge.isaac@gmail.com", "awesomepassword",
+				"54 Awesome St.", "6139835504"));
 	}
 
     /**
