@@ -43,11 +43,12 @@ public class WelcomeActivity extends AppCompatActivity {
             Button goToRequestInboxBtn = findViewById(R.id.admin_inbox_btn);
             goToRequestInboxBtn.setVisibility(View.VISIBLE);
             goToRequestInboxBtn.setOnClickListener(v -> {
-                Intent launchPendingRequestsActivity = new Intent(this, InboxReqActivity.class);
+                Intent launchPendingRequestsActivityIntent = new Intent(this, PendingRequestsActivity.class);
 
                 // Make sure that we re-use existing pending request activity
-                launchPendingRequestsActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(launchPendingRequestsActivity);
+                launchPendingRequestsActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                startActivity(launchPendingRequestsActivityIntent);
             });
         }
 
