@@ -45,9 +45,6 @@ public class WelcomeActivity extends AppCompatActivity {
             goToRequestInboxBtn.setOnClickListener(v -> {
                 Intent launchPendingRequestsActivityIntent = new Intent(this, PendingRequestsActivity.class);
                 startActivity(launchPendingRequestsActivityIntent);
-
-                // User shouldn't be able to return to this welcome activity
-                finish();
             });
         }
 
