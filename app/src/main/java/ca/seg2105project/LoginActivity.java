@@ -60,8 +60,6 @@ public class LoginActivity extends AppCompatActivity {
             email = String.valueOf(editEmail.getText());
             password = String.valueOf(editPassword.getText());
 
-            AccountRegistrationRequestRepository d = new AccountRegistrationRequestRepository();
-            d.updateRequestStatus(email, AccountRegistrationRequestStatus.APPROVED);
             // TODO: check for empty email or password and check email format here
             UserRepository userRepository = eamsApplication.getUserRepository();
 
@@ -74,7 +72,6 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "No account exists for that email or " +
                         "password is incorrect", Toast.LENGTH_LONG).show();
             }
-
 
         });
     }
