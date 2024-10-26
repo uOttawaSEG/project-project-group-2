@@ -13,8 +13,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
+import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
 import ca.seg2105project.model.repositories.UserRepository;
+import ca.seg2105project.model.repositories.AccountRegistrationRequestRepository;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -57,6 +60,8 @@ public class LoginActivity extends AppCompatActivity {
             email = String.valueOf(editEmail.getText());
             password = String.valueOf(editPassword.getText());
 
+            AccountRegistrationRequestRepository d = new AccountRegistrationRequestRepository();
+            d.updateRequestStatus(email, AccountRegistrationRequestStatus.APPROVED);
             // TODO: check for empty email or password and check email format here
             UserRepository userRepository = eamsApplication.getUserRepository();
 
@@ -69,6 +74,8 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "No account exists for that email or " +
                         "password is incorrect", Toast.LENGTH_LONG).show();
             }
+
+
         });
     }
 

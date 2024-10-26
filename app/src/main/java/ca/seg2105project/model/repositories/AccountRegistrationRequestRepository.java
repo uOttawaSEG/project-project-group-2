@@ -8,12 +8,17 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
+import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
+import ca.seg2105project.model.userClasses.Attendee;
+import ca.seg2105project.model.userClasses.Organizer;
+import ca.seg2105project.model.userClasses.User;
 
 public class AccountRegistrationRequestRepository {
 
@@ -68,5 +73,68 @@ public class AccountRegistrationRequestRepository {
         // Add the request to the requests section
         mDatabase.child(requestID).setValue(newRequest);
         return true;
+    }
+
+    /**
+     * Check if new status is approved, if so then retrieve information from the request and remove from firebase and create
+     * new user with the information retrieved. If not approved change status to whatever new status is.
+     */
+    public void updateRequestStatus(String email, AccountRegistrationRequestStatus newStatus){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("requests");
+        Query emailQuery = reference.orderByChild("email").equalTo(email);
+        emailQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    DataSnapshot snapshot = dataSnapshot.getChildren().iterator().next();
+                    String key = snapshot.getKey();
+                    AccountRegistrationRequest request = snapshot.getValue(AccountRegistrationRequest.class);
+                    if(newStatus == AccountRegistrationRequestStatus.APPROVED) {
+                        String userID = FirebaseDatabase.getInstance().getReference("users").push().getKey();
+                        User user;
+                        if(request.getOrganizationName() == null) {
+                            user = new Attendee(request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword(), request.getAddress(), request.getPhoneNumber());
+                        }
+                        else {
+                            user = new Organizer(request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword(), request.getAddress(), request.getPhoneNumber(), request.getOrganizationName());
+                        }
+                        FirebaseDatabase.getInstance().getReference("users").child(userID).setValue(user);
+                        deleteRequest(email);
+                    }
+                    else{
+                        request.setStatus(AccountRegistrationRequestStatus.REJECTED);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    /**
+     * Removes the request associated with a specific email from firebase
+     */
+    public static void deleteRequest(String email){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("requests");
+        Query emailQuery = reference.orderByChild("email").equalTo(email);
+        emailQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        String key = snapshot.getKey();
+                        reference.child(key).removeValue()
+                                .addOnSuccessListener(v -> Log.d("Firebase", "Succesfully deleted request from email: " + email))
+                                .addOnFailureListener(e -> Log.e("Firebase", "Error trying to delete request from email: " + email));
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
