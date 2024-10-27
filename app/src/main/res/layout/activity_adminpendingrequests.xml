@@ -49,8 +49,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pendingRV"
-        android:layout_width="446dp"
-        android:layout_height="899dp"
+        android:layout_width="445dp"
+        android:layout_height="775dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"

@@ -72,12 +72,12 @@ public class PendingRequestsActivity extends AppCompatActivity {
         requestList.add(new AccountRegistrationRequest("Courtney", "Topp","counrtneytopp@gmail.com","poggers", "122 cool street", "1234567891", null));
         requestList.add(new AccountRegistrationRequest("Freddy", "Fazbear","freddyfazzbear@gmail.com","poggers", "121 cool street", "1234567892", null));
         requestList.add(new AccountRegistrationRequest("Michael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
-        requestList.add(new AccountRegistrationRequest("Michael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
-        requestList.add(new AccountRegistrationRequest("Michael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
-        requestList.add(new AccountRegistrationRequest("Michael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
-        requestList.add(new AccountRegistrationRequest("Michael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
-        requestList.add(new AccountRegistrationRequest("Michael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
-        requestList.add(new AccountRegistrationRequest("Michael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
+        requestList.add(new AccountRegistrationRequest("Fichael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
+        requestList.add(new AccountRegistrationRequest("Yichael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
+        requestList.add(new AccountRegistrationRequest("Pichael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
+        requestList.add(new AccountRegistrationRequest("Kichael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
+        requestList.add(new AccountRegistrationRequest("Cichael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
+        requestList.add(new AccountRegistrationRequest("Wichael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
 
         recyclerView.setAdapter(new AdminAdapter(requestList, getApplicationContext()));
     }
