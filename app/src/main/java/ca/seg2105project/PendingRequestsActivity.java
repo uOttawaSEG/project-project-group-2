@@ -2,54 +2,46 @@ package ca.seg2105project;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import ca.seg2105project.model.repositories.LoginSessionRepository;
-import ca.seg2105project.model.repositories.UserRepository;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class PendingRequestsActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_welcome);
+        setContentView(R.layout.activity_adminpendingrequests);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        Button seeRejectedRequestsBtn = findViewById(R.id.see_rejected_requests_btn);
+        seeRejectedRequestsBtn.setOnClickListener(v -> {
+            Intent launchRejectedRequestsActivityIntent = new Intent(this, RejectedRequestsActivity.class);
+            startActivity(launchRejectedRequestsActivityIntent);
+
+            // Close this instance of PendingRequestsActivity in case user logs off. They shouldn't be able to back-navigate
+            // to this activity
+            finish();
+        });
+
         EAMSApplication eamsApplication = (EAMSApplication) getApplication();
         LoginSessionRepository loginSessionRepository = eamsApplication.getLoginSessionRepository();
-        UserRepository userRepository = eamsApplication.getUserRepository();
 
-        TextView welcomeMessageTV = findViewById(R.id.welcome_message_tv);
-        String welcomeMessage = "Welcome! You are logged in as " +
-                userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail());
-        welcomeMessageTV.setText(welcomeMessage);
-
-        // Set up 'go to account request inbox' button if the user is admin
-        if (userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail()).equals("Administrator")) {
-            Button goToRequestInboxBtn = findViewById(R.id.admin_pending_requests_inbox_btn);
-            goToRequestInboxBtn.setVisibility(View.VISIBLE);
-            goToRequestInboxBtn.setOnClickListener(v -> {
-                Intent launchPendingRequestsActivityIntent = new Intent(this, PendingRequestsActivity.class);
-                startActivity(launchPendingRequestsActivityIntent);
-            });
-        }
-
-        Button logoutButton = findViewById(R.id.Logout_BTN);
-        logoutButton.setOnClickListener(v -> {
+        Button logoffBtn = findViewById(R.id.Logout_BTN);
+        logoffBtn.setOnClickListener(v -> {
             // Removes email from our shared preferences
             loginSessionRepository.endLoginSession();
 
@@ -61,7 +53,8 @@ public class WelcomeActivity extends AppCompatActivity {
             Intent launchLoginActivityIntent = new Intent(this, LoginActivity.class);
             startActivity(launchLoginActivityIntent);
 
-            // User shouldn't be able to return to this instance of WelcomeActivity
+            // User shouldn't be able to return to this instance of PendingRequestsActivity
             finish();
         });
-    }}
+    }
+}

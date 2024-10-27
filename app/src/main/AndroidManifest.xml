@@ -24,6 +24,8 @@
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".WelcomeActivity" />
+        <activity android:name=".PendingRequestsActivity" />
+        <activity android:name=".RejectedRequestsActivity" />
     </application>
 
 </manifest>
