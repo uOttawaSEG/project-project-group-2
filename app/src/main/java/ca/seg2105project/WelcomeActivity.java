@@ -30,7 +30,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         EAMSApplication eamsApplication = (EAMSApplication) getApplication();
         LoginSessionRepository loginSessionRepository = eamsApplication.getLoginSessionRepository();
-        UserRepository userRepository = eamsApplication.getUserRepository();
+        UserRepository userRepository = eamsApplication.getUserRepository(); 
 
         TextView welcomeMessageTV = findViewById(R.id.welcome_message_tv);
         String welcomeMessage = "Welcome! You are logged in as " +

@@ -32,8 +32,8 @@ public class UserRepository {
 	public UserRepository() {
 		registeredUsers = new ArrayList<>();
 
-		//Add admin
-		registeredUsers.add(new Administrator("admin@gmail.com", "adminpwd"));
+		//Add admin - WILL GET CLEARED IN READUSERS() SO NO USE, Will add account in actual firebase
+//		registeredUsers.add(new Administrator("admin@gmail.com", "adminpwd"));
 	}
 
 	public ArrayList<User> readUsers() {
@@ -75,7 +75,12 @@ public class UserRepository {
 						if(request.getOrganizationName()==null) {
 							user = new Attendee(request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword(), request.getAddress(), request.getPhoneNumber());
 						}else {
-							user = new Organizer(request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword(), request.getAddress(), request.getPhoneNumber(), request.getOrganizationName());
+							if(request.getFirstName()==null) {
+								//Just need to do this once to get admin to become part of the users in firebase. Delete once it is.
+								user = new Administrator(request.getEmail(), request.getPassword());
+							} else{
+								user = new Organizer(request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword(), request.getAddress(), request.getPhoneNumber(), request.getOrganizationName());
+							}
 						}
 						// generating a unique key for the request
 						String userID = mDatabase.push().getKey();
@@ -103,6 +108,7 @@ public class UserRepository {
      * @return a full list of all registered users
      */
     public ArrayList<User> getAllRegisteredUsers() {
+		readUsers(); // might make time complexity too big???
 		return registeredUsers;
     }
 
@@ -126,7 +132,9 @@ public class UserRepository {
      * @return true if the email-password pair was found in the list of registered users, false if not found
      */
     public boolean authenticate(String email, String password) { //O(n), where n = # of registered users
-        ArrayList<User> users = getAllRegisteredUsers();
+		//Testing
+		updateToUser();
+		ArrayList<User> users = getAllRegisteredUsers();
         int n = users.size();
         for (int x = 0; x < n; x++) {
             User u = users.get(x);
