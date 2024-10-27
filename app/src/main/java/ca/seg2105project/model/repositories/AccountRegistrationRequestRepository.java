@@ -80,8 +80,7 @@ public class AccountRegistrationRequestRepository {
      * new user with the information retrieved. If not approved change status to whatever new status is.
      */
     public void updateRequestStatus(String email, AccountRegistrationRequestStatus newStatus){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("requests");
-        Query emailQuery = reference.orderByChild("email").equalTo(email);
+        Query emailQuery = mDatabase.orderByChild("email").equalTo(email);
         emailQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -107,8 +106,8 @@ public class AccountRegistrationRequestRepository {
                 }
             }
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("Firebase Error", "msg: " + databaseError.getMessage() + "details: " + databaseError.getDetails());
             }
         });
     }
@@ -132,8 +131,8 @@ public class AccountRegistrationRequestRepository {
                 }
             }
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("Firebase Error", "msg: " + databaseError.getMessage() + "details: " + databaseError.getDetails());
             }
         });
     }
