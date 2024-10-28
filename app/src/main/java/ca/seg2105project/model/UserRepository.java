@@ -33,7 +33,7 @@ public class UserRepository {
 
 	public UserRepository() {
 		//See if any of the requests on fb have been approved, if so, then make them a user and remove that request
-		//updateToUser();
+		updateToUser();
 
 		//initialize the list of users, then update from fb
 		registeredUsers = new ArrayList<User>();
