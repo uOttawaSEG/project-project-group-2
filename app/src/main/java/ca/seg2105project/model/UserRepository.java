@@ -1,5 +1,7 @@
 package ca.seg2105project.model;
 
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -32,16 +34,16 @@ public class UserRepository {
 	private DatabaseReference requestsDatabase;
 
 	public UserRepository() {
-		//See if any of the requests on fb have been approved, if so, then make them a user and remove that request
-		updateToUser();
+		// Initializing Firebase database references
+		usersDatabase = FirebaseDatabase.getInstance().getReference("users");
+		requestsDatabase = FirebaseDatabase.getInstance().getReference("requests");
 
 		//initialize the list of users, then update from fb
 		registeredUsers = new ArrayList<User>();
 		readUsers();
 
-		// Initializing Firebase database references
-		usersDatabase = FirebaseDatabase.getInstance().getReference("users");
-		requestsDatabase = FirebaseDatabase.getInstance().getReference("requests");
+		//See if any of the requests on fb have been approved, if so, then make them a user and remove that request
+		updateToUser();
 	}
 
 	/**
@@ -55,8 +57,26 @@ public class UserRepository {
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				registeredUsers.clear();
 				for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
-					User user = requestSnapshot.getValue(User.class);
-					registeredUsers.add(user);
+					//So the most intuitive thing in order to read Users from fb would be to getValue(User.class) but that won't work since that does two steps:
+					//step1: instantiates an empty User and then step2: assigns the previously instantiated user to the one being read from fb
+					//This way won't work since User is abstract and thus uninstantiable. So I though of a work around:
+					//Do step1 and step2 but to get the user from fb as an Organizer object (since Organizer has all the fields that a user can ever have).
+					//When we get this Organizer object, its fields will be either a valid string or null.
+					//If the firstName is null, clearly the User acquired from fb is an Administrator. If the organizationName is null, then User is an Attendee. Otherwise, the User can be kept as an Organizer object.
+					//Once we determine what type of User has been stored in that Organizer object, we can create the respective type of User and call the getter methdos on that object to fill in the user's fields.
+					//This is obviously a very messy work around but the alternative is to make User not abstract, which goes against our previously agreed upon conventions.
+					//Kunala Deotare takes ownership of this work around, dated 27 October 2024. Please contact me at kdeot090@uottawa.ca to ask any questions.
+
+					Organizer user = requestSnapshot.getValue(Organizer.class);
+					if (user.getFirstName() == null) { //user must really be an Administrator
+						Administrator adm = new Administrator(user.getEmail(), user.getPassword());
+						registeredUsers.add(adm);
+					} else if (user.getOrganizationName() == null) { //user must really be an Attendee
+						Attendee att = new Attendee(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getAddress(), user.getPhoneNumber());
+						registeredUsers.add(att);
+					} else { //user must actually be an Organizer
+						registeredUsers.add(user);
+					}
 				}
 			}
 

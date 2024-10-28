@@ -24,6 +24,11 @@ public class Organizer extends User {
 		super(firstName, lastName, emailAddress, accountPassword, address, phoneNumber);
 		this.organizationName = organizationName;
 	}
+
+	/**
+	 * A public empty constructor for Organizer in order to be able to read User objects from fb. Please refer to the comment wall in UserRepository.java in the method readUsers() to know more.
+	 */
+	public Organizer() {}
 	
 	/**
 	* A getter for organizationName.
