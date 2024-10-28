@@ -97,10 +97,9 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/address"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="117dp"
-        android:layout_marginBottom="18dp"
         android:backgroundTint="@color/green"
         android:text="Approve"
         android:textColor="@color/black" />
@@ -109,10 +108,9 @@
         android:id="@+id/button3"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/address"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
         android:layout_marginEnd="13dp"
-        android:layout_marginBottom="18dp"
         android:backgroundTint="@color/red"
         android:text="Reject"
         android:textColor="@color/black" />
