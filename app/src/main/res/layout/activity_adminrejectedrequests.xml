@@ -7,7 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    android:orientation="horizontal"
     tools:context=".RejectedRequestsActivity"
     tools:ignore="ExtraText">
 
@@ -49,17 +48,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rejectedRV"
-        android:layout_width="445dp"
-        android:layout_height="775dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="96dp"
+        android:translationZ="-1dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/see_pending_requests_btn"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@id/Logout_BTN"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
