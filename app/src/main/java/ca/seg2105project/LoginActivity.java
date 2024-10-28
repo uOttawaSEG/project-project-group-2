@@ -13,11 +13,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
-import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
 import ca.seg2105project.model.repositories.UserRepository;
-import ca.seg2105project.model.repositories.AccountRegistrationRequestRepository;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -72,7 +69,6 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "No account exists for that email or " +
                         "password is incorrect", Toast.LENGTH_LONG).show();
             }
-
         });
     }
 
