@@ -41,9 +41,6 @@ public class UserRepository {
 		//initialize the list of users, then update from fb
 		registeredUsers = new ArrayList<User>();
 		readUsers();
-
-		//See if any of the requests on fb have been approved, if so, then make them a user and remove that request
-		updateToUser();
 	}
 
 	/**
@@ -86,49 +83,6 @@ public class UserRepository {
 		return registeredUsers;
 	}
 
-	/**
-	 * Goes through firebase and checks for accepted requests to turn them into users and add back to firebase
-	 * Deletes accepted requests
-	 * Might move to another class
-	 */
-	public void updateToUser() {
-		requestsDatabase.addValueEventListener(new ValueEventListener() {
-
-			@Override
-			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-				for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
-					AccountRegistrationRequest request = requestSnapshot.getValue(AccountRegistrationRequest.class);
-
-					if (request.getStatus() == AccountRegistrationRequestStatus.APPROVED) {
-						User newUser;
-						if (request.getOrganizationName() == null) {
-							newUser = new Attendee (request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword(), request.getAddress(), request.getPhoneNumber());
-						} else { //request.getOrganizationName() != null
-							newUser = new Organizer(request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword(), request.getAddress(), request.getPhoneNumber(), request.getOrganizationName());
-						}
-
-						// generating a unique key for the user
-						String userID = usersDatabase.push().getKey();
-
-						// setting the userID key's value to the user
-						usersDatabase.child(userID).setValue(newUser);
-
-						// deleting the accepted request from fb
-						String requestID_to_be_removed = requestSnapshot.getKey();
-						DatabaseReference temp = FirebaseDatabase.getInstance().getReference("requests").child(requestID_to_be_removed);
-						temp.removeValue();
-					}
-				}
-			}
-
-			@Override
-			public void onCancelled(@NonNull DatabaseError databaseError) {}
-		});
-
-		//need to update the list in memory
-		readUsers();
-	}
-
     /**
      * In later implementations of this class this will actually return a List of Users that
      * have been added in the course of the app running.
@@ -167,8 +121,6 @@ public class UserRepository {
      * @return true if the email-password pair was found in the list of registered users, false if not found
      */
     public boolean authenticate(String email, String password) { //O(n), where n = # of registered users
-		//Testing
-		updateToUser();
 		ArrayList<User> users = getAllRegisteredUsers();
         int n = users.size();
         for (int x = 0; x < n; x++) {
