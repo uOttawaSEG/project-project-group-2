@@ -12,6 +12,7 @@ import ca.seg2105project.model.userClasses.User;
 import ca.seg2105project.model.userClasses.Organizer;
 
 
+import com.google.firebase.Firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,18 +27,29 @@ import com.google.firebase.database.ValueEventListener;
 public class UserRepository {
 
 	private final ArrayList<User> registeredUsers;
-	//firebase database reference
-	private DatabaseReference mDatabase;
+	//firebase database references
+	private DatabaseReference usersDatabase;
+	private DatabaseReference requestsDatabase;
 
 	public UserRepository() {
-		registeredUsers = new ArrayList<>();
+		//See if any of the requests on fb have been approved, if so, then make them a user and remove that request
+		//updateToUser();
 
-		//Add admin - WILL GET CLEARED IN READUSERS() SO NO USE, Will add account in actual firebase
-//		registeredUsers.add(new Administrator("admin@gmail.com", "adminpwd"));
+		//initialize the list of users, then update from fb
+		registeredUsers = new ArrayList<User>();
+		readUsers();
+
+		// Initializing Firebase database references
+		usersDatabase = FirebaseDatabase.getInstance().getReference("users");
+		requestsDatabase = FirebaseDatabase.getInstance().getReference("requests");
 	}
 
+	/**
+	 * A method to update the final list of users "registeredUsers." Does so 'in-place.' Takes its updated data from the firebase database. Furthermore, returns the updated list of users.
+	 * @return the updated list of users acquired from fb
+	 */
 	public ArrayList<User> readUsers() {
-		mDatabase.addValueEventListener(new ValueEventListener() {
+		usersDatabase.addValueEventListener(new ValueEventListener() {
 
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -49,10 +61,7 @@ public class UserRepository {
 			}
 
 			@Override
-			public void onCancelled(@NonNull DatabaseError databaseError) {
-				//Toast.makeText(RegisterActivity.this, "Failed to read request: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-				//the toast here was being activated too early. Need to figure out why and fix it. @TODO
-			}
+			public void onCancelled(@NonNull DatabaseError databaseError) {}
 		});
 		return registeredUsers;
 	}
@@ -63,42 +72,41 @@ public class UserRepository {
 	 * Might move to another class
 	 */
 	public void updateToUser() {
-		mDatabase.addValueEventListener(new ValueEventListener() {
+		requestsDatabase.addValueEventListener(new ValueEventListener() {
 
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
 					AccountRegistrationRequest request = requestSnapshot.getValue(AccountRegistrationRequest.class);
 
-					if(request.getStatus()== AccountRegistrationRequestStatus.APPROVED) {
-						User user;
-						if(request.getOrganizationName()==null) {
-							user = new Attendee(request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword(), request.getAddress(), request.getPhoneNumber());
-						}else {
-							if(request.getFirstName()==null) {
-								//Just need to do this once to get admin to become part of the users in firebase. Delete once it is.
-								user = new Administrator(request.getEmail(), request.getPassword());
-							} else{
-								user = new Organizer(request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword(), request.getAddress(), request.getPhoneNumber(), request.getOrganizationName());
-							}
+					if (request.getStatus() == AccountRegistrationRequestStatus.APPROVED) {
+						User newUser;
+						if (request.getOrganizationName() == null) {
+							newUser = new Attendee (request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword(), request.getAddress(), request.getPhoneNumber());
+						} else { //request.getOrganizationName() != null
+							newUser = new Organizer(request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword(), request.getAddress(), request.getPhoneNumber(), request.getOrganizationName());
 						}
-						// generating a unique key for the request
-						String userID = mDatabase.push().getKey();
+
+						// generating a unique key for the user
+						String userID = usersDatabase.push().getKey();
 
 						// setting the userID key's value to the user
-						mDatabase.child(userID).setValue(user);
+						usersDatabase.child(userID).setValue(newUser);
 
-						//TODO: delete accepted request
+						// deleting the accepted request from fb
+						String requestID_to_be_removed = requestSnapshot.getKey();
+						DatabaseReference temp = FirebaseDatabase.getInstance().getReference("requests").child(requestID_to_be_removed);
+						temp.removeValue();
 					}
 				}
 			}
 
 			@Override
-			public void onCancelled(@NonNull DatabaseError databaseError) {
-				//Toast.makeText(RegisterActivity.this, "Failed to read request: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-				//the toast here was being activated too early. Need to figure out why and fix it. @TODO
-			}
+			public void onCancelled(@NonNull DatabaseError databaseError) {}
 		});
+
+		//need to update the list in memory
+		readUsers();
 	}
 
     /**
@@ -108,7 +116,7 @@ public class UserRepository {
      * @return a full list of all registered users
      */
     public ArrayList<User> getAllRegisteredUsers() {
-		readUsers(); // might make time complexity too big???
+		readUsers();
 		return registeredUsers;
     }
 
@@ -121,8 +129,15 @@ public class UserRepository {
 	 */
 	public void registerUser(User user) {
 		if (!isEmailRegistered(user.getEmail())) {
-			registeredUsers.add(user);
+			// generating a unique key for the request
+			String userID = usersDatabase.push().getKey();
+
+			// setting the requestID key's value to the request
+			usersDatabase.child(userID).setValue(user);
 		}
+		
+		//need to update the list in memory
+		readUsers();
 	}
 
     /**
