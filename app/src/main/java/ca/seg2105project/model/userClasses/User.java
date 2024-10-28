@@ -11,6 +11,10 @@ public abstract class User {
 	*/
     protected String firstName, lastName, email, password, address, phoneNumber;  
 
+    /**
+     * An empty constructor in order to make reading users from fb possible.
+     */
+    public User() {}
 
     /** 
      * constructor children will call super() on 
