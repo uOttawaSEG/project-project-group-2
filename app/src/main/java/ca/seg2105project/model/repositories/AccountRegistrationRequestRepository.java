@@ -46,11 +46,13 @@ public class AccountRegistrationRequestRepository {
                     AccountRegistrationRequest request = requestSnapshot.getValue(AccountRegistrationRequest.class);
                     requestList.add(request);
                 }
+                mDatabase.removeEventListener(this);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("Firebase Error", "msg: " + databaseError.getMessage() + "details: " + databaseError.getDetails());
+                mDatabase.removeEventListener(this);
             }
         });
         return requestList;
@@ -86,7 +88,6 @@ public class AccountRegistrationRequestRepository {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     DataSnapshot snapshot = dataSnapshot.getChildren().iterator().next();
-                    String key = snapshot.getKey();
                     AccountRegistrationRequest request = snapshot.getValue(AccountRegistrationRequest.class);
                     if(newStatus == AccountRegistrationRequestStatus.APPROVED) {
                         String userID = FirebaseDatabase.getInstance().getReference("users").push().getKey();
@@ -99,15 +100,17 @@ public class AccountRegistrationRequestRepository {
                         }
                         FirebaseDatabase.getInstance().getReference("users").child(userID).setValue(user);
                         deleteRequest(email);
-                    }
-                    else{
-                        request.setStatus(AccountRegistrationRequestStatus.REJECTED);
+                    } else {
+                        String key = snapshot.getKey();
+                        mDatabase.child(key).child("status").setValue(newStatus.toString());
                     }
                 }
+                emailQuery.removeEventListener(this);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("Firebase Error", "msg: " + databaseError.getMessage() + "details: " + databaseError.getDetails());
+                emailQuery.removeEventListener(this);
             }
         });
     }
@@ -115,24 +118,25 @@ public class AccountRegistrationRequestRepository {
     /**
      * Removes the request associated with a specific email from firebase
      */
-    public static void deleteRequest(String email){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("requests");
-        Query emailQuery = reference.orderByChild("email").equalTo(email);
+    public void deleteRequest(String email){
+        Query emailQuery = mDatabase.orderByChild("email").equalTo(email);
         emailQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                         String key = snapshot.getKey();
-                        reference.child(key).removeValue()
+                        mDatabase.child(key).removeValue()
                                 .addOnSuccessListener(v -> Log.d("Firebase", "Succesfully deleted request from email: " + email))
                                 .addOnFailureListener(e -> Log.e("Firebase", "Error trying to delete request from email: " + email));
                     }
                 }
+                emailQuery.removeEventListener(this);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("Firebase Error", "msg: " + databaseError.getMessage() + "details: " + databaseError.getDetails());
+                emailQuery.removeEventListener(this);
             }
         });
     }
