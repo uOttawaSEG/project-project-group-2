@@ -1,4 +1,4 @@
-package ca.seg2105project.model;
+package ca.seg2105project.model.repositories;
 
 import androidx.annotation.NonNull;
 
@@ -24,22 +24,21 @@ public class UserRepository {
 
 	private final ArrayList<User> registeredUsers;
 	//firebase database references
-	private DatabaseReference usersDatabase;
+	private final DatabaseReference usersDatabase;
 
     public UserRepository() {
 		// Initializing Firebase database references
 		usersDatabase = FirebaseDatabase.getInstance().getReference("users");
 
         //initialize the list of users, then update from fb
-		registeredUsers = new ArrayList<User>();
-		readUsers();
+		registeredUsers = new ArrayList<>();
+		pullUsers();
 	}
 
 	/**
 	 * A method to update the final list of users "registeredUsers." Does so 'in-place.' Takes its updated data from the firebase database. Furthermore, returns the updated list of users.
-	 * @return the updated list of users acquired from fb
 	 */
-	public ArrayList<User> readUsers() {
+	private void pullUsers() {
 		usersDatabase.addValueEventListener(new ValueEventListener() {
 
 			@Override
@@ -67,12 +66,14 @@ public class UserRepository {
 						registeredUsers.add(user);
 					}
 				}
+				usersDatabase.removeEventListener(this);
 			}
 
 			@Override
-			public void onCancelled(@NonNull DatabaseError databaseError) {}
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+				usersDatabase.removeEventListener(this);
+			}
 		});
-		return registeredUsers;
 	}
 
     /**
@@ -82,7 +83,6 @@ public class UserRepository {
      * @return a full list of all registered users
      */
     public ArrayList<User> getAllRegisteredUsers() {
-		readUsers();
 		return registeredUsers;
     }
 
@@ -101,9 +101,6 @@ public class UserRepository {
 			// setting the requestID key's value to the request
 			usersDatabase.child(userID).setValue(user);
 		}
-		
-		//need to update the list in memory
-		readUsers();
 	}
 
     /**
@@ -121,6 +118,10 @@ public class UserRepository {
                 return true;
             }
         }
+
+		//
+		pullUsers();
+
         return false;
     }
 

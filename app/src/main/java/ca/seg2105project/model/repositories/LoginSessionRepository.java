@@ -1,4 +1,4 @@
-package ca.seg2105project.model;
+package ca.seg2105project.model.repositories;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -20,7 +20,7 @@ public class LoginSessionRepository {
      *  false otherwise
      */
     public boolean hasActiveLoginSession(){
-        SharedPreferences sharedPref = applicationContext.getSharedPreferences("session",
+        SharedPreferences sharedPref = applicationContext.getSharedPreferences("login_session",
                 Context.MODE_PRIVATE);
         return sharedPref.contains("email");
     }
@@ -32,7 +32,7 @@ public class LoginSessionRepository {
      * @param email the email of the successfully authenticated user
      */
     public void startLoginSession(String email) {
-        SharedPreferences sharedPref = applicationContext.getSharedPreferences("session",
+        SharedPreferences sharedPref = applicationContext.getSharedPreferences("login_session",
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("email", email);
@@ -45,7 +45,7 @@ public class LoginSessionRepository {
      */
     @Nullable
     public String getActiveLoginSessionEmail() {
-        SharedPreferences sharedPref = applicationContext.getSharedPreferences("session",
+        SharedPreferences sharedPref = applicationContext.getSharedPreferences("login_session",
                 Context.MODE_PRIVATE);
         return sharedPref.getString("email", null);
     }
@@ -55,7 +55,7 @@ public class LoginSessionRepository {
      * before calling this method using hasActiveLoginSession()
      */
     public void endLoginSession() {
-        SharedPreferences sharedPref = applicationContext.getSharedPreferences("session",
+        SharedPreferences sharedPref = applicationContext.getSharedPreferences("login_session",
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.remove("email");

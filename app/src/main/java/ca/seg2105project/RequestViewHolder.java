@@ -1,6 +1,7 @@
 package ca.seg2105project;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ public class RequestViewHolder extends RecyclerView.ViewHolder{
 
     ImageView IVrequestBox;
     TextView firstName, lastName, email, phoneNumber,address, organizationName;
+    Button approveButton, rejectButton;
 
     /**
      * A parameterized constructor for RequestViewHolder.
@@ -28,5 +30,7 @@ public class RequestViewHolder extends RecyclerView.ViewHolder{
         phoneNumber = requestItemView.findViewById(R.id.phoneNumber);
         address = requestItemView.findViewById(R.id.address);
         organizationName = requestItemView.findViewById(R.id.organizationName);
+        approveButton = requestItemView.findViewById(R.id.approve_button);
+        rejectButton = requestItemView.findViewById(R.id.reject_button);
     }
 }

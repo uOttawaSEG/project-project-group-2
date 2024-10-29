@@ -2,6 +2,7 @@ package ca.seg2105project;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,8 +13,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import ca.seg2105project.model.LoginSessionRepository;
-import ca.seg2105project.model.UserRepository;
+import ca.seg2105project.model.repositories.LoginSessionRepository;
+import ca.seg2105project.model.repositories.UserRepository;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -36,6 +37,16 @@ public class WelcomeActivity extends AppCompatActivity {
         String welcomeMessage = "Welcome! You are logged in as " +
                 userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail());
         welcomeMessageTV.setText(welcomeMessage);
+
+        // Set up 'go to account request inbox' button if the user is admin
+        if (userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail()).equals("Administrator")) {
+            Button goToRequestInboxBtn = findViewById(R.id.admin_pending_requests_inbox_btn);
+            goToRequestInboxBtn.setVisibility(View.VISIBLE);
+            goToRequestInboxBtn.setOnClickListener(v -> {
+                Intent launchPendingRequestsActivityIntent = new Intent(this, PendingRequestsActivity.class);
+                startActivity(launchPendingRequestsActivityIntent);
+            });
+        }
 
         Button logoutButton = findViewById(R.id.Logout_BTN);
         logoutButton.setOnClickListener(v -> {
