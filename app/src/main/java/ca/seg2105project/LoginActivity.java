@@ -2,7 +2,6 @@ package ca.seg2105project;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,9 +15,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.util.List;
 
+import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
+import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
+import ca.seg2105project.model.repositories.AccountRegistrationRequestRepository;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
 import ca.seg2105project.model.repositories.UserRepository;
-import ca.seg2105project.model.userClasses.User;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -57,29 +58,50 @@ public class LoginActivity extends AppCompatActivity {
         Button loginButton = findViewById(R.id.loginBTN);
 
         UserRepository userRepository = eamsApplication.getUserRepository();
-        List<User> allRegisteredUsers = userRepository.getAllRegisteredUsers();
-
-        Runnable showNumUsersRunnable = () -> {
-            Toast.makeText(LoginActivity.this, "Number of registered users: " + allRegisteredUsers.size(), Toast.LENGTH_LONG).show();
-        };
-        Handler h = new Handler();
-        h.postDelayed(showNumUsersRunnable, 1000);
+        AccountRegistrationRequestRepository accountRegistrationRequestRepository = eamsApplication.getAccountRegistrationRequestRepository();
+        List<AccountRegistrationRequest> allAccountRegistrationRequests = accountRegistrationRequestRepository.readRequests();
 
         loginButton.setOnClickListener(v -> {
-            String email, password;
-            email = String.valueOf(editEmail.getText());
-            password = String.valueOf(editPassword.getText());
+            String enteredEmail, enteredPassword;
+            enteredEmail = String.valueOf(editEmail.getText());
+            enteredPassword = String.valueOf(editPassword.getText());
 
             // TODO: check for empty email or password and check email format here
 
-            if (userRepository.authenticate(email, password)) {
-                loginSessionRepository.startLoginSession(email);
+            if (userRepository.authenticate(enteredEmail, enteredPassword)) {
+                loginSessionRepository.startLoginSession(enteredEmail);
                 Toast.makeText(getApplicationContext(), "Logging in", Toast.LENGTH_LONG).show();
                 launchWelcomeActivityAndFinish();
-            }
-            else {
-                Toast.makeText(getApplicationContext(), "No account exists for that email or " +
-                        "password is incorrect", Toast.LENGTH_LONG).show();
+            } else {
+
+                // We check to see if the email the user entered has an existing account
+                // registration request associated with it
+                boolean hasAccountRegistrationRequestWithEmail = false;
+                int i = 0;
+                while (!hasAccountRegistrationRequestWithEmail && i < allAccountRegistrationRequests.size()) {
+                    if (allAccountRegistrationRequests.get(i).getEmail().equals(enteredEmail)) {
+                        hasAccountRegistrationRequestWithEmail = true;
+                    } else {
+                        i++;
+                    }
+                }
+                if (hasAccountRegistrationRequestWithEmail) {
+                    // We know we found an existing account registration request
+
+                    if (allAccountRegistrationRequests.get(i).getStatus().equals(AccountRegistrationRequestStatus.PENDING)) {
+                        // User has a pending account registration request
+                        Toast.makeText(this, "Account registration approval pending, please try logging in again soon for updates", Toast.LENGTH_LONG).show();
+                    } else {
+                        // User has a rejected account registration request
+                        Toast.makeText(this, "Your account registration request has unfortunately been rejected, please contact our administrator at 6133333333 for more info", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    // The entered credentials failed to authenticate and we couldn't find an
+                    // existing account registration request so either they got their password wrong
+                    // or they haven't made a registration request
+                    Toast.makeText(getApplicationContext(), "No account exists for that email or " +
+                            "password is incorrect", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

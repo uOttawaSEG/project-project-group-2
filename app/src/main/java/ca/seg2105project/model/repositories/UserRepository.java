@@ -66,13 +66,10 @@ public class UserRepository {
 						registeredUsers.add(user);
 					}
 				}
-				usersDatabase.removeEventListener(this);
 			}
 
 			@Override
-			public void onCancelled(@NonNull DatabaseError databaseError) {
-				usersDatabase.removeEventListener(this);
-			}
+			public void onCancelled(@NonNull DatabaseError databaseError) {}
 		});
 	}
 
