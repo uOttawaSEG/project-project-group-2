@@ -2,6 +2,7 @@ package ca.seg2105project;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,8 +14,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.List;
+
 import ca.seg2105project.model.repositories.LoginSessionRepository;
 import ca.seg2105project.model.repositories.UserRepository;
+import ca.seg2105project.model.userClasses.User;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -53,7 +57,13 @@ public class LoginActivity extends AppCompatActivity {
         Button loginButton = findViewById(R.id.loginBTN);
 
         UserRepository userRepository = eamsApplication.getUserRepository();
-        Toast.makeText(this, "Number of registered users: " + userRepository.getAllRegisteredUsers().size(), Toast.LENGTH_LONG).show();
+        List<User> allRegisteredUsers = userRepository.getAllRegisteredUsers();
+
+        Runnable showNumUsersRunnable = () -> {
+            Toast.makeText(LoginActivity.this, "Number of registered users: " + allRegisteredUsers.size(), Toast.LENGTH_LONG).show();
+        };
+        Handler h = new Handler();
+        h.postDelayed(showNumUsersRunnable, 1000);
 
         loginButton.setOnClickListener(v -> {
             String email, password;

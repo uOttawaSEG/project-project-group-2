@@ -83,6 +83,7 @@ public class UserRepository {
      * @return a full list of all registered users
      */
     public ArrayList<User> getAllRegisteredUsers() {
+		pullUsers();
 		return registeredUsers;
     }
 
@@ -110,18 +111,13 @@ public class UserRepository {
      * @return true if the email-password pair was found in the list of registered users, false if not found
      */
     public boolean authenticate(String email, String password) { //O(n), where n = # of registered users
-		ArrayList<User> users = getAllRegisteredUsers();
-        int n = users.size();
+        int n = registeredUsers.size();
         for (int x = 0; x < n; x++) {
-            User u = users.get(x);
+            User u = registeredUsers.get(x);
             if (u.getEmail().equals(email) && u.getPassword().equals(password)) {
                 return true;
             }
         }
-
-		//
-		pullUsers();
-
         return false;
     }
 
@@ -131,14 +127,15 @@ public class UserRepository {
      * @return true if the email was found in the list of users, false if not found
      */
 	public boolean isEmailRegistered(String email) { //O(n), where n = # of registered users
-		ArrayList<User> users = getAllRegisteredUsers();
-		int n = users.size();
+		int n = registeredUsers.size();
 		for (int x = 0; x < n; x++) {
-			User u = users.get(x);
+			User u = registeredUsers.get(x);
 			if (u.getEmail().equals(email)) {
 				return true;
 			}
 		}
+		// Update user list in case user has been added since the app started
+		pullUsers();
 		return false;
 	}
 
@@ -148,12 +145,11 @@ public class UserRepository {
      * @return a string representation of the user type of the email provided, null if the email is not found
      */
 	public String getUserTypeByEmail(String email) {
-		ArrayList<User> users = getAllRegisteredUsers();
-		int n = users.size();
+		int n = registeredUsers.size();
 		Administrator adm = new Administrator(null, null);
 		Attendee att = new Attendee(null, null, null, null, null, null);
 		for (int x = 0; x < n; x++) {
-			User u = users.get(x);
+			User u = registeredUsers.get(x);
 			if (u.getEmail().equals(email)) {
 				if (u.getClass().equals(adm.getClass())) {
 					return "Administrator";
