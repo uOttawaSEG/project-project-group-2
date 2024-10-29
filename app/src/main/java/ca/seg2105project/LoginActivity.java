@@ -52,13 +52,15 @@ public class LoginActivity extends AppCompatActivity {
         EditText editPassword = findViewById(R.id.password);
         Button loginButton = findViewById(R.id.loginBTN);
 
+        UserRepository userRepository = eamsApplication.getUserRepository();
+        Toast.makeText(this, "Number of registered users: " + userRepository.getAllRegisteredUsers().size(), Toast.LENGTH_LONG).show();
+
         loginButton.setOnClickListener(v -> {
             String email, password;
             email = String.valueOf(editEmail.getText());
             password = String.valueOf(editPassword.getText());
 
             // TODO: check for empty email or password and check email format here
-            UserRepository userRepository = eamsApplication.getUserRepository();
 
             if (userRepository.authenticate(email, password)) {
                 loginSessionRepository.startLoginSession(email);

@@ -1,20 +1,14 @@
 package ca.seg2105project.model;
 
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
-import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
-import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
 import ca.seg2105project.model.userClasses.Administrator;
 import ca.seg2105project.model.userClasses.Attendee;
 import ca.seg2105project.model.userClasses.User;
 import ca.seg2105project.model.userClasses.Organizer;
 
-
-import com.google.firebase.Firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,14 +25,12 @@ public class UserRepository {
 	private final ArrayList<User> registeredUsers;
 	//firebase database references
 	private DatabaseReference usersDatabase;
-	private DatabaseReference requestsDatabase;
 
-	public UserRepository() {
+    public UserRepository() {
 		// Initializing Firebase database references
 		usersDatabase = FirebaseDatabase.getInstance().getReference("users");
-		requestsDatabase = FirebaseDatabase.getInstance().getReference("requests");
 
-		//initialize the list of users, then update from fb
+        //initialize the list of users, then update from fb
 		registeredUsers = new ArrayList<User>();
 		readUsers();
 	}
