@@ -2,6 +2,7 @@ package ca.seg2105project;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
+import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
+import ca.seg2105project.model.repositories.AccountRegistrationRequestRepository;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
 
 public class RejectedRequestsActivity extends AppCompatActivity {
@@ -45,6 +48,7 @@ public class RejectedRequestsActivity extends AppCompatActivity {
 
         EAMSApplication eamsApplication = (EAMSApplication) getApplication();
         LoginSessionRepository loginSessionRepository = eamsApplication.getLoginSessionRepository();
+        AccountRegistrationRequestRepository accountRegistrationRequestRepository = eamsApplication.getAccountRegistrationRequestRepository();
 
         Button logoffBtn = findViewById(R.id.Logout_BTN);
         logoffBtn.setOnClickListener(v -> {
@@ -65,20 +69,27 @@ public class RejectedRequestsActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.rejectedRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        List<AccountRegistrationRequest> accountRegistrationRequests = accountRegistrationRequestRepository.readRequests();
 
-        List<AccountRegistrationRequest> requestList = new ArrayList<>();
-        requestList.add(new AccountRegistrationRequest("Veronica", "Nartatez","veronicanartatez@gmail.com","poggers", "123 cool street", "1234567890", "Test"));
-        requestList.add(new AccountRegistrationRequest("Shane", "Topp","shanetopp@gmail.com","poggers", "122 cool street", "1234567891", null));
-        requestList.add(new AccountRegistrationRequest("Courtney", "Topp","counrtneytopp@gmail.com","poggers", "122 cool street", "1234567891", null));
-        requestList.add(new AccountRegistrationRequest("Freddy", "Fazbear","freddyfazzbear@gmail.com","poggers", "121 cool street", "1234567892", null));
-        requestList.add(new AccountRegistrationRequest("Michael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
-        requestList.add(new AccountRegistrationRequest("Michael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
-        requestList.add(new AccountRegistrationRequest("Michael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
-        requestList.add(new AccountRegistrationRequest("Michael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
-        requestList.add(new AccountRegistrationRequest("Michael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
-        requestList.add(new AccountRegistrationRequest("Michael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
-        requestList.add(new AccountRegistrationRequest("Michael", "Reeves","michalreeves@gmail.com","poggers", "120 cool street", "1234567893", null));
+        // This delayed runnable is for making sure that Firebase has enough time to fill the
+        // pendingAccountRegistrationRequests list before we render the list in the RV
+        // That's why we delay the running of setting the adapter by 1000 ms
+        Runnable setRejectedRvList = new Runnable() {
+            @Override
+            public void run() {
+                List<AccountRegistrationRequest> rejectedAccountRegistrationRequests = new ArrayList<>();
+                for (int i = 0; i < accountRegistrationRequests.size(); i++) {
+                    if (accountRegistrationRequests.get(i).getStatus() == AccountRegistrationRequestStatus.REJECTED) {
+                        rejectedAccountRegistrationRequests.add(accountRegistrationRequests.get(i));
+                    }
+                }
 
-        recyclerView.setAdapter(new AdminAdapter(requestList, getApplicationContext()));
+                recyclerView.setAdapter(new AdminAdapter(
+                        rejectedAccountRegistrationRequests,
+                        accountRegistrationRequestRepository));
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(setRejectedRvList, 1000);
     }
 }

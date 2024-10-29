@@ -1,7 +1,7 @@
 package ca.seg2105project;
 
-import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
+import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
+import ca.seg2105project.model.repositories.AccountRegistrationRequestRepository;
 
 
 /**
@@ -17,17 +19,17 @@ import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationReq
  */
 public class AdminAdapter extends RecyclerView.Adapter<RequestViewHolder> {
 
-    Context registrationRequestContext;
     List<AccountRegistrationRequest> registrationRequests;
+    AccountRegistrationRequestRepository accountRegistrationRequestRepository;
 
     /**
      * A parameterized constructor for AdminAdapter.
      * @param registrationRequests a list of registration requests
-     * @param registrationRequestContext provides the adapter a proper environment to display the registration requests in the RecyclerView
+     * @param
      */
-    public AdminAdapter(List<AccountRegistrationRequest> registrationRequests, Context registrationRequestContext) {
+    public AdminAdapter(List<AccountRegistrationRequest> registrationRequests, AccountRegistrationRequestRepository accountRegistrationRequestRepository) {
         this.registrationRequests = registrationRequests;
-        this.registrationRequestContext = registrationRequestContext;
+        this.accountRegistrationRequestRepository = accountRegistrationRequestRepository;
     }
 
 
@@ -38,7 +40,7 @@ public class AdminAdapter extends RecyclerView.Adapter<RequestViewHolder> {
     @NonNull
     @Override
     public RequestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new RequestViewHolder(LayoutInflater.from(registrationRequestContext).inflate(R.layout.item_requestbox,parent,false));
+        return new RequestViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_requestbox,parent,false));
     }
 
     /**
@@ -52,6 +54,25 @@ public class AdminAdapter extends RecyclerView.Adapter<RequestViewHolder> {
         holder.address.setText(registrationRequests.get(position).getAddress());
         holder.phoneNumber.setText(registrationRequests.get(position).getPhoneNumber());
         holder.organizationName.setText(registrationRequests.get(position).getOrganizationName());
+
+        // Make reject button invisible if we are on rejected requests screen
+        if (registrationRequests.get(position).getStatus() == AccountRegistrationRequestStatus.REJECTED) {
+            holder.rejectButton.setVisibility(View.INVISIBLE);
+        }
+
+        holder.approveButton.setOnClickListener(v -> {
+                accountRegistrationRequestRepository.updateRequestStatus(registrationRequests.get(position).getEmail(), AccountRegistrationRequestStatus.APPROVED);
+                registrationRequests.remove(position);
+                notifyItemRemoved(position);
+        });
+        holder.rejectButton.setOnClickListener(v -> {
+            // Only change status if it hasn't already been changed
+            if (registrationRequests.get(position).getStatus() != AccountRegistrationRequestStatus.REJECTED) {
+                accountRegistrationRequestRepository.updateRequestStatus(registrationRequests.get(position).getEmail(), AccountRegistrationRequestStatus.REJECTED);
+                registrationRequests.remove(position);
+                notifyItemRemoved(position);
+            }
+        });
     }
 
     /**
