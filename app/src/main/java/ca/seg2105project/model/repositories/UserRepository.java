@@ -1,11 +1,19 @@
 package ca.seg2105project.model.repositories;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
-import java.util.List;
 
 import ca.seg2105project.model.userClasses.Administrator;
 import ca.seg2105project.model.userClasses.Attendee;
 import ca.seg2105project.model.userClasses.User;
+import ca.seg2105project.model.userClasses.Organizer;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A class for accessing any information on any registered user.
@@ -14,14 +22,55 @@ import ca.seg2105project.model.userClasses.User;
  */
 public class UserRepository {
 
-	private final List<User> registeredUsers;
+	private final ArrayList<User> registeredUsers;
+	//firebase database references
+	private final DatabaseReference usersDatabase;
 
-	public UserRepository() {
+    public UserRepository() {
+		// Initializing Firebase database references
+		usersDatabase = FirebaseDatabase.getInstance().getReference("users");
+
+        //initialize the list of users, then update from fb
 		registeredUsers = new ArrayList<>();
-		registeredUsers.add(new Administrator("admin@gmail.com", "adminpwd"));
-		registeredUsers.add(new Attendee("Isaac", "Jensen-Large",
-				"jensenlarge.isaac@gmail.com", "awesomepassword",
-				"54 Awesome St.", "6139835504"));
+		pullUsers();
+	}
+
+	/**
+	 * A method to update the final list of users "registeredUsers." Does so 'in-place.' Takes its updated data from the firebase database. Furthermore, returns the updated list of users.
+	 */
+	private void pullUsers() {
+		usersDatabase.addValueEventListener(new ValueEventListener() {
+
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				registeredUsers.clear();
+				for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
+					//So the most intuitive thing in order to read Users from fb would be to getValue(User.class) but that won't work since that does two steps:
+					//step1: instantiates an empty User and then step2: assigns the previously instantiated user to the one being read from fb
+					//This way won't work since User is abstract and thus uninstantiable. So I though of a work around:
+					//Do step1 and step2 but to get the user from fb as an Organizer object (since Organizer has all the fields that a user can ever have).
+					//When we get this Organizer object, its fields will be either a valid string or null.
+					//If the firstName is null, clearly the User acquired from fb is an Administrator. If the organizationName is null, then User is an Attendee. Otherwise, the User can be kept as an Organizer object.
+					//Once we determine what type of User has been stored in that Organizer object, we can create the respective type of User and call the getter methdos on that object to fill in the user's fields.
+					//This is obviously a very messy work around but the alternative is to make User not abstract, which goes against our previously agreed upon conventions.
+					//Kunala Deotare takes ownership of this work around, dated 27 October 2024. Please contact me at kdeot090@uottawa.ca to ask any questions.
+
+					Organizer user = requestSnapshot.getValue(Organizer.class);
+					if (user.getFirstName() == null) { //user must really be an Administrator
+						Administrator adm = new Administrator(user.getEmail(), user.getPassword());
+						registeredUsers.add(adm);
+					} else if (user.getOrganizationName() == null) { //user must really be an Attendee
+						Attendee att = new Attendee(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getAddress(), user.getPhoneNumber());
+						registeredUsers.add(att);
+					} else { //user must actually be an Organizer
+						registeredUsers.add(user);
+					}
+				}
+			}
+
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {}
+		});
 	}
 
     /**
@@ -30,7 +79,8 @@ public class UserRepository {
      * In an even later implementation likely in deliverable 2 this will access the database.
      * @return a full list of all registered users
      */
-    public List<User> getAllRegisteredUsers() {
+    public ArrayList<User> getAllRegisteredUsers() {
+		pullUsers();
 		return registeredUsers;
     }
 
@@ -43,7 +93,11 @@ public class UserRepository {
 	 */
 	public void registerUser(User user) {
 		if (!isEmailRegistered(user.getEmail())) {
-			registeredUsers.add(user);
+			// generating a unique key for the request
+			String userID = usersDatabase.push().getKey();
+
+			// setting the requestID key's value to the request
+			usersDatabase.child(userID).setValue(user);
 		}
 	}
 
@@ -54,46 +108,45 @@ public class UserRepository {
      * @return true if the email-password pair was found in the list of registered users, false if not found
      */
     public boolean authenticate(String email, String password) { //O(n), where n = # of registered users
-        List<User> users = getAllRegisteredUsers();
-        int n = users.size();
+        int n = registeredUsers.size();
         for (int x = 0; x < n; x++) {
-            User u = users.get(x);
+            User u = registeredUsers.get(x);
             if (u.getEmail().equals(email) && u.getPassword().equals(password)) {
                 return true;
             }
         }
         return false;
     }
-	
+
 	/**
      * A method to see if an email exists in the list of all registered users.
      * @param email the email to be checked
      * @return true if the email was found in the list of users, false if not found
      */
 	public boolean isEmailRegistered(String email) { //O(n), where n = # of registered users
-		List<User> users = getAllRegisteredUsers();
-		int n = users.size();
+		int n = registeredUsers.size();
 		for (int x = 0; x < n; x++) {
-			User u = users.get(x);
+			User u = registeredUsers.get(x);
 			if (u.getEmail().equals(email)) {
 				return true;
 			}
 		}
+		// Update user list in case user has been added since the app started
+		pullUsers();
 		return false;
 	}
-	
+
 	/**
      * A method to return the type of user of the email provided (Administrator, Attendee, or Organizer).
      * @param email the email whose user type is to be returned
      * @return a string representation of the user type of the email provided, null if the email is not found
      */
 	public String getUserTypeByEmail(String email) {
-		List<User> users = getAllRegisteredUsers();
-		int n = users.size();
+		int n = registeredUsers.size();
 		Administrator adm = new Administrator(null, null);
 		Attendee att = new Attendee(null, null, null, null, null, null);
 		for (int x = 0; x < n; x++) {
-			User u = users.get(x);
+			User u = registeredUsers.get(x);
 			if (u.getEmail().equals(email)) {
 				if (u.getClass().equals(adm.getClass())) {
 					return "Administrator";

@@ -2,6 +2,7 @@ package ca.seg2105project;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -31,22 +32,31 @@ public class WelcomeActivity extends AppCompatActivity {
 
         EAMSApplication eamsApplication = (EAMSApplication) getApplication();
         LoginSessionRepository loginSessionRepository = eamsApplication.getLoginSessionRepository();
-        UserRepository userRepository = eamsApplication.getUserRepository();
+        UserRepository userRepository = eamsApplication.getUserRepository(); 
 
-        TextView welcomeMessageTV = findViewById(R.id.welcome_message_tv);
-        String welcomeMessage = "Welcome! You are logged in as " +
-                userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail());
-        welcomeMessageTV.setText(welcomeMessage);
+        // All of this needs to be on a delayed thread because we have to wait for the user repository to load the list of users
+        Runnable setWelcomePageUserSpecificContent = new Runnable() {
+            @Override
+            public void run() {
+                TextView welcomeMessageTV = findViewById(R.id.welcome_message_tv);
+                String welcomeMessage = "Welcome! You are logged in as " +
+                        userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail());
+                welcomeMessageTV.setText(welcomeMessage);
 
-        // Set up 'go to account request inbox' button if the user is admin
-        if (userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail()).equals("Administrator")) {
-            Button goToRequestInboxBtn = findViewById(R.id.admin_pending_requests_inbox_btn);
-            goToRequestInboxBtn.setVisibility(View.VISIBLE);
-            goToRequestInboxBtn.setOnClickListener(v -> {
-                Intent launchPendingRequestsActivityIntent = new Intent(this, PendingRequestsActivity.class);
-                startActivity(launchPendingRequestsActivityIntent);
-            });
-        }
+                // Set up 'go to account request inbox' button if the user is admin
+                if (userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail()).equals("Administrator")) {
+                    Button goToRequestInboxBtn = findViewById(R.id.admin_pending_requests_inbox_btn);
+                    goToRequestInboxBtn.setVisibility(View.VISIBLE);
+                    goToRequestInboxBtn.setOnClickListener(v -> {
+                        Intent launchPendingRequestsActivityIntent = new Intent(WelcomeActivity.this, PendingRequestsActivity.class);
+                        startActivity(launchPendingRequestsActivityIntent);
+                    });
+                }
+            }
+        };
+
+        Handler h = new Handler();
+        h.postDelayed(setWelcomePageUserSpecificContent, 1000);
 
         Button logoutButton = findViewById(R.id.Logout_BTN);
         logoutButton.setOnClickListener(v -> {

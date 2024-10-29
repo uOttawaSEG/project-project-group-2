@@ -24,13 +24,6 @@ public class EAMSApplication extends Application {
         userRepository = new UserRepository();
         loginSessionRepository = new LoginSessionRepository(getApplicationContext());
         accountRegistrationRequestRepository = new AccountRegistrationRequestRepository();
-
-        // Invalidate potentially outdated login session
-        if (loginSessionRepository.hasActiveLoginSession()) {
-            if (!userRepository.isEmailRegistered(loginSessionRepository.getActiveLoginSessionEmail())) {
-                loginSessionRepository.endLoginSession();
-            }
-        }
     }
 
     public UserRepository getUserRepository() {
