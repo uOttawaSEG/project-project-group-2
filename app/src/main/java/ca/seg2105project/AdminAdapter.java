@@ -63,14 +63,14 @@ public class AdminAdapter extends RecyclerView.Adapter<RequestViewHolder> {
         holder.approveButton.setOnClickListener(v -> {
                 accountRegistrationRequestRepository.updateRequestStatus(registrationRequests.get(position).getEmail(), AccountRegistrationRequestStatus.APPROVED);
                 registrationRequests.remove(position);
-                notifyItemRemoved(position);
+                notifyDataSetChanged();
         });
         holder.rejectButton.setOnClickListener(v -> {
             // Only change status if it hasn't already been changed
             if (registrationRequests.get(position).getStatus() != AccountRegistrationRequestStatus.REJECTED) {
                 accountRegistrationRequestRepository.updateRequestStatus(registrationRequests.get(position).getEmail(), AccountRegistrationRequestStatus.REJECTED);
                 registrationRequests.remove(position);
-                notifyItemRemoved(position);
+                notifyDataSetChanged();
             }
         });
     }
