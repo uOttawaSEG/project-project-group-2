@@ -40,7 +40,7 @@ public class Event {
 		
 		this.attendees = new ArrayList<String>();
 		
-		if (registrationRequired == true) { //if requests need to be manually approved by organizer, then keep track of pending and appoved requests
+		if (registrationRequired == true) { //if requests need to be manually approved by organizer, then keep track of pending and approved requests
 			this.pendingRequests = new ArrayList<String>();
 			this.rejectedRequests = new ArrayList<String>();
 		} else { //if requests are automatically approved, there won't ever be any pending or rejected requests, so we won't keep track of them

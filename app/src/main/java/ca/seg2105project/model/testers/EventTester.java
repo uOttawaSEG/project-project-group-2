@@ -1,0 +1,95 @@
+package ca.seg2105project.model.testers;
+
+import android.annotation.SuppressLint;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import ca.seg2105project.model.userClasses.Organizer;
+import ca.seg2105project.model.eventClasses.Event;
+
+/**
+* A tester class to test the implementation of Event.java
+*/
+public class EventTester {
+	
+	/**
+	* A method to test the implementation of Event.java
+	* <p>
+	* Prints out a string containing lines of format "value=returned_value_from_method". As long as the two values on either sides of the = sign are the same, the method is working as intended.
+	*/
+	@SuppressLint("NewApi") //This line is because this version of android is at API 24 and the function LocalTime.of requires at least API 26.
+	public static void main (String[] args) {
+		Organizer org = new Organizer("Mz", "Organizer", "organizer@gmail.com", "theirpassword", "Someplace", "1234567890", "EAMS app");
+		ArrayList<Event> orgEvents = org.getEvents();
+		
+		LocalDate d1 = LocalDate.of(2024, 11, 02);
+		LocalTime st1 = LocalTime.of(12, 00);
+		LocalTime et1 = LocalTime.of(14, 00);
+		Event e1 = new Event("qwertyuiop", "Midterm", "Computer Architecture, I am very cooked.", d1, st1, et1, "SITE 000", "organizer@gmail.com", false);
+		
+		System.out.println("qwertyuiop=" + e1.getEventID());
+		System.out.println("Midterm=" + e1.getTitle());
+		System.out.println("Computer Architecture, I am very cooked.=" + e1.getDescription());
+		System.out.println(d1.toString() + "=" + e1.getDate().toString());
+		System.out.println(st1.toString() + "=" + e1.getStartTime().toString());
+		System.out.println(et1.toString() + "=" + e1.getEndTime().toString());
+		System.out.println("SITE 000=" + e1.getEventAddress());
+		System.out.println("organizer@gmail.com=" + e1.getOrganizerEmail());
+		System.out.println("false=" + e1.getRegistrationRequired());
+		System.out.println("false=" + (e1.getAttendees() == null));
+		System.out.println("true=" + (e1.getPendingRequests() == null));
+		System.out.println("true=" + (e1.getRejectedRequests() == null));
+		
+		System.out.println();
+		
+		LocalDate d2 = LocalDate.of(2005, 03, 15);
+		LocalTime st2 = LocalTime.of(8, 00);
+		LocalTime et2 = LocalTime.of(23, 30);
+		Event e2 = new Event("asdfghjkl", "My Birthday", "The day I was born.", d2, st2, et2, "Some Medical Hospital", "organizer@gmail.com", true);
+		
+		System.out.println("asdfghjkl=" + e2.getEventID());
+		System.out.println("My Birthday=" + e2.getTitle());
+		System.out.println("The day I was born.=" + e2.getDescription());
+		System.out.println(d2.toString() + "=" + e2.getDate().toString());
+		System.out.println(st2.toString() + "=" + e2.getStartTime().toString());
+		System.out.println(et2.toString() + "=" + e2.getEndTime().toString());
+		System.out.println("Some Medical Hospital=" + e2.getEventAddress());
+		System.out.println("organizer@gmail.com=" + e2.getOrganizerEmail());
+		System.out.println("true=" + e2.getRegistrationRequired());
+		System.out.println("false=" + (e2.getAttendees() == null));
+		System.out.println("false=" + (e2.getPendingRequests() == null));
+		System.out.println("false=" + (e2.getRejectedRequests() == null));
+		
+		System.out.println();
+		
+		System.out.println("0=" + orgEvents.size());
+		orgEvents.add(e1);
+		orgEvents.add(e2);
+		System.out.println("2=" + orgEvents.size());
+		
+		System.out.println();
+
+		e1.getAttendees().add("raclu@uottawa.ca");
+		e1.getAttendees().add("ij@uottawa.ca");
+		e1.getAttendees().add("s@uottawa.ca");
+		e1.getAttendees().add("r@uottawa.ca");
+		System.out.println("raclu@uottawa.ca=" + e1.getAttendees().get(0));
+		System.out.println("ij@uottawa.ca=" + e1.getAttendees().get(1));
+		System.out.println("s@uottawa.ca=" + e1.getAttendees().get(2));
+		System.out.println("r@uottawa.ca=" + e1.getAttendees().get(3));
+		
+		System.out.println();
+		
+		System.out.println("0=" + e2.getAttendees().size());
+		e2.getAttendees().add("youngme@birth.in");
+		System.out.println("1=" + e2.getAttendees().size());
+		
+		System.out.println();
+		System.out.println("0=" + e2.getPendingRequests().size());
+		System.out.println("0=" + e2.getRejectedRequests().size());
+	}
+}
