@@ -9,9 +9,9 @@ import java.time.LocalTime;
 public class Event {
 	private String eventID, title, description, eventAddress, organizerEmail;
 	private LocalDate date;
-	private Local
+	private LocalTime startTime, endTime;
 	private boolean registrationRequired;
-	ArrayList<String> attendees, rejectedRequests, pendingRequests;
+	private ArrayList<String> attendees, rejectedRequests, pendingRequests;
 	
 	/**
 	* A parameterized constructor for Event.
@@ -19,10 +19,26 @@ public class Event {
 	* @param title the title of the event
 	* @param description the description of the event
 	* @param date the date the event is taking place on
-	* @param startTime the time the event starts. Must be in 30-minute increments.
-	* Still not finished.
+	* @param startTime the time the event starts
+	* @param endTime the time the event ends
+	* @param eventAddress the address the event is taking place at
+	* @param organizerEmail the email of the organizer organizing this event
+	* @param registrationRequired true if the organizer has to manually approve event requests, false if the requests are automatically approved
 	*/
-	public Event (String eventID, String title, String description, String date, String startTime, String endTime, String eventAddress, boolean registrationRequired, String organizerEmail) {
-		//Still not finished
+	public Event (String eventID, String title, String description, LocalDate date, LocalTime startTime, LocalTime endTime, String eventAddress, String organizerEmail, boolean registrationRequired) {
+		this.eventID = eventID;
+		this.title = title;
+		this.description = description;
+		this.date = date;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.eventAddress = eventAddress;
+		this.organizerEmail = organizerEmail;
+		this.registrationRequired = registrationRequired;
 	}
+	
+	/**
+	* An empty public constructor for Event to enable read from and write to firebase database.
+	*/
+	public Event() {}
 }
