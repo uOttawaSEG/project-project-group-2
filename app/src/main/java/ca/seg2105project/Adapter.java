@@ -17,7 +17,7 @@ import ca.seg2105project.model.repositories.AccountRegistrationRequestRepository
 /**
  * A class that displays the list of registration requests in a RecyclerView
  */
-public class AdminAdapter extends RecyclerView.Adapter<RequestViewHolder> {
+public class Adapter extends RecyclerView.Adapter<AdminRequestViewHolder> {
 
     List<AccountRegistrationRequest> registrationRequests;
     AccountRegistrationRequestRepository accountRegistrationRequestRepository;
@@ -27,7 +27,7 @@ public class AdminAdapter extends RecyclerView.Adapter<RequestViewHolder> {
      * @param registrationRequests a list of registration requests
      * @param
      */
-    public AdminAdapter(List<AccountRegistrationRequest> registrationRequests, AccountRegistrationRequestRepository accountRegistrationRequestRepository) {
+    public Adapter(List<AccountRegistrationRequest> registrationRequests, AccountRegistrationRequestRepository accountRegistrationRequestRepository) {
         this.registrationRequests = registrationRequests;
         this.accountRegistrationRequestRepository = accountRegistrationRequestRepository;
     }
@@ -39,15 +39,15 @@ public class AdminAdapter extends RecyclerView.Adapter<RequestViewHolder> {
      */
     @NonNull
     @Override
-    public RequestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new RequestViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_requestbox,parent,false));
+    public AdminRequestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new AdminRequestViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_requestbox,parent,false));
     }
 
     /**
      * Adds all necessary data for the registration request, and displays it in it's own RequestViewHolder
      */
     @Override
-    public void onBindViewHolder(@NonNull RequestViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdminRequestViewHolder holder, int position) {
         holder.firstName.setText(registrationRequests.get(position).getFirstName());
         holder.lastName.setText(registrationRequests.get(position).getLastName());
         holder.email.setText(registrationRequests.get(position).getEmail());

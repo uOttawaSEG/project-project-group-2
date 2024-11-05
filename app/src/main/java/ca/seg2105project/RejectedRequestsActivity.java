@@ -84,7 +84,7 @@ public class RejectedRequestsActivity extends AppCompatActivity {
                     }
                 }
 
-                recyclerView.setAdapter(new AdminAdapter(
+                recyclerView.setAdapter(new Adapter(
                         rejectedAccountRegistrationRequests,
                         accountRegistrationRequestRepository));
             }
