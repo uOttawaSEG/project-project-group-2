@@ -84,7 +84,7 @@ public class PendingRequestsActivity extends AppCompatActivity {
                     }
                 }
 
-                recyclerView.setAdapter(new AdminAdapter(
+                recyclerView.setAdapter(new Adapter(
                         pendingAccountRegistrationRequests,
                         accountRegistrationRequestRepository));
             }
