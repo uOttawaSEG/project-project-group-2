@@ -7,9 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/pastel_purple"
-    tools:context=".addEvent">
-
-
+    tools:context=".CreateEventActivity">
 
     <TextView
         android:id="@+id/RegisterEventPage"
@@ -28,12 +26,12 @@
         android:id="@+id/EventTittle"
         android:layout_width="260dp"
         android:layout_height="60dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="40dp"
         android:background="@color/white"
         android:hint="Event Tittle"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.452"
+        app:layout_constraintHorizontal_bias="0.425"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/RegisterEventPage" />
 
@@ -54,7 +52,7 @@
         android:id="@+id/Date"
         android:layout_width="260dp"
         android:layout_height="60dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:background="@color/white"
         android:hint="Date"
         android:textStyle="bold"
@@ -67,13 +65,13 @@
         android:id="@+id/StartTime"
         android:layout_width="260dp"
         android:layout_height="60dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="56dp"
         android:background="@color/white"
         android:hint="Start Time"
         android:inputType="text"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.425"
+        app:layout_constraintHorizontal_bias="0.452"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Date" />
 
@@ -105,19 +103,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/EndTime" />
 
+    <CheckBox
+        android:id="@+id/autoApproveCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Automatically approve request"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/EventAddress" />
     <Button
         android:id="@+id/createEventAccountBTN"
         android:layout_width="121dp"
         android:layout_height="59dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="16dp"
-        android:text="Create Account"
+        android:text="Create Event"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.443"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/EventAddress"
+        app:layout_constraintTop_toBottomOf="@id/autoApproveCheckBox"
         app:layout_constraintVertical_bias="0.578" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
