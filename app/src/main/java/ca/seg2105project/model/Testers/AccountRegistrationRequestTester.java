@@ -1,4 +1,4 @@
-package ca.seg2105project.model.Testers;
+package ca.seg2105project.model.testers;
 
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;

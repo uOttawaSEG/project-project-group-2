@@ -1,4 +1,4 @@
-package ca.seg2105project.model.Testers;
+package ca.seg2105project.model.testers;
 
 import ca.seg2105project.model.repositories.UserRepository;
 import ca.seg2105project.model.userClasses.Administrator;
