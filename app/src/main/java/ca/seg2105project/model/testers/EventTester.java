@@ -91,5 +91,40 @@ public class EventTester {
 		System.out.println();
 		System.out.println("0=" + e2.getPendingRequests().size());
 		System.out.println("0=" + e2.getRejectedRequests().size());
+
+
+		LocalDate d3 = LocalDate.of(2024, 11, 8);
+		LocalTime st3 = LocalTime.of(00, 00);
+		LocalTime et3 = LocalTime.of(23, 59);
+		Event e3 = new Event("12345", "Assignment 2 SEG", "Client-Server Assignment Chat System", d3, st3, et3, "DMS1600", "organizer@gmail.com", true);
+
+		System.out.println("12345=" + e3.getEventID());
+		System.out.println("Assignment 2 SEG=" + e3.getTitle());
+		System.out.println("Client-Server Assignment Chat System=" + e3.getDescription());
+		System.out.println(d3.toString() + "=" + e3.getDate().toString());
+		System.out.println(st3.toString() + "=" + e3.getStartTime().toString());
+		System.out.println(et3.toString() + "=" + e3.getEndTime().toString());
+		System.out.println("DMS1600=" + e3.getEventAddress());
+		System.out.println("organizer@gmail.com=" + e3.getOrganizerEmail());
+		System.out.println("true=" + e3.getRegistrationRequired());
+
+
+		System.out.println("0=" + (e3.getAttendees().size()));
+		System.out.println("0=" + (e3.getPendingRequests().size()));
+		System.out.println("0=" + (e3.getRejectedRequests().size()));
+
+
+		e3.getAttendees().add("ImIn@gmail.com");
+		e3.getRejectedRequests().add("ImRejected@hotmail.com");
+		e3.getRejectedRequests().add("ImRejected2@hotmail.com");
+		e3.getPendingRequests().add("ImWaiting@outlook.com");
+		e3.getPendingRequests().add("ImWaiting2@outlook.com");
+		e3.getPendingRequests().add("ImWaiting3@outlook.com");
+
+		System.out.println("1=" + (e3.getAttendees().size()));
+		System.out.println("3=" + (e3.getPendingRequests().size()));
+		System.out.println("2=" + (e3.getRejectedRequests().size()));
+
+		System.out.println();
 	}
 }
