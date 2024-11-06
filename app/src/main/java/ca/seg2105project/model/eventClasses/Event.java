@@ -3,7 +3,6 @@ package ca.seg2105project.model.eventClasses;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import ca.seg2105project.model.userClasses.Attendee;
 
 /**
 * A class to model an Event. If registrationRequired is false, then pendingRequests and rejectedRequests are set to null.
@@ -16,7 +15,7 @@ public class Event {
 	private ArrayList<String> attendees, pendingRequests, rejectedRequests;
 	
 	/**
-	* A parameterized constructor for Event.
+	* A parameterized constructor for Event that takes in LocalDate and LocalTime objects.
 	* @param eventID a unique id for the event
 	* @param title the title of the event
 	* @param description the description of the event
@@ -50,6 +49,30 @@ public class Event {
 	}
 	
 	/**
+	* A parameterized constructor for Event that takes in ints for the date and times instead of LocalDate/LocalTime objects.
+	* @param eventID a unique id for the event
+	* @param title the title of the event
+	* @param description the description of the event
+	* @param year the year the event is taking place in
+	* @param month the month the event is taking place in, {1,2,3,4,5,6,7,8,9,10,11,12}
+	* @param date the date the event is taking place in, {1 - 31}
+	* @param startTimeHour the hour the event starts
+	* @param startTimeMinute the minute the event starts
+	* @param endTimeHour the hour the event ends
+	* @param endTimeMinute the minute the event ends
+	* @param eventAddress the address the event is taking place at
+	* @param organizerEmail the email of the organizer organizing this event
+	* @param registrationRequired true if the organizer has to manually approve event requests, false if the requests are automatically approved
+	*/
+	public Event (String eventID, String title, String description, int year, int month, int date, int startTimeHour, int startTimeMinute, int endTimeHour, int endTimeMinute, String eventAddress, String organizerEmail, boolean registrationRequired) {
+		this(eventID, title, description, 
+			LocalDate.of(year, month, date), 
+			LocalTime.of(startTimeHour, startTimeMinute), 
+			LocalTime.of(endTimeHour, endTimeMinute), 
+			eventAddress, organizerEmail, registrationRequired);
+	}
+	
+	/**
 	* An empty public constructor for Event to enable read from and write to firebase database.
 	*/
 	public Event() {}
@@ -75,22 +98,64 @@ public class Event {
 	public String getDescription() { return description; }
 	
 	/**
-	* A getter for date.
-	* @return the date the event is happening on
+	* A getter for date as a LocalDate object.
+	* @return the date the event is happening on as a LocalDate object
 	*/
-	public LocalDate getDate() { return date; }
+	public LocalDate getLocalDate() { return date; }
 	
 	/**
-	* A getter for startTime.
-	* @return the start time of the event
+	* A getter for the year the event is taking place in as an int.
+	* @return the year the event is taking place in
 	*/
-	public LocalTime getStartTime() { return startTime; }
+	public int getYear() { return date.getYear(); } 
 	
 	/**
-	* A getter for endTime.
-	* @return the end time of the event
+	* A getter for the month the event is taking place in as an int.
+	* @return the month the event is taking place in as an int. 1 for January, 2 for February, ..., 12 for December.
 	*/
-	public LocalTime getEndTime() { return endTime; }
+	public int getMonth() { return date.getMonthValue(); } 
+	
+	/**
+	* A getter for the date the event is taking place on as an int.
+	* @return the date the event is taking place on
+	*/
+	public int getDate() { return date.getDayOfMonth(); }
+	
+	/**
+	* A getter for startTime as a LocalTime object.
+	* @return the start time of the event as a LocalTime object
+	*/
+	public LocalTime getLocalStartTime() { return startTime; }
+	
+	/**
+	* A getter for the hour the event is starting at as an int.
+	* @return the hour the event is starting at as an int
+	*/
+	public int getStartTimeHour() { return startTime.getHour(); }
+	
+	/**
+	* A getter for the minute the event is starting at as an int.
+	* @return the minute the event is starting at as an int
+	*/
+	public int getStartTimeMinute() { return startTime.getMinute(); }
+	
+	/**
+	* A getter for endTime as a LocalTime object.
+	* @return the end time of the event as a LocalTime object
+	*/
+	public LocalTime getLocalEndTime() { return endTime; }
+	
+	/**
+	* A getter for the hour the event is ending at as an int.
+	* @return the hour the event is ending at as an int
+	*/
+	public int getEndTimeHour() { return endTime.getHour(); }
+	
+	/**
+	* A getter for the minute the event is ending at as an int.
+	* @return the minute the event is ending at as an int
+	*/
+	public int getEndTimeMinute() { return endTime.getMinute(); }
 	
 	/**
 	* A getter for eventAddress.
