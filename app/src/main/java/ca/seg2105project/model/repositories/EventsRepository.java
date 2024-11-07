@@ -61,7 +61,7 @@ public class EventsRepository {
 					//get the time of event and current time to tell if event is upcoming or not 
 					LocalDate eventDate = curEvent.getLocalDate();
 					LocalDate curDate = LocalDate.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX 
-					LocalTime eventST = curEvent.getLocalStartTime(); 
+//					LocalTime eventST = curEvent.getLocalStartTime();
 					LocalTime eventET = curEvent.getLocalEndTime(); 
 					LocalTime curTime = LocalTime.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX 
 
@@ -72,7 +72,7 @@ public class EventsRepository {
 						upcomingEvents.add(curEvent);
 
 						
-					} else if(eventDate.compareTo(curDate)==0 && eventST.compareTo(curTime) > 0) { //they're equal 
+					} else if(eventDate.compareTo(curDate)==0 && eventET.compareTo(curTime) > 0) { //they're equal
 						//upcoming 
 						upcomingEvents.add(curEvent);
 					}
@@ -98,7 +98,7 @@ public class EventsRepository {
 					Event curEvent = requestSnapshot.getValue(Event.class);
 					LocalDate eventDate = curEvent.getLocalDate();
 					LocalDate curDate = LocalDate.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX 
-					LocalTime eventST = curEvent.getLocalStartTime(); 
+//					LocalTime eventST = curEvent.getLocalStartTime();
 					LocalTime eventET = curEvent.getLocalEndTime(); 
 					LocalTime curTime = LocalTime.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX 
 
