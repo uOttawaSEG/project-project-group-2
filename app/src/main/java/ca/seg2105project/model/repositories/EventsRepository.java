@@ -164,8 +164,29 @@ public class EventsRepository {
      * Removes the event associated with a specific id from firebase 
 	 * @param eventID the event id that identifies the event we want to remove 
      */
-    public void deleteEvent(String eventID){
-        //TODO: implement this 
+    public void deleteEvent(String eventID){ 
+		Query eventIDQuery = mDatabase.orderByChild("eventID").equalTo(eventID); //filter data based on eventID field in fb and then get the one with the matching eventID 
+        
+		//listens for changes in eventIDQuery results 
+		eventIDQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) { 
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){ //should only be one event but looping just in case 
+                        String key = snapshot.getKey();
+                        mDatabase.child(key).removeValue()
+                                .addOnSuccessListener(v -> Log.d("Firebase", "Succesfully deleted event from eventID: " + eventID))
+                                .addOnFailureListener(e -> Log.e("Firebase", "Error trying to delete event from eventID: " + eventID));
+                    }
+                }
+                eventIDQuery.removeEventListener(this);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("Firebase Error", "msg: " + databaseError.getMessage() + "details: " + databaseError.getDetails());
+                eventIDQuery.removeEventListener(this);
+            }
+        });
     }
 
 	
