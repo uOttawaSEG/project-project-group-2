@@ -3,6 +3,7 @@ package ca.seg2105project.model.repositories;
 import androidx.annotation.NonNull;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 // import ca.seg2105project.model.userClasses.Administrator;
@@ -24,8 +25,8 @@ import java.util.ArrayList;
 public class EventsRepository {
 
 	//Two types of events in firebase (upcoming and past) 
-	private final ArrayList<User> upcomingEvents; 
-    private final ArrayList<User> pastEvents;
+	private final ArrayList<Event> upcomingEvents; //NOTE: WE ARE ESTABLISHING THAT EVENT HAPPENING RIGHT NOW IS STILL AN UPCOMING EVENT (ATTENDEES CAN STILL REGISTER) 
+    private final ArrayList<Event> pastEvents;
 
 	//firebase database references
 	private final DatabaseReference eventsDatabase;
@@ -62,8 +63,16 @@ public class EventsRepository {
 					LocalTime curTime = LocalTime.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX 
 
 					//Checking between the two type of events: 
-					//pastEvent: endDate > curDate but if equal, then eventET > curTime 
-					//upcomingEvent: startDate < curDate but if equal, then eventST < curTime 
+					//LocalDate compareTo is this-other 
+					if(eventDate.compareTo(curDate)>0) {  
+						//upcoming 
+						upcomingEvents.add(event); 
+
+						
+					} else if(eventDate.compareTo(curDate)==0 && eventST.compareTo(curTime) > 0) { //they're equal 
+						//upcoming 
+						upcomingEvents.add(event); 
+					}
 				}
 			}
 
@@ -90,9 +99,14 @@ public class EventsRepository {
 					LocalTime eventET = curEvent.getLocalEndTime(); 
 					LocalTime curTime = LocalTime.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX 
 
-					//Checking between the two type of events: 
-					//pastEvent: endDate > curDate but if equal, then eventET > curTime 
-					//upcomingEvent: startDate < curDate but if equal, then eventST < curTime 
+					if(eventDate.compareTo(curDate)<0) {  
+						//past 
+						pastEvents.add(event); 
+						
+					} else if(eventDate.compareTo(curDate)==0 && eventET.compareTo(curTime) < 0) { //they're equal 
+						//past 
+						pastEvents.add(event);  
+					} 
 				}
 			}
 
