@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pastel_purple"
+    tools:context=".CreateEventActivity">
+
+    <!-- Title TextView -->
+    <TextView
+        android:id="@+id/registerEventPage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="32dp"
+        android:padding="16dp"
+        android:text="Create your Event"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Event Title -->
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/eventTittle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="32dp"
+        android:padding="16dp"
+        android:background="@color/white"
+        android:hint="Event Title"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/registerEventPage" />
+
+    <!-- Event Description -->
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/eventDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/white"
+        android:hint="Description"
+        android:minHeight="120dp"
+        android:padding="16dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/eventTittle" />
+
+    <!-- Event Date -->
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/white"
+        android:hint="Date"
+        android:padding="16dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/eventDescription" />
+
+    <!-- Start Time -->
+    <EditText
+        android:id="@+id/startTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/white"
+        android:hint="Start Time"
+        android:inputType="time"
+        android:padding="16dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/date" />
+
+    <!-- End Time -->
+    <EditText
+        android:id="@+id/endTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/white"
+        android:hint="End Time"
+        android:inputType="time"
+        android:padding="16dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/startTime" />
+
+    <!-- Event Address -->
+    <EditText
+        android:id="@+id/eventAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/white"
+        android:hint="Event Address"
+        android:inputType="textPostalAddress"
+        android:padding="16dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/endTime" />
+
+    <!-- Auto-Approve CheckBox -->
+    <CheckBox
+        android:id="@+id/autoApproveCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Automatically approve request"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/eventAddress" />
+
+    <!-- Create Event Button -->
+    <Button
+        android:id="@+id/createEventAccountBTN"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginHorizontal="32dp"
+        android:padding="16dp"
+        android:text="Create Event"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/autoApproveCheckBox"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
