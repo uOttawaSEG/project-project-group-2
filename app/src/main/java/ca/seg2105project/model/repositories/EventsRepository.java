@@ -2,9 +2,14 @@ package ca.seg2105project.model.repositories;
 
 import androidx.annotation.NonNull;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+
+import javax.management.Query;
+
+import org.w3c.dom.events.Event;
 
 // import ca.seg2105project.model.userClasses.Administrator;
 // import ca.seg2105project.model.userClasses.Attendee;
@@ -133,7 +138,37 @@ public class EventsRepository {
     public ArrayList<Event> getAllPastEvents() {
 		pullPast();
 		return pastEvents;
+    } 
+
+	/**
+     * Adds new Event to event section in Firebase DB
+     * @param newEvent the new event--either an upcoming or past event--to be added to DB
+     * @return whether or not the new event was successfully added to the DB
+     */
+    public boolean addEvent(Event newEvent) {
+        // generating a unique key for the event
+        String eventID = mDatabase.push().getKey();
+
+        // We failed to create a reference to a new child in the event section of Firebase
+        if (eventID == null) {
+            return false;
+        }
+
+        // Add the event to the event section
+        mDatabase.child(eventID).setValue(newEvent);
+        return true;
     }
+
+
+	/**
+     * Removes the event associated with a specific id from firebase 
+	 * @param eventID the event id that identifies the event we want to remove 
+     */
+    public void deleteEvent(String eventID){
+        //TODO: implement this 
+    }
+
+	
 
 
 }
