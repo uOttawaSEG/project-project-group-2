@@ -1,26 +1,24 @@
 package ca.seg2105project.model.repositories;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-import javax.management.Query;
+import com.google.firebase.database.Query;
 
-import org.w3c.dom.events.Event;
 
-// import ca.seg2105project.model.userClasses.Administrator;
-// import ca.seg2105project.model.userClasses.Attendee;
-// import ca.seg2105project.model.userClasses.User;
-// import ca.seg2105project.model.userClasses.Organizer;
+import ca.seg2105project.model.eventClasses.Event;
 
-// import com.google.firebase.database.DataSnapshot;
-// import com.google.firebase.database.DatabaseError;
-// import com.google.firebase.database.DatabaseReference;
-// import com.google.firebase.database.FirebaseDatabase;
-// import com.google.firebase.database.ValueEventListener;
+
+ import com.google.firebase.database.DataSnapshot;
+ import com.google.firebase.database.DatabaseError;
+ import com.google.firebase.database.DatabaseReference;
+ import com.google.firebase.database.FirebaseDatabase;
+ import com.google.firebase.database.ValueEventListener;
 
 /**
  * A class for accessing any information on any registered user.
@@ -41,8 +39,8 @@ public class EventsRepository {
 		eventsDatabase = FirebaseDatabase.getInstance().getReference("events");
 
         //initialize the list of upcomingEvents and pastEvents, then update the lists from fb
-		upcomingEvents = new ArrayList<>();
-		pastEvents = new ArrayList<>();
+		upcomingEvents = new ArrayList<Event>();
+		pastEvents = new ArrayList<Event>();
 		pullUpcoming();
 		pullPast();
 	}
@@ -51,17 +49,17 @@ public class EventsRepository {
 	 * A method to update the final list of users "upcomingEvent" Does so 'in-place.' Takes its updated data from the firebase database. 
 	 */
 	private void pullUpcoming() {
-		usersDatabase.addValueEventListener(new ValueEventListener() {
+		eventsDatabase.addValueEventListener(new ValueEventListener() {
 
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				upcomingEvents.clear();
 				for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) { 
 					//get each Event object in Firebase 
-					Event event = requestSnapshot.getValue(Events.class);  
+					Event curEvent = requestSnapshot.getValue(Event.class);
 
 					//get the time of event and current time to tell if event is upcoming or not 
-					LocalDate eventDate = curEvent.getLocalTime(); 
+					LocalDate eventDate = curEvent.getLocalDate();
 					LocalDate curDate = LocalDate.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX 
 					LocalTime eventST = curEvent.getLocalStartTime(); 
 					LocalTime eventET = curEvent.getLocalEndTime(); 
@@ -71,12 +69,12 @@ public class EventsRepository {
 					//LocalDate compareTo is this-other 
 					if(eventDate.compareTo(curDate)>0) {  
 						//upcoming 
-						upcomingEvents.add(event); 
+						upcomingEvents.add(curEvent);
 
 						
 					} else if(eventDate.compareTo(curDate)==0 && eventST.compareTo(curTime) > 0) { //they're equal 
 						//upcoming 
-						upcomingEvents.add(event); 
+						upcomingEvents.add(curEvent);
 					}
 				}
 			}
@@ -91,14 +89,14 @@ public class EventsRepository {
 	 * A method to update the final list of users "pastEvents." Does so 'in-place.' Takes its updated data from the firebase database. 
 	 */
 	private void pullPast() {
-		usersDatabase.addValueEventListener(new ValueEventListener() {
+		eventsDatabase.addValueEventListener(new ValueEventListener() {
 
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				pastEvents.clear();
 				for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
-					Event event = requestSnapshot.getValue(Events.class); 
-					LocalDate eventDate = curEvent.getLocalTime(); 
+					Event curEvent = requestSnapshot.getValue(Event.class);
+					LocalDate eventDate = curEvent.getLocalDate();
 					LocalDate curDate = LocalDate.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX 
 					LocalTime eventST = curEvent.getLocalStartTime(); 
 					LocalTime eventET = curEvent.getLocalEndTime(); 
@@ -106,11 +104,11 @@ public class EventsRepository {
 
 					if(eventDate.compareTo(curDate)<0) {  
 						//past 
-						pastEvents.add(event); 
+						pastEvents.add(curEvent);
 						
 					} else if(eventDate.compareTo(curDate)==0 && eventET.compareTo(curTime) < 0) { //they're equal 
 						//past 
-						pastEvents.add(event);  
+						pastEvents.add(curEvent);
 					} 
 				}
 			}
@@ -147,7 +145,7 @@ public class EventsRepository {
      */
     public boolean addEvent(Event newEvent) {
         // generating a unique key for the event
-        String eventID = mDatabase.push().getKey();
+        String eventID = eventsDatabase.push().getKey();
 
         // We failed to create a reference to a new child in the event section of Firebase
         if (eventID == null) {
@@ -155,7 +153,7 @@ public class EventsRepository {
         }
 
         // Add the event to the event section
-        mDatabase.child(eventID).setValue(newEvent);
+        eventsDatabase.child(eventID).setValue(newEvent);
         return true;
     }
 
@@ -165,7 +163,7 @@ public class EventsRepository {
 	 * @param eventID the event id that identifies the event we want to remove 
      */
     public void deleteEvent(String eventID){ 
-		Query eventIDQuery = mDatabase.orderByChild("eventID").equalTo(eventID); //filter data based on eventID field in fb and then get the one with the matching eventID 
+		Query eventIDQuery = eventsDatabase.orderByChild("eventID").equalTo(eventID); //filter data based on eventID field in fb and then get the one with the matching eventID
         
 		//listens for changes in eventIDQuery results 
 		eventIDQuery.addValueEventListener(new ValueEventListener() {
@@ -174,7 +172,7 @@ public class EventsRepository {
                 if(dataSnapshot.exists()){
                     for(DataSnapshot snapshot : dataSnapshot.getChildren()){ //should only be one event but looping just in case 
                         String key = snapshot.getKey();
-                        mDatabase.child(key).removeValue()
+                        eventsDatabase.child(key).removeValue()
                                 .addOnSuccessListener(v -> Log.d("Firebase", "Succesfully deleted event from eventID: " + eventID))
                                 .addOnFailureListener(e -> Log.e("Firebase", "Error trying to delete event from eventID: " + eventID));
                     }
