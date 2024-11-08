@@ -76,4 +76,5 @@ public class WelcomeActivity extends AppCompatActivity {
             // User shouldn't be able to return to this instance of WelcomeActivity
             finish();
         });
-    }}
+    }
+}
