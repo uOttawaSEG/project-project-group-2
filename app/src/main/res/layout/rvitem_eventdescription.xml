@@ -6,7 +6,7 @@
     android:layout_height="150dp"
     android:background="@color/white"
     android:orientation="horizontal"
-    tools:context=".EventBoxDescription"
+    tools:context=".ui.activities.UpcomingEventsActivity"
     tools:ignore="ExtraText">
 
     <!--Request Box-->

@@ -1,4 +1,4 @@
-package ca.seg2105project;
+package ca.seg2105project.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,37 +18,40 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.seg2105project.ui.rvcomponents.AccountRegistrationRequestListAdapter;
+import ca.seg2105project.EAMSApplication;
+import ca.seg2105project.R;
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
 import ca.seg2105project.model.repositories.AccountRegistrationRequestRepository;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
 
-public class RejectedRequestsActivity extends AppCompatActivity {
+public class PendingRequestsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_adminrejectedrequests);
+        setContentView(R.layout.activity_adminpendingrequests);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        Button seePendingRequestsBtn = findViewById(R.id.see_pending_requests_btn);
-        seePendingRequestsBtn.setOnClickListener(v -> {
-            Intent launchPendingRequestsActivity = new Intent(this, PendingRequestsActivity.class);
-            startActivity(launchPendingRequestsActivity);
-
-            // Close this instance of RejectedRequestsActivity in case user logs off. They shouldn't be able to back-navigate
-            // to this activity
-            finish();
-        });
-
         EAMSApplication eamsApplication = (EAMSApplication) getApplication();
         LoginSessionRepository loginSessionRepository = eamsApplication.getLoginSessionRepository();
         AccountRegistrationRequestRepository accountRegistrationRequestRepository = eamsApplication.getAccountRegistrationRequestRepository();
+
+        Button seeRejectedRequestsBtn = findViewById(R.id.see_rejected_requests_btn);
+        seeRejectedRequestsBtn.setOnClickListener(v -> {
+            Intent launchRejectedRequestsActivityIntent = new Intent(this, RejectedRequestsActivity.class);
+            startActivity(launchRejectedRequestsActivityIntent);
+
+            // Close this instance of PendingRequestsActivity in case user logs off. They shouldn't be able to back-navigate
+            // to this activity
+            finish();
+        });
 
         Button logoffBtn = findViewById(R.id.Logout_BTN);
         logoffBtn.setOnClickListener(v -> {
@@ -63,33 +66,33 @@ public class RejectedRequestsActivity extends AppCompatActivity {
             Intent launchLoginActivityIntent = new Intent(this, LoginActivity.class);
             startActivity(launchLoginActivityIntent);
 
-            // User shouldn't be able to return to this instance of RejectedRequestsActivity
+            // User shouldn't be able to return to this instance of PendingRequestsActivity
             finish();
         });
 
-        RecyclerView recyclerView = findViewById(R.id.rejectedRV);
+        RecyclerView recyclerView = findViewById(R.id.pendingRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         List<AccountRegistrationRequest> accountRegistrationRequests = accountRegistrationRequestRepository.readRequests();
 
         // This delayed runnable is for making sure that Firebase has enough time to fill the
         // pendingAccountRegistrationRequests list before we render the list in the RV
         // That's why we delay the running of setting the adapter by 1000 ms
-        Runnable setRejectedRvList = new Runnable() {
+        Runnable setPendingRvList = new Runnable() {
             @Override
             public void run() {
-                List<AccountRegistrationRequest> rejectedAccountRegistrationRequests = new ArrayList<>();
+                List<AccountRegistrationRequest> pendingAccountRegistrationRequests = new ArrayList<>();
                 for (int i = 0; i < accountRegistrationRequests.size(); i++) {
-                    if (accountRegistrationRequests.get(i).getStatus() == AccountRegistrationRequestStatus.REJECTED) {
-                        rejectedAccountRegistrationRequests.add(accountRegistrationRequests.get(i));
+                    if (accountRegistrationRequests.get(i).getStatus() == AccountRegistrationRequestStatus.PENDING) {
+                        pendingAccountRegistrationRequests.add(accountRegistrationRequests.get(i));
                     }
                 }
 
-                recyclerView.setAdapter(new Adapter(
-                        rejectedAccountRegistrationRequests,
+                recyclerView.setAdapter(new AccountRegistrationRequestListAdapter(
+                        pendingAccountRegistrationRequests,
                         accountRegistrationRequestRepository));
             }
         };
         Handler h = new Handler();
-        h.postDelayed(setRejectedRvList, 1000);
+        h.postDelayed(setPendingRvList, 1000);
     }
 }

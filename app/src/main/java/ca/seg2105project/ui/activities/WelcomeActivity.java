@@ -1,4 +1,4 @@
-package ca.seg2105project;
+package ca.seg2105project.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import ca.seg2105project.EAMSApplication;
+import ca.seg2105project.R;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
 import ca.seg2105project.model.repositories.UserRepository;
 

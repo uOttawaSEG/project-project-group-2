@@ -1,4 +1,4 @@
-package ca.seg2105project;
+package ca.seg2105project.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.util.List;
 
+import ca.seg2105project.EAMSApplication;
+import ca.seg2105project.R;
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
 import ca.seg2105project.model.repositories.AccountRegistrationRequestRepository;

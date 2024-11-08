@@ -14,7 +14,7 @@
         android:theme="@style/Theme.SEG2105Project"
         tools:targetApi="31">
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,10 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".WelcomeActivity" />
-        <activity android:name=".PendingRequestsActivity" />
-        <activity android:name=".RejectedRequestsActivity" />
+        <activity android:name=".ui.activities.RegisterActivity" />
+        <activity android:name=".ui.activities.WelcomeActivity" />
+        <activity android:name=".ui.activities.PendingRequestsActivity" />
+        <activity android:name=".ui.activities.RejectedRequestsActivity" />
     </application>
 
 </manifest>
