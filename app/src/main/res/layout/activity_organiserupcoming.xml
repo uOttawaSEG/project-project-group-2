@@ -66,8 +66,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/upcomingEvents"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="448dp"
+        android:layout_height="946dp"
         android:paddingTop="96dp"
         android:translationZ="-1dp"
         app:layout_constraintStart_toStartOf="parent"
