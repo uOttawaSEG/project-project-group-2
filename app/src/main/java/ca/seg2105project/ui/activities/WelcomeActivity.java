@@ -47,11 +47,22 @@ public class WelcomeActivity extends AppCompatActivity {
 
                 // Set up 'go to account request inbox' button if the user is admin
                 if (userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail()).equals("Administrator")) {
-                    Button goToRequestInboxBtn = findViewById(R.id.admin_pending_requests_inbox_btn);
+                    Button goToRequestInboxBtn = findViewById(R.id.launch_user_specific_activity_btn);
+                    goToRequestInboxBtn.setText(R.string.admin_welcome_screen_launch_account_request_inbox_button_text);
                     goToRequestInboxBtn.setVisibility(View.VISIBLE);
                     goToRequestInboxBtn.setOnClickListener(v -> {
-                        Intent launchPendingRequestsActivityIntent = new Intent(WelcomeActivity.this, PendingRequestsActivity.class);
+                        Intent launchPendingRequestsActivityIntent = new Intent(WelcomeActivity.this, PendingAccountRequestsActivity.class);
                         startActivity(launchPendingRequestsActivityIntent);
+                    });
+                // Set up 'Go to upcoming events' button if the user is organizer
+                } else if (userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail()).equals("Organizer")) {
+                    Button goToRequestInboxBtn = findViewById(R.id.launch_user_specific_activity_btn);
+                    goToRequestInboxBtn.setText(R.string.organizer_welcome_screen_launch_account_request_inbox_button_text);
+                    goToRequestInboxBtn.setVisibility(View.VISIBLE);
+                    goToRequestInboxBtn.setOnClickListener(v -> {
+                        Intent launchOrganizerUpcomingEventsActivityIntent = new Intent(
+                                WelcomeActivity.this, OrganizerUpcomingEventsActivity.class);
+                        startActivity(launchOrganizerUpcomingEventsActivityIntent);
                     });
                 }
             }

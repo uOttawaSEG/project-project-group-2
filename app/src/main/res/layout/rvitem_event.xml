@@ -6,71 +6,63 @@
     android:layout_height="150dp"
     android:background="@color/white"
     android:orientation="horizontal"
-    tools:context=".ui.activities.UpcomingEventsActivity"
+    tools:context=".ui.activities.OrganizerUpcomingEventsActivity"
     tools:ignore="ExtraText">
 
-    <!--Request Box-->
     <ImageView
-        android:id="@+id/eventDescriptionBox"
+        android:id="@+id/item_spacer"
         android:layout_width="31dp"
         android:layout_height="48dp"
         android:layout_centerVertical="true" />
 
-    <!--First Name-->
     <TextView
-        android:id="@+id/eventTittle"
+        android:id="@+id/event_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/eventDescriptionBox"
+        android:layout_toEndOf="@+id/item_spacer"
         android:textColor="@color/black"
         android:textSize="17dp"
         tools:text="Event Tittle" />
 
-    <!--Last Name-->
     <TextView
-        android:id="@+id/eventDescription"
+        android:id="@+id/event_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/eventTittle"
-        android:layout_toEndOf="@+id/eventDescriptionBox"
+        android:layout_below="@+id/event_title"
+        android:layout_toEndOf="@+id/item_spacer"
         android:textColor="@color/black"
         android:textSize="17dp"
         tools:text="Event Description" />
 
-    <!--Email-->
     <TextView
         android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/eventDescription"
-        android:layout_toEndOf="@+id/eventDescriptionBox"
+        android:layout_below="@+id/event_description"
+        android:layout_toEndOf="@+id/item_spacer"
         android:textColor="@color/black"
         android:textSize="15dp"
         tools:text="Date" />
 
-    <!--Phone Number-->
     <TextView
         android:id="@+id/startTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/date"
-        android:layout_toEndOf="@+id/eventDescriptionBox"
+        android:layout_toEndOf="@+id/item_spacer"
         android:textColor="@color/black"
         android:textSize="15dp"
         tools:text="Start Time" />
 
-    <!--Address-->
     <TextView
         android:id="@+id/endTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/startTime"
-        android:layout_toEndOf="@+id/eventDescriptionBox"
+        android:layout_toEndOf="@+id/item_spacer"
         android:textColor="@color/black"
         android:textSize="15dp"
         tools:text="End Time" />
-
-
 
     <TextView
         android:id="@+id/eventAddress"
@@ -78,12 +70,10 @@
         android:layout_height="21dp"
         android:layout_below="@+id/endTime"
         android:layout_marginStart="0dp"
-        android:layout_toEndOf="@+id/eventDescriptionBox"
+        android:layout_toEndOf="@+id/item_spacer"
         android:textColor="@color/black"
         android:textSize="15dp"
         tools:text="Event Address" />
-
-
 
     <Button
         android:id="@+id/delete_event_btn"
@@ -94,6 +84,4 @@
         android:layout_marginEnd="13dp"
         android:text="Delete"
         android:textColor="@color/white" />
-
-
 </RelativeLayout>

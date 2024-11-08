@@ -26,13 +26,13 @@ import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationReq
 import ca.seg2105project.model.repositories.AccountRegistrationRequestRepository;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
 
-public class RejectedRequestsActivity extends AppCompatActivity {
+public class RejectedAccountRequestsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_adminrejectedrequests);
+        setContentView(R.layout.activity_rejectedaccountrequests);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -41,7 +41,7 @@ public class RejectedRequestsActivity extends AppCompatActivity {
 
         Button seePendingRequestsBtn = findViewById(R.id.see_pending_requests_btn);
         seePendingRequestsBtn.setOnClickListener(v -> {
-            Intent launchPendingRequestsActivity = new Intent(this, PendingRequestsActivity.class);
+            Intent launchPendingRequestsActivity = new Intent(this, PendingAccountRequestsActivity.class);
             startActivity(launchPendingRequestsActivity);
 
             // Close this instance of RejectedRequestsActivity in case user logs off. They shouldn't be able to back-navigate

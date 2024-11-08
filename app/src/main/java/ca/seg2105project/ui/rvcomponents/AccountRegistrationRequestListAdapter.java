@@ -41,7 +41,10 @@ public class AccountRegistrationRequestListAdapter extends RecyclerView.Adapter<
     @NonNull
     @Override
     public UserRequestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new UserRequestViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.rvitem_userrequest,parent,false));
+        return new UserRequestViewHolder(LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.rvitem_userrequest,
+                parent,
+                false));
     }
 
     /**
