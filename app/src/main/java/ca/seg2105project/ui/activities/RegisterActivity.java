@@ -1,4 +1,4 @@
-package ca.seg2105project;
+package ca.seg2105project.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import ca.seg2105project.EAMSApplication;
+import ca.seg2105project.R;
 import ca.seg2105project.model.repositories.AccountRegistrationRequestRepository;
 import ca.seg2105project.model.repositories.UserRepository;
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;

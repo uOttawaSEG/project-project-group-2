@@ -6,8 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/construction"
-    tools:context="WelcomeActivity"
+    tools:context=".ui.activities.WelcomeActivity"
     tools:ignore="ExtraText">
 
     <TextView
@@ -23,12 +22,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/admin_pending_requests_inbox_btn"
+        android:id="@+id/launch_user_specific_activity_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/welcome_message_tv"
         android:backgroundTint="@color/white"
-        android:text="Go to account request inbox"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">EAMS</string>
+    <string name="admin_welcome_screen_launch_account_request_inbox_button_text">Go to account request inbox</string>
+    <string name="organizer_welcome_screen_launch_account_request_inbox_button_text">Go to upcoming events</string>
 </resources>

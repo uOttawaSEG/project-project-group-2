@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/pastel_purple"
-    tools:context=".CreateEventActivity">
+    tools:context=".ui.activities.CreateEventActivity">
 
     <!-- Title TextView -->
     <TextView
@@ -27,7 +27,7 @@
 
     <!-- Event Title -->
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/eventTittle"
+        android:id="@+id/event_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -42,7 +42,7 @@
 
     <!-- Event Description -->
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/eventDescription"
+        android:id="@+id/event_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
@@ -54,7 +54,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/eventTittle" />
+        app:layout_constraintTop_toBottomOf="@id/event_title" />
 
     <!-- Event Date -->
     <com.google.android.material.textfield.TextInputEditText
@@ -69,7 +69,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/eventDescription" />
+        app:layout_constraintTop_toBottomOf="@id/event_description" />
 
     <!-- Start Time -->
     <EditText

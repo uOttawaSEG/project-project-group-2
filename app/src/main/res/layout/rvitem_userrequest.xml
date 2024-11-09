@@ -6,7 +6,7 @@
     android:layout_height="150dp"
     android:background="@color/white"
     android:orientation="horizontal"
-    tools:context=".PendingRequestsActivity"
+    tools:context=".ui.activities.PendingAccountRequestsActivity"
     tools:ignore="ExtraText">
 
     <!--Request Box-->

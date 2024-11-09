@@ -1,4 +1,4 @@
-package ca.seg2105project;
+package ca.seg2105project.ui.rvcomponents;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import ca.seg2105project.R;
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
 import ca.seg2105project.model.repositories.AccountRegistrationRequestRepository;
@@ -17,7 +18,7 @@ import ca.seg2105project.model.repositories.AccountRegistrationRequestRepository
 /**
  * A class that displays the list of registration requests in a RecyclerView
  */
-public class Adapter extends RecyclerView.Adapter<AdminRequestViewHolder> {
+public class AccountRegistrationRequestListAdapter extends RecyclerView.Adapter<UserRequestViewHolder> {
 
     List<AccountRegistrationRequest> registrationRequests;
     AccountRegistrationRequestRepository accountRegistrationRequestRepository;
@@ -27,7 +28,7 @@ public class Adapter extends RecyclerView.Adapter<AdminRequestViewHolder> {
      * @param registrationRequests a list of registration requests
      * @param
      */
-    public Adapter(List<AccountRegistrationRequest> registrationRequests, AccountRegistrationRequestRepository accountRegistrationRequestRepository) {
+    public AccountRegistrationRequestListAdapter(List<AccountRegistrationRequest> registrationRequests, AccountRegistrationRequestRepository accountRegistrationRequestRepository) {
         this.registrationRequests = registrationRequests;
         this.accountRegistrationRequestRepository = accountRegistrationRequestRepository;
     }
@@ -39,15 +40,18 @@ public class Adapter extends RecyclerView.Adapter<AdminRequestViewHolder> {
      */
     @NonNull
     @Override
-    public AdminRequestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new AdminRequestViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_requestbox,parent,false));
+    public UserRequestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new UserRequestViewHolder(LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.rvitem_userrequest,
+                parent,
+                false));
     }
 
     /**
      * Adds all necessary data for the registration request, and displays it in it's own RequestViewHolder
      */
     @Override
-    public void onBindViewHolder(@NonNull AdminRequestViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UserRequestViewHolder holder, int position) {
         holder.firstName.setText(registrationRequests.get(position).getFirstName());
         holder.lastName.setText(registrationRequests.get(position).getLastName());
         holder.email.setText(registrationRequests.get(position).getEmail());

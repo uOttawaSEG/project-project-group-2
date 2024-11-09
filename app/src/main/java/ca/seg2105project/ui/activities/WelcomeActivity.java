@@ -1,4 +1,4 @@
-package ca.seg2105project;
+package ca.seg2105project.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import ca.seg2105project.EAMSApplication;
+import ca.seg2105project.R;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
 import ca.seg2105project.model.repositories.UserRepository;
 
@@ -45,11 +47,26 @@ public class WelcomeActivity extends AppCompatActivity {
 
                 // Set up 'go to account request inbox' button if the user is admin
                 if (userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail()).equals("Administrator")) {
-                    Button goToRequestInboxBtn = findViewById(R.id.admin_pending_requests_inbox_btn);
+                    Button goToRequestInboxBtn = findViewById(R.id.launch_user_specific_activity_btn);
+                    goToRequestInboxBtn.setText(R.string.admin_welcome_screen_launch_account_request_inbox_button_text);
                     goToRequestInboxBtn.setVisibility(View.VISIBLE);
                     goToRequestInboxBtn.setOnClickListener(v -> {
-                        Intent launchPendingRequestsActivityIntent = new Intent(WelcomeActivity.this, PendingRequestsActivity.class);
+                        Intent launchPendingRequestsActivityIntent = new Intent(WelcomeActivity.this, PendingAccountRequestsActivity.class);
                         startActivity(launchPendingRequestsActivityIntent);
+
+                        finish();
+                    });
+                // Set up 'Go to upcoming events' button if the user is organizer
+                } else if (userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail()).equals("Organizer")) {
+                    Button goToRequestInboxBtn = findViewById(R.id.launch_user_specific_activity_btn);
+                    goToRequestInboxBtn.setText(R.string.organizer_welcome_screen_launch_account_request_inbox_button_text);
+                    goToRequestInboxBtn.setVisibility(View.VISIBLE);
+                    goToRequestInboxBtn.setOnClickListener(v -> {
+                        Intent launchOrganizerUpcomingEventsActivityIntent = new Intent(
+                                WelcomeActivity.this, OrganizerUpcomingEventsActivity.class);
+                        startActivity(launchOrganizerUpcomingEventsActivityIntent);
+
+                        finish();
                     });
                 }
             }
@@ -74,4 +91,5 @@ public class WelcomeActivity extends AppCompatActivity {
             // User shouldn't be able to return to this instance of WelcomeActivity
             finish();
         });
-    }}
+    }
+}

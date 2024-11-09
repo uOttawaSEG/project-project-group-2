@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".PendingRequestsActivity"
+    tools:context=".ui.activities.RejectedAccountRequestsActivity"
     tools:ignore="ExtraText">
 
     <TextView
@@ -16,19 +16,19 @@
         android:layout_height="48dp"
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center"
-        android:text="Pending Requests"
+        android:text="Rejected Requests"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/see_rejected_requests_btn"
+        android:id="@+id/see_pending_requests_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/screen_title_tv"
-        android:text="See rejected requests"
+        android:text="See pending requests"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -47,7 +47,7 @@
         android:textSize="20sp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/pendingRV"
+        android:id="@+id/rejectedRV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="96dp"
