@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -27,9 +28,11 @@ import ca.seg2105project.model.eventClasses.Event;
  */
 public class EventsRepository {
 
+
 	//Two types of events in firebase (upcoming and past) 
 	private final ArrayList<Event> upcomingEvents; //NOTE: WE ARE ESTABLISHING THAT EVENT HAPPENING RIGHT NOW IS STILL AN UPCOMING EVENT (ATTENDEES CAN STILL REGISTER) 
     private final ArrayList<Event> pastEvents;
+	private final ArrayList<Event> allEvents;
 
 	//firebase database references
 	private final DatabaseReference eventsDatabase;
@@ -39,77 +42,29 @@ public class EventsRepository {
 		eventsDatabase = FirebaseDatabase.getInstance().getReference("events");
 
         //initialize the list of upcomingEvents and pastEvents, then update the lists from fb
-		upcomingEvents = new ArrayList<Event>();
-		pastEvents = new ArrayList<Event>();
-		pullUpcoming();
-		pullPast();
+		upcomingEvents = new ArrayList<>();
+		pastEvents = new ArrayList<>();
+		allEvents = new ArrayList<>();
+		pullAllEvents();
+		getAllPastEvents();
+		getAllUpcomingEvents();
 	}
 
 	/**
-	 * A method to update the final list of users "upcomingEvent" Does so 'in-place.' Takes its updated data from the firebase database. 
+	 * A method to update the final list of users "upcomingEvent" Does so 'in-place.' Takes its updated data from the firebase database.
 	 */
-	private void pullUpcoming() {
+	private void pullAllEvents() {
+		allEvents.clear();
 		eventsDatabase.addValueEventListener(new ValueEventListener() {
 
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-				upcomingEvents.clear();
-				for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) { 
-					//get each Event object in Firebase 
-					Event curEvent = requestSnapshot.getValue(Event.class);
-
-					//get the time of event and current time to tell if event is upcoming or not 
-					LocalDate eventDate = curEvent.getLocalDate();
-					LocalDate curDate = LocalDate.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX 
-//					LocalTime eventST = curEvent.getLocalStartTime();
-					LocalTime eventET = curEvent.getLocalEndTime(); 
-					LocalTime curTime = LocalTime.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX 
-
-					//Checking between the two type of events: 
-					//LocalDate compareTo is this-other 
-					if(eventDate.compareTo(curDate)>0) {  
-						//upcoming 
-						upcomingEvents.add(curEvent);
-
-						
-					} else if(eventDate.compareTo(curDate)==0 && eventET.compareTo(curTime) > 0) { //they're equal
-						//upcoming 
-						upcomingEvents.add(curEvent);
-					}
-				}
-			}
-
-			@Override
-			public void onCancelled(@NonNull DatabaseError databaseError) {}
-		});
-	}
-
-
-	/**
-	 * A method to update the final list of users "pastEvents." Does so 'in-place.' Takes its updated data from the firebase database. 
-	 */
-	private void pullPast() {
-		eventsDatabase.addValueEventListener(new ValueEventListener() {
-
-			@Override
-			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-				pastEvents.clear();
+				allEvents.clear();
 				for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
+					//get each Event object in Firebase
 					Event curEvent = requestSnapshot.getValue(Event.class);
-					LocalDate eventDate = curEvent.getLocalDate();
-					LocalDate curDate = LocalDate.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX 
-//					LocalTime eventST = curEvent.getLocalStartTime();
-					LocalTime eventET = curEvent.getLocalEndTime(); 
-					LocalTime curTime = LocalTime.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX 
 
-					if(eventDate.compareTo(curDate)<0) {  
-						//past 
-						pastEvents.add(curEvent);
-						
-					} else if(eventDate.compareTo(curDate)==0 && eventET.compareTo(curTime) < 0) { //they're equal 
-						//past 
-						pastEvents.add(curEvent);
-					} 
+					allEvents.add(curEvent);
 				}
 			}
 
@@ -118,25 +73,64 @@ public class EventsRepository {
 		});
 	}
 
-    /**
-     * This method returns a list of upcoming events in Firebase by first updating the list if there are 
-	 * new upcoming events added and then returning the most up to date list 
-     * @return a full list of all upcoming events
-     */
-    public ArrayList<Event> getAllUpcomingEvents() {
-		pullUpcoming();
-		return upcomingEvents;
-    }
-
 	/**
-     * This method returns a list of past events in Firebase by first updating the list if there are 
-	 * new past events and then returning the most up to date list 
-     * @return a full list of all past events
-     */
-    public ArrayList<Event> getAllPastEvents() {
-		pullPast();
+	 * This method returns a list of upcoming events in Firebase by first updating the list if there are
+	 * new upcoming events added and then returning the most up to date list
+	 * @return a full list of all upcoming events
+	 */
+	private ArrayList<Event> getAllUpcomingEvents() {
+		upcomingEvents.clear();
+		for (int i = 0; i<allEvents.size(); i++) {
+			//get each Event object in Firebase
+			Event curEvent = allEvents.get(i);
+
+			//get the time of event and current time to tell if event is upcoming or not
+			LocalDate eventDate = curEvent.getLocalDate();
+			LocalDate curDate = LocalDate.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX
+//					LocalTime eventST = curEvent.getLocalStartTime();
+			LocalTime eventET = curEvent.getLocalEndTime();
+			LocalTime curTime = LocalTime.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX
+
+			//Checking between the two type of events:
+			//LocalDate compareTo is this-other
+			if (eventDate.compareTo(curDate) > 0) {
+				//upcoming
+				upcomingEvents.add(curEvent);
+			} else if (eventDate.compareTo(curDate) == 0 && eventET.compareTo(curTime) > 0) { //they're equal
+				//upcoming
+				upcomingEvents.add(curEvent);
+			}
+		}
+		return upcomingEvents;
+	}
+
+
+/**
+ * This method returns a list of past events in Firebase by first updating the list if there are
+ * new past events and then returning the most up to date list
+ * @return a full list of all past events
+ */
+	private ArrayList<Event> getAllPastEvents() {
+		pastEvents.clear();
+		for (int i = 0; i<allEvents.size(); i++) {
+			Event curEvent = allEvents.get(i);
+			LocalDate eventDate = curEvent.getLocalDate();
+			LocalDate curDate = LocalDate.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX
+	//					LocalTime eventST = curEvent.getLocalStartTime();
+			LocalTime eventET = curEvent.getLocalEndTime();
+			LocalTime curTime = LocalTime.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX
+
+			if(eventDate.compareTo(curDate)<0) {
+				//past
+				pastEvents.add(curEvent);
+
+			} else if(eventDate.compareTo(curDate)==0 && eventET.compareTo(curTime) < 0) { //they're equal
+				//past
+				pastEvents.add(curEvent);
+			}
+		}
 		return pastEvents;
-    } 
+	}
 
 	/**
      * Adds new Event to event section in Firebase DB
