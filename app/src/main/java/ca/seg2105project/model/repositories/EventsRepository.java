@@ -1,8 +1,10 @@
 package ca.seg2105project.model.repositories;
 
+import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import java.lang.reflect.Array;
 import java.time.LocalDate;
@@ -26,6 +28,7 @@ import ca.seg2105project.model.eventClasses.Event;
  * In the next iteration of this class in this sprint, this class will hold a 'real'
  * list of registered users that will actually be modifiable.
  */
+@RequiresApi(api = Build.VERSION_CODES.O) //since LocalDate and LocalTime requires a newer API
 public class EventsRepository {
 
 
@@ -78,7 +81,7 @@ public class EventsRepository {
 	 * new upcoming events added and then returning the most up to date list
 	 * @return a full list of all upcoming events
 	 */
-	private ArrayList<Event> getAllUpcomingEvents() {
+    private ArrayList<Event> getAllUpcomingEvents() {
 		upcomingEvents.clear();
 		for (int i = 0; i<allEvents.size(); i++) {
 			//get each Event object in Firebase
@@ -110,7 +113,7 @@ public class EventsRepository {
  * new past events and then returning the most up to date list
  * @return a full list of all past events
  */
-	private ArrayList<Event> getAllPastEvents() {
+    private ArrayList<Event> getAllPastEvents() {
 		pastEvents.clear();
 		for (int i = 0; i<allEvents.size(); i++) {
 			Event curEvent = allEvents.get(i);
@@ -171,13 +174,9 @@ public class EventsRepository {
                                 .addOnFailureListener(e -> Log.e("Firebase", "Error trying to delete event from eventID: " + eventID));
                     }
                 }
-                eventIDQuery.removeEventListener(this);
             }
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("Firebase Error", "msg: " + databaseError.getMessage() + "details: " + databaseError.getDetails());
-                eventIDQuery.removeEventListener(this);
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
     }
 
