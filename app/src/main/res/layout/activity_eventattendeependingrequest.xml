@@ -65,9 +65,9 @@
         app:layout_constraintTop_toBottomOf="@id/pending_attendee_request" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/upcomingEvents"
-        android:layout_width="399dp"
-        android:layout_height="581dp"
+        android:id="@+id/RV_attendeeRejectedRequests"
+        android:layout_width="443dp"
+        android:layout_height="867dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="32dp"
         android:paddingTop="96dp"

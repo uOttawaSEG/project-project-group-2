@@ -66,8 +66,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pastEvents"
-        android:layout_width="445dp"
-        android:layout_height="964dp"
+        android:layout_width="440dp"
+        android:layout_height="882dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
         android:paddingTop="96dp"
         android:translationZ="-1dp"
         app:layout_constraintStart_toStartOf="parent"
