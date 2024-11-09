@@ -1,6 +1,9 @@
 package ca.seg2105project.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
@@ -16,11 +19,15 @@ import java.time.LocalTime;
 import java.time.Month;
 import java.util.ArrayList;
 
+import ca.seg2105project.EAMSApplication;
 import ca.seg2105project.R;
 import ca.seg2105project.model.eventClasses.Event;
+import ca.seg2105project.model.repositories.LoginSessionRepository;
 import ca.seg2105project.ui.rvcomponents.EventListAdapter;
 
 public class OrganizerUpcomingEventsActivity extends AppCompatActivity {
+
+    private EAMSApplication eamsApplication;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,8 +40,11 @@ public class OrganizerUpcomingEventsActivity extends AppCompatActivity {
             return insets;
         });
 
-        ArrayList<Event> events = new ArrayList<>();
+        eamsApplication = (EAMSApplication) getApplication();
 
+        RecyclerView upcomingEventsRV = findViewById(R.id.upcoming_events_rv);
+        upcomingEventsRV.setLayoutManager(new LinearLayoutManager(this));
+        ArrayList<Event> events = new ArrayList<>();
         events.add(new Event(
                 "id1",
                 "Event 1",
@@ -101,8 +111,32 @@ public class OrganizerUpcomingEventsActivity extends AppCompatActivity {
                 "org6@gmail.com",
                 false));
 
-        RecyclerView upcomingEventsRV = findViewById(R.id.upcoming_events_rv);
-        upcomingEventsRV.setLayoutManager(new LinearLayoutManager(this));
+        // Shawn once you remove the hardcoded events above and set events variable to just be the result
+        // of a call to EventRepository, move this .setAdapter line below to being inside a 1sec delayed runnable
+        // similar to how it's done in PendingAccountRequestsActivity
         upcomingEventsRV.setAdapter(new EventListAdapter(events));
+
+        setLogoutButtonLogic();
+    }
+
+    private void setLogoutButtonLogic() {
+        Button logoutButton = findViewById(R.id.Logout_BTN);
+        logoutButton.setOnClickListener(v -> {
+            LoginSessionRepository loginSessionRepository = eamsApplication.getLoginSessionRepository();
+
+            // Removes email from our shared preferences
+            loginSessionRepository.endLoginSession();
+
+            // Let user know they are logged out
+            Toast.makeText(getApplicationContext(), "Logged out successfully",
+                    Toast.LENGTH_LONG).show();
+
+            // Sends user back to login screen
+            Intent launchLoginActivityIntent = new Intent(this, LoginActivity.class);
+            startActivity(launchLoginActivityIntent);
+
+            // User shouldn't be able to return to this activity
+            finish();
+        });
     }
 }

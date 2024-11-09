@@ -53,6 +53,8 @@ public class WelcomeActivity extends AppCompatActivity {
                     goToRequestInboxBtn.setOnClickListener(v -> {
                         Intent launchPendingRequestsActivityIntent = new Intent(WelcomeActivity.this, PendingAccountRequestsActivity.class);
                         startActivity(launchPendingRequestsActivityIntent);
+
+                        finish();
                     });
                 // Set up 'Go to upcoming events' button if the user is organizer
                 } else if (userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail()).equals("Organizer")) {
@@ -63,6 +65,8 @@ public class WelcomeActivity extends AppCompatActivity {
                         Intent launchOrganizerUpcomingEventsActivityIntent = new Intent(
                                 WelcomeActivity.this, OrganizerUpcomingEventsActivity.class);
                         startActivity(launchOrganizerUpcomingEventsActivityIntent);
+
+                        finish();
                     });
                 }
             }
