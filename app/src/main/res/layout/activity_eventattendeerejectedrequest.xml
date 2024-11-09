@@ -7,48 +7,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".ui.activities.OrganizerPastEventsActivity"
+    tools:context=".ui.activities.EventAttendeeRejectedRequest"
     tools:ignore="ExtraText">
 
     <TextView
-        android:id="@+id/tittle_pastEvents"
+        android:id="@+id/rejected_attendee_request"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center"
-        android:text="Past Events"
+        android:text=" Rejected Attendee Request "
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/see_upcoming_btn"
+        android:id="@+id/see_event_approved_request_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:backgroundTint="@color/white"
-        android:text="Upcoming Events"
+        android:text="Approved Request"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/Add_event"
+        app:layout_constraintEnd_toStartOf="@+id/rejected_attendee_request"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tittle_pastEvents" />
+        app:layout_constraintTop_toBottomOf="@id/rejected_attendee_request" />
 
     <Button
-        android:id="@+id/Add_event"
+        android:id="@+id/approve_all_request_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="180dp"
+        android:layout_marginStart="196dp"
         android:layout_marginTop="4dp"
         android:backgroundTint="@color/white"
-        android:text="Add Event"
+        android:text="Aprrove All"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tittle_pastEvents" />
+        app:layout_constraintTop_toBottomOf="@id/rejected_attendee_request" />
 
     <Button
         android:id="@+id/Logout_BTN"
@@ -59,15 +59,17 @@
         android:backgroundTint="@color/white"
         android:text="Log Out"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tittle_pastEvents" />
+        app:layout_constraintTop_toBottomOf="@id/rejected_attendee_request" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/pastEvents"
-        android:layout_width="445dp"
-        android:layout_height="964dp"
+        android:id="@+id/upcomingEvents"
+        android:layout_width="444dp"
+        android:layout_height="859dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="32dp"
         android:paddingTop="96dp"
         android:translationZ="-1dp"
         app:layout_constraintStart_toStartOf="parent"
