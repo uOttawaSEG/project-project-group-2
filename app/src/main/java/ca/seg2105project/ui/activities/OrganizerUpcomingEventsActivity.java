@@ -42,6 +42,18 @@ public class OrganizerUpcomingEventsActivity extends AppCompatActivity {
 
         eamsApplication = (EAMSApplication) getApplication();
 
+        Button seeOrganizerPastEventsBTN = findViewById(R.id. see_past_events_btn);
+        seeOrganizerPastEventsBTN.setOnClickListener(v -> {
+            Intent launchRejectedRequestsActivityIntent = new Intent(this, OrganizerPastEventsActivity.class);
+            startActivity(launchRejectedRequestsActivityIntent);
+
+            // Close this instance of OrganizerUpcomingEventsActivity in case user logs off. They shouldn't be able to back-navigate
+            // to this activity
+            finish();
+        });
+
+
+
         RecyclerView upcomingEventsRV = findViewById(R.id.upcoming_events_rv);
         upcomingEventsRV.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<Event> events = new ArrayList<>();
