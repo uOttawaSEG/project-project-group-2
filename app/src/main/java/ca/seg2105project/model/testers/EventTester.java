@@ -14,6 +14,7 @@ import ca.seg2105project.model.eventClasses.Event;
 /**
 * A tester class to test the implementation of Event.java
 */
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class EventTester {
 	
 	/**
@@ -21,7 +22,6 @@ public class EventTester {
 	* <p>
 	* Prints out a string containing lines of format "value=returned_value_from_method". As long as the two values on either sides of the = sign are the same, the method is working as intended.
 	*/
-	@SuppressLint("NewApi") //This line is because this version of android is at API 24 and the function LocalTime.of requires at least API 26.
 	public static void main (String[] args) {
 		Organizer org = new Organizer("Mz", "Organizer", "organizer@gmail.com", "theirpassword", "Someplace", "1234567890", "EAMS app");
 		ArrayList<Event> orgEvents = org.getEvents();
@@ -34,9 +34,9 @@ public class EventTester {
 		System.out.println("qwertyuiop=" + e1.getEventID());
 		System.out.println("Midterm=" + e1.getTitle());
 		System.out.println("Computer Architecture, I am very cooked.=" + e1.getDescription());
-		System.out.println(d1.toString() + "=" + e1.getDate().toString());
-		System.out.println(st1.toString() + "=" + e1.getStartTime().toString());
-		System.out.println(et1.toString() + "=" + e1.getEndTime().toString());
+		System.out.println(d1.toString() + "=" + e1.getLocalDate().toString());
+		System.out.println(st1.toString() + "=" + e1.getLocalStartTime());
+		System.out.println(et1.toString() + "=" + e1.getLocalEndTime());
 		System.out.println("SITE 000=" + e1.getEventAddress());
 		System.out.println("organizer@gmail.com=" + e1.getOrganizerEmail());
 		System.out.println("false=" + e1.getRegistrationRequired());
@@ -54,9 +54,9 @@ public class EventTester {
 		System.out.println("asdfghjkl=" + e2.getEventID());
 		System.out.println("My Birthday=" + e2.getTitle());
 		System.out.println("The day I was born.=" + e2.getDescription());
-		System.out.println(d2.toString() + "=" + e2.getDate().toString());
-		System.out.println(st2.toString() + "=" + e2.getStartTime().toString());
-		System.out.println(et2.toString() + "=" + e2.getEndTime().toString());
+		System.out.println(d2.toString() + "=" + e2.getLocalDate().toString());
+		System.out.println(st2.toString() + "=" + e2.getLocalStartTime().toString());
+		System.out.println(et2.toString() + "=" + e2.getLocalEndTime().toString());
 		System.out.println("Some Medical Hospital=" + e2.getEventAddress());
 		System.out.println("organizer@gmail.com=" + e2.getOrganizerEmail());
 		System.out.println("true=" + e2.getRegistrationRequired());
@@ -101,9 +101,9 @@ public class EventTester {
 		System.out.println("12345=" + e3.getEventID());
 		System.out.println("Assignment 2 SEG=" + e3.getTitle());
 		System.out.println("Client-Server Assignment Chat System=" + e3.getDescription());
-		System.out.println(d3.toString() + "=" + e3.getDate().toString());
-		System.out.println(st3.toString() + "=" + e3.getStartTime().toString());
-		System.out.println(et3.toString() + "=" + e3.getEndTime().toString());
+		System.out.println(d3.toString() + "=" + e3.getLocalDate().toString());
+		System.out.println(st3.toString() + "=" + e3.getLocalStartTime().toString());
+		System.out.println(et3.toString() + "=" + e3.getLocalEndTime().toString());
 		System.out.println("DMS1600=" + e3.getEventAddress());
 		System.out.println("organizer@gmail.com=" + e3.getOrganizerEmail());
 		System.out.println("true=" + e3.getRegistrationRequired());

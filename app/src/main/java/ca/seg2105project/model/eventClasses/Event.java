@@ -1,5 +1,9 @@
 package ca.seg2105project.model.eventClasses;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -7,6 +11,7 @@ import java.util.ArrayList;
 /**
 * A class to model an Event. If registrationRequired is false, then pendingRequests and rejectedRequests are set to null.
 */
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class Event {
 	private String eventID, title, description, eventAddress, organizerEmail;
 	private LocalDate date;
@@ -64,7 +69,7 @@ public class Event {
 	* @param organizerEmail the email of the organizer organizing this event
 	* @param registrationRequired true if the organizer has to manually approve event requests, false if the requests are automatically approved
 	*/
-	public Event (String eventID, String title, String description, int year, int month, int date, int startTimeHour, int startTimeMinute, int endTimeHour, int endTimeMinute, String eventAddress, String organizerEmail, boolean registrationRequired) {
+    public Event (String eventID, String title, String description, int year, int month, int date, int startTimeHour, int startTimeMinute, int endTimeHour, int endTimeMinute, String eventAddress, String organizerEmail, boolean registrationRequired) {
 		this(eventID, title, description, 
 			LocalDate.of(year, month, date), 
 			LocalTime.of(startTimeHour, startTimeMinute), 
