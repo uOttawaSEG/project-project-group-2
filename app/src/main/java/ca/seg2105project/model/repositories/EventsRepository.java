@@ -6,7 +6,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -176,7 +175,7 @@ public class EventsRepository {
 	 * @param eventID the event's eventID whose approvedRequests are to be returned
 	 * @return the list of emails of the approved requests of the event specified by the given eventID. Null if the specified eventID does not have an event associated to it.
 	 */
-	public ArrayList<String> getAllApprovedEventRequests (String eventID) {
+	public ArrayList<String> getApprovedEventRequests (String eventID) {
 		pullAllEvents();
 		for (Event e : allEvents) {
 			if (e.getEventID().equals(eventID)) {
@@ -191,7 +190,7 @@ public class EventsRepository {
 	 * @param eventID the event's eventID whose pendingRequests are to be returned
 	 * @return the list of emails of the pending requests of the event specified by the given eventID. Null if the specified eventID does not have an event associated to it or registration is not required for that event.
 	 */
-	public ArrayList<String> getAllPendingEventRequests (String eventID) {
+	public ArrayList<String> getPendingEventRequests (String eventID) {
 		pullAllEvents();
 		for (Event e : allEvents) {
 			if (e.getEventID().equals(eventID)) {
@@ -206,7 +205,7 @@ public class EventsRepository {
 	 * @param eventID the event's eventID whose rejectedRequests are to be returned
 	 * @return the list of emails of the rejected requests of the event specified by the given eventID. Null if the specified eventID does not have an event associated to it or registration is not required for that event.
 	 */
-	public ArrayList<String> getAllRejectedEventRequests (String eventID) {
+	public ArrayList<String> getRejectedEventRequests(String eventID) {
 		pullAllEvents();
 		for (Event e : allEvents) {
 			if (e.getEventID().equals(eventID)) {
