@@ -168,6 +168,7 @@ public class EventRepository {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
+		pullAllEvents; //update the list after adding a new event
     }
 
 	/**
