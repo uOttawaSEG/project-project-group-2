@@ -1,6 +1,5 @@
 package ca.seg2105project.model.testers;
 
-import android.annotation.SuppressLint;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -40,7 +39,7 @@ public class EventTester {
 		System.out.println("SITE 000=" + e1.getEventAddress());
 		System.out.println("organizer@gmail.com=" + e1.getOrganizerEmail());
 		System.out.println("false=" + e1.getRegistrationRequired());
-		System.out.println("false=" + (e1.getAttendees() == null));
+		System.out.println("false=" + (e1.getApprovedRequests() == null));
 		System.out.println("true=" + (e1.getPendingRequests() == null));
 		System.out.println("true=" + (e1.getRejectedRequests() == null));
 		
@@ -60,7 +59,7 @@ public class EventTester {
 		System.out.println("Some Medical Hospital=" + e2.getEventAddress());
 		System.out.println("organizer@gmail.com=" + e2.getOrganizerEmail());
 		System.out.println("true=" + e2.getRegistrationRequired());
-		System.out.println("false=" + (e2.getAttendees() == null));
+		System.out.println("false=" + (e2.getApprovedRequests() == null));
 		System.out.println("false=" + (e2.getPendingRequests() == null));
 		System.out.println("false=" + (e2.getRejectedRequests() == null));
 		
@@ -73,20 +72,20 @@ public class EventTester {
 		
 		System.out.println();
 
-		e1.getAttendees().add("raclu@uottawa.ca");
-		e1.getAttendees().add("ij@uottawa.ca");
-		e1.getAttendees().add("s@uottawa.ca");
-		e1.getAttendees().add("r@uottawa.ca");
-		System.out.println("raclu@uottawa.ca=" + e1.getAttendees().get(0));
-		System.out.println("ij@uottawa.ca=" + e1.getAttendees().get(1));
-		System.out.println("s@uottawa.ca=" + e1.getAttendees().get(2));
-		System.out.println("r@uottawa.ca=" + e1.getAttendees().get(3));
+		e1.getApprovedRequests().add("raclu@uottawa.ca");
+		e1.getApprovedRequests().add("ij@uottawa.ca");
+		e1.getApprovedRequests().add("s@uottawa.ca");
+		e1.getApprovedRequests().add("r@uottawa.ca");
+		System.out.println("raclu@uottawa.ca=" + e1.getApprovedRequests().get(0));
+		System.out.println("ij@uottawa.ca=" + e1.getApprovedRequests().get(1));
+		System.out.println("s@uottawa.ca=" + e1.getApprovedRequests().get(2));
+		System.out.println("r@uottawa.ca=" + e1.getApprovedRequests().get(3));
 		
 		System.out.println();
 		
-		System.out.println("0=" + e2.getAttendees().size());
-		e2.getAttendees().add("youngme@birth.in");
-		System.out.println("1=" + e2.getAttendees().size());
+		System.out.println("0=" + e2.getApprovedRequests().size());
+		e2.getApprovedRequests().add("youngme@birth.in");
+		System.out.println("1=" + e2.getApprovedRequests().size());
 		
 		System.out.println();
 		System.out.println("0=" + e2.getPendingRequests().size());
@@ -109,19 +108,19 @@ public class EventTester {
 		System.out.println("true=" + e3.getRegistrationRequired());
 
 
-		System.out.println("0=" + (e3.getAttendees().size()));
+		System.out.println("0=" + (e3.getApprovedRequests().size()));
 		System.out.println("0=" + (e3.getPendingRequests().size()));
 		System.out.println("0=" + (e3.getRejectedRequests().size()));
 
 
-		e3.getAttendees().add("ImIn@gmail.com");
+		e3.getApprovedRequests().add("ImIn@gmail.com");
 		e3.getRejectedRequests().add("ImRejected@hotmail.com");
 		e3.getRejectedRequests().add("ImRejected2@hotmail.com");
 		e3.getPendingRequests().add("ImWaiting@outlook.com");
 		e3.getPendingRequests().add("ImWaiting2@outlook.com");
 		e3.getPendingRequests().add("ImWaiting3@outlook.com");
 
-		System.out.println("1=" + (e3.getAttendees().size()));
+		System.out.println("1=" + (e3.getApprovedRequests().size()));
 		System.out.println("3=" + (e3.getPendingRequests().size()));
 		System.out.println("2=" + (e3.getRejectedRequests().size()));
 

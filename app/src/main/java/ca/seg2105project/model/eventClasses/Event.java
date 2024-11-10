@@ -17,7 +17,7 @@ public class Event {
 	private LocalDate date;
 	private LocalTime startTime, endTime;
 	private boolean registrationRequired;
-	private ArrayList<String> attendees, pendingRequests, rejectedRequests;
+	private ArrayList<String> approvedRequests, pendingRequests, rejectedRequests;
 	
 	/**
 	* A parameterized constructor for Event that takes in LocalDate and LocalTime objects.
@@ -42,7 +42,7 @@ public class Event {
 		this.organizerEmail = organizerEmail;
 		this.registrationRequired = registrationRequired;
 		
-		this.attendees = new ArrayList<String>();
+		this.approvedRequests = new ArrayList<String>();
 		
 		if (registrationRequired == true) { //if requests need to be manually approved by organizer, then keep track of pending and approved requests
 			this.pendingRequests = new ArrayList<String>();
@@ -181,10 +181,10 @@ public class Event {
 	public boolean getRegistrationRequired() { return registrationRequired; }
 	
 	/**
-	* A getter for the array list attendees.
+	* A getter for the array list approvedRequests.
 	* @return the list of the attendees' emails that will be attending this event (synonymous to approvedRequests)
 	*/
-	public ArrayList<String> getAttendees() { return attendees; }
+	public ArrayList<String> getApprovedRequests() { return approvedRequests; }
 	
 	/**
 	* A getter for the array list pendingRequests.
