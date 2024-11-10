@@ -48,13 +48,13 @@ public class EventsRepository {
 		upcomingEvents = new ArrayList<>();
 		pastEvents = new ArrayList<>();
 		allEvents = new ArrayList<>();
+
+		//update the lists from fb db
 		pullAllEvents();
-		getAllPastEvents();
-		getAllUpcomingEvents();
 	}
 
 	/**
-	 * A method to update the final list of users "upcomingEvent" Does so 'in-place.' Takes its updated data from the firebase database.
+	 * Updates the lists allEvents, pastEvents, and upcomingEvents. Does so 'in-place.' Takes its updated data from the firebase database.
 	 */
 	private void pullAllEvents() {
 		allEvents.clear();
@@ -63,11 +63,37 @@ public class EventsRepository {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				allEvents.clear();
+				pastEvents.clear();
+				upcomingEvents.clear();
+
 				for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
 					//get each Event object in Firebase
 					Event curEvent = requestSnapshot.getValue(Event.class);
-
+					//add each event into allEvents
 					allEvents.add(curEvent);
+
+					//now need to sort curEvent into either a pastEvent or an upcomingEvent
+					LocalDate currentDate = LocalDate.now();
+					LocalTime currentTime = LocalTime.now();
+					LocalDate eventDate = curEvent.getLocalDate();
+					LocalTime eventStartTime = curEvent.getLocalStartTime();
+					LocalTime eventEndTime = curEvent.getLocalEndTime();
+
+					if (eventDate.isBefore(currentDate)) {
+						pastEvents.add(curEvent);
+					} else if (eventDate.isAfter(currentDate)) {
+						upcomingEvents.add(curEvent);
+					} else { //must be today
+						if (eventStartTime.isAfter(currentTime)) {
+							upcomingEvents.add(curEvent);
+						} else { //eventStartTime.isBefore(currentTime) || eventStartTime.isEqual(currentTime)
+							if (eventEndTime.isAfter(currentTime)) {
+								upcomingEvents.add(curEvent);
+							} else { //eventEndTime.isBefore(currentTime) || eventEndTime.isEqual(currentTime)
+								pastEvents.add(curEvent);
+							}
+						}
+					}
 				}
 			}
 
@@ -82,28 +108,7 @@ public class EventsRepository {
 	 * @return a full list of all upcoming events
 	 */
     private ArrayList<Event> getAllUpcomingEvents() {
-		upcomingEvents.clear();
-		for (int i = 0; i<allEvents.size(); i++) {
-			//get each Event object in Firebase
-			Event curEvent = allEvents.get(i);
-
-			//get the time of event and current time to tell if event is upcoming or not
-			LocalDate eventDate = curEvent.getLocalDate();
-			LocalDate curDate = LocalDate.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX
-//					LocalTime eventST = curEvent.getLocalStartTime();
-			LocalTime eventET = curEvent.getLocalEndTime();
-			LocalTime curTime = LocalTime.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX
-
-			//Checking between the two type of events:
-			//LocalDate compareTo is this-other
-			if (eventDate.compareTo(curDate) > 0) {
-				//upcoming
-				upcomingEvents.add(curEvent);
-			} else if (eventDate.compareTo(curDate) == 0 && eventET.compareTo(curTime) > 0) { //they're equal
-				//upcoming
-				upcomingEvents.add(curEvent);
-			}
-		}
+		pullAllEvents(); //to update the lists
 		return upcomingEvents;
 	}
 
@@ -114,24 +119,7 @@ public class EventsRepository {
  * @return a full list of all past events
  */
     private ArrayList<Event> getAllPastEvents() {
-		pastEvents.clear();
-		for (int i = 0; i<allEvents.size(); i++) {
-			Event curEvent = allEvents.get(i);
-			LocalDate eventDate = curEvent.getLocalDate();
-			LocalDate curDate = LocalDate.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX
-	//					LocalTime eventST = curEvent.getLocalStartTime();
-			LocalTime eventET = curEvent.getLocalEndTime();
-			LocalTime curTime = LocalTime.now(); //NOTE TO SELF: DOUBLE CHECK SYNTAX
-
-			if(eventDate.compareTo(curDate)<0) {
-				//past
-				pastEvents.add(curEvent);
-
-			} else if(eventDate.compareTo(curDate)==0 && eventET.compareTo(curTime) < 0) { //they're equal
-				//past
-				pastEvents.add(curEvent);
-			}
-		}
+		pullAllEvents(); //to update the lists
 		return pastEvents;
 	}
 
@@ -151,6 +139,9 @@ public class EventsRepository {
 
         // Add the event to the event section
         eventsDatabase.child(eventID).setValue(newEvent);
+
+		pullAllEvents(); //update the local lists to fetch the new event
+
         return true;
     }
 
