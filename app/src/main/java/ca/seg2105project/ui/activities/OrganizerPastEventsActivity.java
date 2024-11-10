@@ -42,8 +42,7 @@ public class OrganizerPastEventsActivity extends AppCompatActivity {
 
         eamsApplication = (EAMSApplication) getApplication();
 
-
-        RecyclerView pastEventsRV = findViewById(R.id.pastEvents);
+        RecyclerView pastEventsRV = findViewById(R.id.past_events_rv);
         pastEventsRV.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<Event> events = new ArrayList<>();
         events.add(new Event(
@@ -117,7 +116,20 @@ public class OrganizerPastEventsActivity extends AppCompatActivity {
         // similar to how it's done in PendingAccountRequestsActivity
         pastEventsRV.setAdapter(new EventListAdapter(events));
 
+        setSeeUpcomingEventsButtonLogic();
         setLogoutButtonLogic();
+    }
+
+    private void setSeeUpcomingEventsButtonLogic() {
+        Button seeOrganizerPastEventsBTN = findViewById(R.id. see_upcoming_btn);
+        seeOrganizerPastEventsBTN.setOnClickListener(v -> {
+            Intent launchUpcomingEventsActivityIntent = new Intent(this, OrganizerUpcomingEventsActivity.class);
+            startActivity(launchUpcomingEventsActivityIntent);
+
+            // Close this instance of OrganizerUpcomingEventsActivity in case user logs off. They shouldn't be able to back-navigate
+            // to this activity
+            finish();
+        });
     }
 
     private void setLogoutButtonLogic() {

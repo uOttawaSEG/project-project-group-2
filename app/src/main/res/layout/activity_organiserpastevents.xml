@@ -65,9 +65,9 @@
         app:layout_constraintTop_toBottomOf="@id/tittle_pastEvents" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/pastEvents"
-        android:layout_width="440dp"
-        android:layout_height="882dp"
+        android:id="@+id/past_events_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:paddingTop="96dp"
