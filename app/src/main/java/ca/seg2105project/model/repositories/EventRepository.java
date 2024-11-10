@@ -28,7 +28,7 @@ import ca.seg2105project.model.eventClasses.Event;
  * list of registered users that will actually be modifiable.
  */
 @RequiresApi(api = Build.VERSION_CODES.O) //since LocalDate and LocalTime requires a newer API
-public class EventsRepository {
+public class EventRepository {
 
 
 	//Two types of events in firebase (upcoming and past) 
@@ -39,7 +39,7 @@ public class EventsRepository {
 	//firebase database references
 	private final DatabaseReference eventsDatabase;
 
-    public EventsRepository() {
+    public EventRepository() {
 		// Initializing Firebase database references
 		eventsDatabase = FirebaseDatabase.getInstance().getReference("events");
 
