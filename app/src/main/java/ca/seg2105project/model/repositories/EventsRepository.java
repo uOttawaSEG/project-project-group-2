@@ -161,7 +161,7 @@ public class EventsRepository {
                     for(DataSnapshot snapshot : dataSnapshot.getChildren()){ //should only be one event but looping just in case 
                         String key = snapshot.getKey();
                         eventsDatabase.child(key).removeValue()
-                                .addOnSuccessListener(v -> Log.d("Firebase", "Succesfully deleted event from eventID: " + eventID))
+                                .addOnSuccessListener(v -> Log.d("Firebase", "Successfully deleted event from eventID: " + eventID))
                                 .addOnFailureListener(e -> Log.e("Firebase", "Error trying to delete event from eventID: " + eventID));
                     }
                 }
@@ -171,7 +171,48 @@ public class EventsRepository {
         });
     }
 
-	
+	/**
+	 * Returns the list of emails of the approved requests of the event specified by the given eventID.
+	 * @param eventID the event's eventID whose approvedRequests are to be returned
+	 * @return the list of emails of the approved requests of the event specified by the given eventID. Null if the specified eventID does not have an event associated to it.
+	 */
+	public ArrayList<String> getAllApprovedEventRequests (String eventID) {
+		pullAllEvents();
+		for (Event e : allEvents) {
+			if (e.getEventID().equals(eventID)) {
+				return e.getApprovedRequests();
+			}
+		}
+		return null;
+	}
 
+	/**
+	 * Returns the list of emails of the pending requests of the event specified by the given eventID.
+	 * @param eventID the event's eventID whose pendingRequests are to be returned
+	 * @return the list of emails of the pending requests of the event specified by the given eventID. Null if the specified eventID does not have an event associated to it or registration is not required for that event.
+	 */
+	public ArrayList<String> getAllPendingEventRequests (String eventID) {
+		pullAllEvents();
+		for (Event e : allEvents) {
+			if (e.getEventID().equals(eventID)) {
+				return e.getPendingRequests();
+			}
+		}
+		return null;
+	}
 
+	/**
+	 * Returns the list of emails of the rejected requests of the event specified by the given eventID.
+	 * @param eventID the event's eventID whose rejectedRequests are to be returned
+	 * @return the list of emails of the rejected requests of the event specified by the given eventID. Null if the specified eventID does not have an event associated to it or registration is not required for that event.
+	 */
+	public ArrayList<String> getAllRejectedEventRequests (String eventID) {
+		pullAllEvents();
+		for (Event e : allEvents) {
+			if (e.getEventID().equals(eventID)) {
+				return e.getRejectedRequests();
+			}
+		}
+		return null;
+	}
 }
