@@ -116,7 +116,20 @@ public class OrganizerUpcomingEventsActivity extends AppCompatActivity {
         // similar to how it's done in PendingAccountRequestsActivity
         upcomingEventsRV.setAdapter(new EventListAdapter(events));
 
+        setSeePastEventsButtonLogic();
         setLogoutButtonLogic();
+    }
+
+    private void setSeePastEventsButtonLogic() {
+        Button seeOrganizerPastEventsBTN = findViewById(R.id. see_past_events_btn);
+        seeOrganizerPastEventsBTN.setOnClickListener(v -> {
+            Intent launchPastEventsActivityIntent = new Intent(this, OrganizerPastEventsActivity.class);
+            startActivity(launchPastEventsActivityIntent);
+
+            // Close this instance of OrganizerUpcomingEventsActivity in case user logs off. They shouldn't be able to back-navigate
+            // to this activity
+            finish();
+        });
     }
 
     private void setLogoutButtonLogic() {
