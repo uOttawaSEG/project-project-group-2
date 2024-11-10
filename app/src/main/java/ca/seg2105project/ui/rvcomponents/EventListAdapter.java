@@ -38,9 +38,9 @@ public class EventListAdapter extends RecyclerView.Adapter<EventViewHolder> {
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         holder.eventTitleTV.setText(events.get(position).getTitle());
         holder.eventDescriptionTV.setText(events.get(position).getDescription());
-        holder.eventDateTV.setText(events.get(position).getDate().toString());
-        holder.eventStartTimeTV.setText(events.get(position).getStartTime().toString());
-        holder.eventEndTimeTV.setText(events.get(position).getEndTime().toString());
+        holder.eventDateTV.setText(events.get(position).getLocalDate().toString());
+        holder.eventStartTimeTV.setText(events.get(position).getLocalStartTime().toString());
+        holder.eventEndTimeTV.setText(events.get(position).getLocalEndTime().toString());
         holder.eventAddressTV.setText(events.get(position).getEventAddress());
     }
 
