@@ -106,7 +106,7 @@ public class EventRepository {
 	 * new upcoming events added and then returning the most up to date list
 	 * @return a full list of all upcoming events
 	 */
-    private ArrayList<Event> getAllUpcomingEvents() {
+    public ArrayList<Event> getAllUpcomingEvents() {
 		pullAllEvents(); //to update the lists
 		return upcomingEvents;
 	}
@@ -117,7 +117,7 @@ public class EventRepository {
  * new past events and then returning the most up to date list
  * @return a full list of all past events
  */
-    private ArrayList<Event> getAllPastEvents() {
+    public ArrayList<Event> getAllPastEvents() {
 		pullAllEvents(); //to update the lists
 		return pastEvents;
 	}
