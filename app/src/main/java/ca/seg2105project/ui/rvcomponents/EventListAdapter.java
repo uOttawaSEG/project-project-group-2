@@ -1,5 +1,6 @@
 package ca.seg2105project.ui.rvcomponents;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -11,7 +12,8 @@ import java.util.List;
 
 import ca.seg2105project.R;
 import ca.seg2105project.model.eventClasses.Event;
-
+import androidx.annotation.RequiresApi;
+@RequiresApi(api= Build.VERSION_CODES.O)
 public class EventListAdapter extends RecyclerView.Adapter<EventViewHolder> {
 
     private ArrayList<Event> events;
