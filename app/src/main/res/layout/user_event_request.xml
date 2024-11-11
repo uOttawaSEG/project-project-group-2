@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    tools:context=".ui.activities.OrganizerUpcomingEventsActivity"
+    tools:ignore="ExtraText">
+
+    <ImageView
+        android:id="@+id/item_spacer"
+        android:layout_width="31dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/event_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/item_spacer"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        tools:text="Event Tittle" />
+
+    <TextView
+        android:id="@+id/event_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/event_title"
+        android:layout_toEndOf="@+id/item_spacer"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        tools:text="Event Description" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/event_description"
+        android:layout_toEndOf="@+id/item_spacer"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        tools:text="Date" />
+
+    <TextView
+        android:id="@+id/startTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date"
+        android:layout_toEndOf="@+id/item_spacer"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        tools:text="Start Time" />
+
+    <TextView
+        android:id="@+id/endTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/startTime"
+        android:layout_toEndOf="@+id/item_spacer"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        tools:text="End Time" />
+
+    <TextView
+        android:id="@+id/eventAddress"
+        android:layout_width="417dp"
+        android:layout_height="21dp"
+        android:layout_below="@+id/endTime"
+        android:layout_marginStart="0dp"
+        android:layout_toEndOf="@+id/item_spacer"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        tools:text="Event Address" />
+
+    <Button
+        android:id="@+id/request_event_btn"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="13dp"
+        android:text="Request"
+        android:textColor="@color/white" />
+</RelativeLayout>

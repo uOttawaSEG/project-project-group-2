@@ -49,4 +49,15 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginEnd="2dp"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/upcoming_events_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:paddingTop="96dp"
+        android:translationZ="-1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Logout_BTN" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

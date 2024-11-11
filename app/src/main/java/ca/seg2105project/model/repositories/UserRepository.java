@@ -36,7 +36,7 @@ public class UserRepository {
 	}
 
 	/**
-	 * A method to update the final list of users "registeredUsers." Does so 'in-place.' Takes its updated data from the firebase database. Furthermore, returns the updated list of users.
+	 * A method to update the final list of users "registeredUsers." Does so 'in-place.' Takes its updated data from the firebase database.
 	 */
 	private void pullUsers() {
 		usersDatabase.addValueEventListener(new ValueEventListener() {
