@@ -128,7 +128,7 @@ public class EventRepository {
      * @return whether or not the new event was successfully added to the DB
      */
     public boolean addEvent(Event newEvent) {
-        // generating a unique key for the event
+		// generating a unique key for the event
         String eventID = eventsDatabase.push().getKey();
 
         // We failed to create a reference to a new child in the event section of Firebase
@@ -140,6 +140,7 @@ public class EventRepository {
         eventsDatabase.child(eventID).setValue(newEvent);
 
 		pullAllEvents(); //update the local lists to fetch the new event
+
 
         return true;
     }
