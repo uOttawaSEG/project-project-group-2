@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ca.seg2105project.EAMSApplication;
 import ca.seg2105project.R;
@@ -52,7 +53,6 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         holder.eventStartTimeTV.setText(events.get(position).getLocalStartTime().toString());
         holder.eventEndTimeTV.setText(events.get(position).getLocalEndTime().toString());
         holder.eventAddressTV.setText(events.get(position).getEventAddress());
-        holder.eventId = events.get(position).getEventID();
     }
 
     @Override
