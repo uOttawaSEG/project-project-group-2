@@ -58,7 +58,6 @@ public class OrganizerPastEventsActivity extends AppCompatActivity {
 
         setSeeUpcomingEventsButtonLogic();
         setLogoutButtonLogic();
-        setAddEventButtonLogic();
         Runnable setPendingRvList = new Runnable() {
             @Override
             public void run() {
@@ -100,14 +99,5 @@ public class OrganizerPastEventsActivity extends AppCompatActivity {
             // User shouldn't be able to return to this activity
             finish();
         });
-    }
-
-    private void setAddEventButtonLogic(){
-        Button addButton = findViewById(R.id.Add_event);
-        addButton.setOnClickListener(v -> {
-            Intent launchUpcomingEventsActivityIntent = new Intent(this, CreateEventActivity.class);
-            startActivity(launchUpcomingEventsActivityIntent);
-        });
-
     }
 }
