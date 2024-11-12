@@ -1,5 +1,6 @@
 package ca.seg2105project.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -117,6 +118,8 @@ public class CreateEventActivity extends AppCompatActivity {
                         enteredAutoApproveCheckBox);
                 eventRepository.addEvent(newEvent);
 
+                Intent launchOrganizerUpcomingEventsActivity = new Intent(this, OrganizerUpcomingEventsActivity.class);
+                startActivity(launchOrganizerUpcomingEventsActivity);
                 finish();
             } catch (Exception e) {
                 Toast.makeText(this, "Please fill all fields correctly", Toast.LENGTH_LONG).show();

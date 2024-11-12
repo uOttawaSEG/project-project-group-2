@@ -42,11 +42,11 @@ public class EventListAdapter extends RecyclerView.Adapter<EventViewHolder> {
         holder.eventStartTimeTV.setText(events.get(position).getLocalStartTime().toString());
         holder.eventEndTimeTV.setText(events.get(position).getLocalEndTime().toString());
         holder.eventAddressTV.setText(events.get(position).getEventAddress());
-        holder.eventId = events.get(position).getEventId();
+        holder.eventId = events.get(position).getEventID();
 
         holder.deleteEventBtn.setOnClickListener(v -> {
             // Remove event from fb
-            eventRepository.deleteEvent(events.get(position).getEventId());
+            eventRepository.deleteEvent(events.get(position).getEventID());
 
             // Remove event from recycler view
             events.remove(position);

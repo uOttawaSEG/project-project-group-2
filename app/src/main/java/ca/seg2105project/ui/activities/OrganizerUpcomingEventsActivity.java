@@ -46,7 +46,7 @@ public class OrganizerUpcomingEventsActivity extends AppCompatActivity {
 
         RecyclerView upcomingEventsRV = findViewById(R.id.upcoming_events_rv);
         upcomingEventsRV.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<Event> events = eventRepository.getAllPastEvents();
+        ArrayList<Event> events = eventRepository.getAllUpcomingEvents();
 
         setSeePastEventsButtonLogic();
         setLogoutButtonLogic();
@@ -100,6 +100,7 @@ public class OrganizerUpcomingEventsActivity extends AppCompatActivity {
         addButton.setOnClickListener(v -> {
             Intent launchUpcomingEventsActivityIntent = new Intent(this, CreateEventActivity.class);
             startActivity(launchUpcomingEventsActivityIntent);
+            finish();
         });
     }
 }

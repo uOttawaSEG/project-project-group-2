@@ -54,7 +54,7 @@ public class OrganizerPastEventsActivity extends AppCompatActivity {
 
         RecyclerView pastEventsRV = findViewById(R.id.past_events_rv);
         pastEventsRV.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<Event> events = eventRepository.getAllUpcomingEvents();
+        ArrayList<Event> events = eventRepository.getAllPastEvents();
 
         setSeeUpcomingEventsButtonLogic();
         setLogoutButtonLogic();

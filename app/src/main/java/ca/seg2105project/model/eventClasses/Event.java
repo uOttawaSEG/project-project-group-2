@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * A class to model an Event. If registrationRequired is false, then pendingRequests and rejectedRequests are set to null.
  */
 public class Event {
-	private String eventId, title, description, eventAddress, organizerEmail;
+	private String eventID, title, description, eventAddress, organizerEmail;
 	private long dateMillis; // Store date as milliseconds since epoch for Firebase
 	private long startTimeMillis, endTimeMillis; // Store times as milliseconds since midnight for Firebase
 	private boolean registrationRequired;
@@ -16,7 +16,7 @@ public class Event {
 
 	/**
 	 * A parameterized constructor for Event that takes in LocalDate and LocalTime objects.
-	 * @param eventId a unique id for the event
+	 * @param eventID a unique id for the event
 	 * @param title the title of the event
 	 * @param description the description of the event
 	 * @param date the date the event is taking place on
@@ -26,8 +26,8 @@ public class Event {
 	 * @param organizerEmail the email of the organizer organizing this event
 	 * @param registrationRequired true if the organizer has to manually approve event requests, false if the requests are automatically approved
 	 */
-	public Event (String eventId, String title, String description, LocalDate date, LocalTime startTime, LocalTime endTime, String eventAddress, String organizerEmail, boolean registrationRequired) {
-		this.eventId = eventId;
+	public Event (String eventID, String title, String description, LocalDate date, LocalTime startTime, LocalTime endTime, String eventAddress, String organizerEmail, boolean registrationRequired) {
+		this.eventID = eventID;
 		this.title = title;
 		this.description = description;
 		this.dateMillis = date.toEpochDay() * 24 * 60 * 60 * 1000; // Convert to milliseconds
@@ -50,7 +50,7 @@ public class Event {
 
 	/**
 	 * A parameterized constructor for Event that takes in ints for the date and times instead of LocalDate/LocalTime objects.
-	 * @param eventId a unique id for the event
+	 * @param eventID a unique id for the event
 	 * @param title the title of the event
 	 * @param description the description of the event
 	 * @param year the year the event is taking place in
@@ -64,8 +64,8 @@ public class Event {
 	 * @param organizerEmail the email of the organizer organizing this event
 	 * @param registrationRequired true if the organizer has to manually approve event requests, false if the requests are automatically approved
 	 */
-	public Event (String eventId, String title, String description, int year, int month, int date, int startTimeHour, int startTimeMinute, int endTimeHour, int endTimeMinute, String eventAddress, String organizerEmail, boolean registrationRequired) {
-		this(eventId, title, description,
+	public Event (String eventID, String title, String description, int year, int month, int date, int startTimeHour, int startTimeMinute, int endTimeHour, int endTimeMinute, String eventAddress, String organizerEmail, boolean registrationRequired) {
+		this(eventID, title, description,
 				LocalDate.of(year, month, date),
 				LocalTime.of(startTimeHour, startTimeMinute),
 				LocalTime.of(endTimeHour, endTimeMinute),
@@ -83,7 +83,7 @@ public class Event {
 	 * A getter for eventID.
 	 * @return the unique id for this event
 	 */
-	public String getEventId() { return eventId; }
+	public String getEventID() { return eventID; }
 
 	/**
 	 * A getter for title.
@@ -174,4 +174,10 @@ public class Event {
 	 * @return the list of the attendees' emails whose requests have been rejected, null if registration is not required
 	 */
 	public ArrayList<String> getRejectedRequests() { return rejectedRequests; }
+
+	//setter methods
+
+	public void setEventID (String eventId) {
+		this.eventID = eventId;
+	}
 }
