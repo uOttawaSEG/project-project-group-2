@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ca.seg2105project.R;
-import ca.seg2105project.ui.activities.EventAttendeePendingRequest;
+import ca.seg2105project.ui.activities.EventAttendeePendingRequests;
 
 public class EventViewHolder extends RecyclerView.ViewHolder{
 
@@ -37,7 +37,7 @@ public class EventViewHolder extends RecyclerView.ViewHolder{
         // Send user to see list of pending event registration requests
         eventItemView.setOnClickListener(v -> {
             Intent launchEventAttendeePendingRequestActivityIntent = new Intent(eventItemView.getContext(),
-                    EventAttendeePendingRequest.class);
+                    EventAttendeePendingRequests.class);
             launchEventAttendeePendingRequestActivityIntent.putExtra("event_id", eventId);
 
             eventItemView.getContext().startActivity(launchEventAttendeePendingRequestActivityIntent);
