@@ -29,6 +29,7 @@ import ca.seg2105project.ui.rvcomponents.EventListAdapter;
 public class OrganizerUpcomingEventsActivity extends AppCompatActivity {
 
     private EAMSApplication eamsApplication;
+    private LoginSessionRepository loginSessionRepository;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,19 +44,24 @@ public class OrganizerUpcomingEventsActivity extends AppCompatActivity {
 
         eamsApplication = (EAMSApplication) getApplication();
         EventRepository eventRepository = new EventRepository();
+        loginSessionRepository = eamsApplication.getLoginSessionRepository();
 
         RecyclerView upcomingEventsRV = findViewById(R.id.upcoming_events_rv);
         upcomingEventsRV.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<Event> events = eventRepository.getAllUpcomingEvents();
 
         setSeePastEventsButtonLogic();
         setLogoutButtonLogic();
         setAddEventButtonLogic();
+
+        // This is delayed so that the constructor for EventRepository from EAMSApplication has time
+        // to run and pull the list of events from fb before we get the filtered list of upcoming events
         Runnable setPendingRvList = new Runnable() {
             @Override
             public void run() {
+                // We don't need to put this call outside the runnable because we're not making
+                // a call to fb in getAllUpcomingEvents
+                ArrayList<Event> events = eventRepository.getAllUpcomingEvents(loginSessionRepository.getActiveLoginSessionEmail());
                 upcomingEventsRV.setAdapter(new EventListAdapter(events, eventRepository));
-
             }
         };
         Handler h = new Handler();
@@ -77,8 +83,6 @@ public class OrganizerUpcomingEventsActivity extends AppCompatActivity {
     private void setLogoutButtonLogic() {
         Button logoutButton = findViewById(R.id.Logout_BTN);
         logoutButton.setOnClickListener(v -> {
-            LoginSessionRepository loginSessionRepository = eamsApplication.getLoginSessionRepository();
-
             // Removes email from our shared preferences
             loginSessionRepository.endLoginSession();
 
