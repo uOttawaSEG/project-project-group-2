@@ -102,24 +102,49 @@ public class EventRepository {
 	}
 
 	/**
-	 * This method returns a list of upcoming events in Firebase by first updating the list if there are
-	 * new upcoming events added and then returning the most up to date list
+	 * This method returns a list of upcoming events in Firebase by returning upcomingEvents
 	 * @return a full list of all upcoming events
 	 */
     public ArrayList<Event> getAllUpcomingEvents() {
-		pullAllEvents(); //to update the lists
 		return upcomingEvents;
 	}
 
+	/**
+	 * This method returns a list of upcoming events whose organizerEmail matches the given one
+	 * @return a full list of all upcoming events whose organizerEmail matches the given one
+	 */
+	public ArrayList<Event> getAllUpcomingEvents (String organizerEmail) {
+		ArrayList<Event> ret = new ArrayList<Event>();
+		for (Event e : upcomingEvents) {
+			//go through every upcoming event, add to return arraylist if the organizerEmail matches
+			if (e.getOrganizerEmail().equals(organizerEmail)) {
+				ret.add(e);
+			}
+		}
+		return ret;
+	}
 
-/**
- * This method returns a list of past events in Firebase by first updating the list if there are
- * new past events and then returning the most up to date list
- * @return a full list of all past events
- */
+
+	/**
+ 	* This method returns a list of past events in Firebase by returning pastEvents
+ 	* @return a full list of all past events
+ 	*/
     public ArrayList<Event> getAllPastEvents() {
-		pullAllEvents(); //to update the lists
 		return pastEvents;
+	}
+
+	/**
+	 * This method returns a list of past events whose organizerEmail matches the given one
+	 * @return a full list of all past events whose organizerEmail matches the given one
+	 */
+	public ArrayList<Event> getAllPastEvents(String organizerEmail) {
+		ArrayList<Event> ret = new ArrayList<Event>();
+		for (Event e : pastEvents) {
+			if (e.getOrganizerEmail().equals(organizerEmail)) {
+				ret.add(e);
+			}
+		}
+		return ret;
 	}
 
 	/**
@@ -136,11 +161,13 @@ public class EventRepository {
             return false;
         }
 
+		//if event doesn't already have an eventID, set it to the fb key
+		if (newEvent.getEventID() == null) {
+			newEvent.setEventID(eventID);
+		}
+
         // Add the event to the event section
         eventsDatabase.child(eventID).setValue(newEvent);
-
-		pullAllEvents(); //update the local lists to fetch the new event
-
 
         return true;
     }
@@ -169,7 +196,6 @@ public class EventRepository {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
-		pullAllEvents(); //update the list after adding a new event
     }
 
 	/**
@@ -178,7 +204,6 @@ public class EventRepository {
 	 * @return the list of emails of the approved requests of the event specified by the given eventID. Null if the specified eventID does not have an event associated to it.
 	 */
 	public ArrayList<String> getApprovedEventRequests (String eventID) {
-		pullAllEvents();
 		for (Event e : allEvents) {
 			if (e.getEventID().equals(eventID)) {
 				return e.getApprovedRequests();
@@ -193,7 +218,6 @@ public class EventRepository {
 	 * @return the list of emails of the pending requests of the event specified by the given eventID. Null if the specified eventID does not have an event associated to it or registration is not required for that event.
 	 */
 	public ArrayList<String> getPendingEventRequests (String eventID) {
-		pullAllEvents();
 		for (Event e : allEvents) {
 			if (e.getEventID().equals(eventID)) {
 				return e.getPendingRequests();
@@ -208,7 +232,6 @@ public class EventRepository {
 	 * @return the list of emails of the rejected requests of the event specified by the given eventID. Null if the specified eventID does not have an event associated to it or registration is not required for that event.
 	 */
 	public ArrayList<String> getRejectedEventRequests(String eventID) {
-		pullAllEvents();
 		for (Event e : allEvents) {
 			if (e.getEventID().equals(eventID)) {
 				return e.getRejectedRequests();

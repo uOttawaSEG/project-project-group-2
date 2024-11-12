@@ -203,4 +203,10 @@ public class Event {
 	 * @return the list of the attendees' emails whose requests have been rejected, null if registration is not required
 	 */
 	public ArrayList<String> getRejectedRequests() { return rejectedRequests; }
+
+	//setter methods
+
+	public void setEventID (String eventID) {
+		this.eventID = eventID;
+	}
 }
