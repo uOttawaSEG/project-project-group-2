@@ -192,9 +192,12 @@ public class EventRepository {
                                 .addOnFailureListener(e -> Log.e("Firebase", "Error trying to delete event from eventID: " + eventID));
                     }
                 }
+				eventsDatabase.removeEventListener(this);
             }
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+				eventsDatabase.removeEventListener(this);
+			}
         });
     }
 

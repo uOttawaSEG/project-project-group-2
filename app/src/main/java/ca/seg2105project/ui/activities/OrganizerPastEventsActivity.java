@@ -34,7 +34,6 @@ import ca.seg2105project.model.repositories.LoginSessionRepository;
 import ca.seg2105project.ui.rvcomponents.AccountRegistrationRequestListAdapter;
 import ca.seg2105project.ui.rvcomponents.EventListAdapter;
 
-@RequiresApi(api = Build.VERSION_CODES.O)
 public class OrganizerPastEventsActivity extends AppCompatActivity {
 
     private EAMSApplication eamsApplication;
@@ -55,16 +54,14 @@ public class OrganizerPastEventsActivity extends AppCompatActivity {
 
         RecyclerView pastEventsRV = findViewById(R.id.past_events_rv);
         pastEventsRV.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<Event> events = eventRepository.getAllUpcomingEvents();
+        ArrayList<Event> events = eventRepository.getAllPastEvents();
 
         setSeeUpcomingEventsButtonLogic();
         setLogoutButtonLogic();
-        setAddEventButtonLogic();
         Runnable setPendingRvList = new Runnable() {
             @Override
             public void run() {
-                pastEventsRV.setAdapter(new EventListAdapter(events));
-
+                pastEventsRV.setAdapter(new EventListAdapter(events, eventRepository));
             }
         };
         Handler h = new Handler();
@@ -102,14 +99,5 @@ public class OrganizerPastEventsActivity extends AppCompatActivity {
             // User shouldn't be able to return to this activity
             finish();
         });
-    }
-
-    private void setAddEventButtonLogic(){
-        Button addButton = findViewById(R.id.Add_event);
-        addButton.setOnClickListener(v -> {
-            Intent launchUpcomingEventsActivityIntent = new Intent(this, CreateEventActivity.class);
-            startActivity(launchUpcomingEventsActivityIntent);
-        });
-
     }
 }

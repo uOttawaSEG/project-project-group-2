@@ -1,7 +1,7 @@
 package ca.seg2105project.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -13,26 +13,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.time.LocalDate;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Objects;
-import java.time.LocalTime;
 
 import ca.seg2105project.EAMSApplication;
 import ca.seg2105project.R;
 import ca.seg2105project.model.eventClasses.Event;
-import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
 import ca.seg2105project.model.repositories.EventRepository;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
 import ca.seg2105project.model.repositories.UserRepository;
-import ca.seg2105project.ui.rvcomponents.EventListAdapter;
 
 public class CreateEventActivity extends AppCompatActivity {
 
@@ -110,13 +102,12 @@ public class CreateEventActivity extends AppCompatActivity {
                 boolean enteredAutoApproveCheckBox = autoApproveCheckBox.isChecked();
 
                 LoginSessionRepository loginSessionRepository = eamsApplication.getLoginSessionRepository();
-                UserRepository userRepository = eamsApplication.getUserRepository();
                 String organizerEmail = loginSessionRepository.getActiveLoginSessionEmail();
 
                 EventRepository eventRepository = new EventRepository();
 
                 Event newEvent = new Event(
-                        String.valueOf(System.currentTimeMillis()),
+                        null,
                         enteredEventTitle,
                         enteredEventDescription,
                         enteredYear, enteredMonth, enteredDay,
@@ -127,6 +118,8 @@ public class CreateEventActivity extends AppCompatActivity {
                         enteredAutoApproveCheckBox);
                 eventRepository.addEvent(newEvent);
 
+                Intent launchOrganizerUpcomingEventsActivity = new Intent(this, OrganizerUpcomingEventsActivity.class);
+                startActivity(launchOrganizerUpcomingEventsActivity);
                 finish();
             } catch (Exception e) {
                 Toast.makeText(this, "Please fill all fields correctly", Toast.LENGTH_LONG).show();

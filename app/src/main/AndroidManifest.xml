@@ -28,8 +28,8 @@
         <activity android:name=".ui.activities.RejectedAccountRequestsActivity" />
         <activity android:name=".ui.activities.OrganizerUpcomingEventsActivity" />
         <activity android:name=".ui.activities.OrganizerPastEventsActivity" />
+        <activity android:name=".ui.activities.EventAttendeePendingRequest" />
         <activity android:name=".ui.activities.CreateEventActivity" />
-
     </application>
 
 </manifest>
