@@ -137,10 +137,10 @@ public class EventRepository {
 	 * This method returns a list of past events whose organizerEmail matches the given one
 	 * @return a full list of all past events whose organizerEmail matches the given one
 	 */
-	public ArrayList<Event> getAllPastEvents(String eventID) {
+	public ArrayList<Event> getAllPastEvents(String organizerEmail) {
 		ArrayList<Event> ret = new ArrayList<Event>();
 		for (Event e : pastEvents) {
-			if (e.getEventID().equals(eventID)) {
+			if (e.getOrganizerEmail().equals(organizerEmail)) {
 				ret.add(e);
 			}
 		}
