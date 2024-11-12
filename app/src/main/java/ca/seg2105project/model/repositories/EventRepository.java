@@ -102,22 +102,49 @@ public class EventRepository {
 	}
 
 	/**
-	 * This method returns a list of upcoming events in Firebase by first updating the list if there are
-	 * new upcoming events added and then returning the most up to date list
+	 * This method returns a list of upcoming events in Firebase by returning upcomingEvents
 	 * @return a full list of all upcoming events
 	 */
     public ArrayList<Event> getAllUpcomingEvents() {
 		return upcomingEvents;
 	}
 
+	/**
+	 * This method returns a list of upcoming events whose organizerEmail matches the given one
+	 * @return a full list of all upcoming events whose organizerEmail matches the given one
+	 */
+	public ArrayList<Event> getAllUpcomingEvents (String organizerEmail) {
+		ArrayList<Event> ret = new ArrayList<Event>();
+		for (Event e : upcomingEvents) {
+			//go through every upcoming event, add to return arraylist if the organizerEmail matches
+			if (e.getOrganizerEmail().equals(organizerEmail)) {
+				ret.add(e);
+			}
+		}
+		return ret;
+	}
 
-/**
- * This method returns a list of past events in Firebase by first updating the list if there are
- * new past events and then returning the most up to date list
- * @return a full list of all past events
- */
+
+	/**
+ 	* This method returns a list of past events in Firebase by returning pastEvents
+ 	* @return a full list of all past events
+ 	*/
     public ArrayList<Event> getAllPastEvents() {
 		return pastEvents;
+	}
+
+	/**
+	 * This method returns a list of past events whose organizerEmail matches the given one
+	 * @return a full list of all past events whose organizerEmail matches the given one
+	 */
+	public ArrayList<Event> getAllPastEvents(String eventID) {
+		ArrayList<Event> ret = new ArrayList<Event>();
+		for (Event e : pastEvents) {
+			if (e.getEventID().equals(eventID)) {
+				ret.add(e);
+			}
+		}
+		return ret;
 	}
 
 	/**
