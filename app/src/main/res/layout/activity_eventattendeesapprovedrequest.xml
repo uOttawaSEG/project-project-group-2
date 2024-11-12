@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@id/approved_attendees_request" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/approved_requests_rv"
+        android:id="@+id/pending_requests_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="4dp"
