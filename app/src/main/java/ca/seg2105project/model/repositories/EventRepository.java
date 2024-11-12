@@ -136,6 +136,11 @@ public class EventRepository {
             return false;
         }
 
+		//if event doesn't already have an eventID, set it to the fb key
+		if (newEvent.getEventID() == null) {
+			newEvent.setEventID(eventID);
+		}
+
         // Add the event to the event section
         eventsDatabase.child(eventID).setValue(newEvent);
 
