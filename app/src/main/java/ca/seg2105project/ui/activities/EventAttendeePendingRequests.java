@@ -16,7 +16,7 @@ import ca.seg2105project.EAMSApplication;
 import ca.seg2105project.R;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
 
-public class EventAttendeePendingRequest extends AppCompatActivity {
+public class EventAttendeePendingRequests extends AppCompatActivity {
 
     private EAMSApplication eamsApplication;
 
@@ -35,7 +35,23 @@ public class EventAttendeePendingRequest extends AppCompatActivity {
 
         Toast.makeText(this, getIntent().getStringExtra("event_id"), Toast.LENGTH_LONG).show();
 
+        setRejectedRequestsButtonLogic();
         setLogoutButtonLogic();
+    }
+
+    private void setRejectedRequestsButtonLogic() {
+        Button seeRejectedEventRequestsButton = findViewById(R.id.see_rejected_event_request_btn);
+
+        seeRejectedEventRequestsButton.setOnClickListener(v -> {
+            Intent eventAttendeeRejectedRequestsActivityIntent = new Intent(this, EventAttendeeRejectedRequests.class);
+
+            // Pass along the event id to the rejected attendee requests activity
+            eventAttendeeRejectedRequestsActivityIntent.putExtra("event_id", getIntent().getStringExtra("event_id"));
+
+            startActivity(eventAttendeeRejectedRequestsActivityIntent);
+
+            finish();
+        });
     }
 
     private void setLogoutButtonLogic() {
