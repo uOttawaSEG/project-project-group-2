@@ -141,7 +141,6 @@ public class EventRepository {
 
 		pullAllEvents(); //update the local lists to fetch the new event
 
-
         return true;
     }
 
@@ -183,7 +182,7 @@ public class EventRepository {
 	public ArrayList<String> getApprovedEventRequests (String eventID) {
 		pullAllEvents();
 		for (Event e : allEvents) {
-			if (e.getEventID().equals(eventID)) {
+			if (e.getEventId().equals(eventID)) {
 				return e.getApprovedRequests();
 			}
 		}
@@ -198,7 +197,7 @@ public class EventRepository {
 	public ArrayList<String> getPendingEventRequests (String eventID) {
 		pullAllEvents();
 		for (Event e : allEvents) {
-			if (e.getEventID().equals(eventID)) {
+			if (e.getEventId().equals(eventID)) {
 				return e.getPendingRequests();
 			}
 		}
@@ -213,7 +212,7 @@ public class EventRepository {
 	public ArrayList<String> getRejectedEventRequests(String eventID) {
 		pullAllEvents();
 		for (Event e : allEvents) {
-			if (e.getEventID().equals(eventID)) {
+			if (e.getEventId().equals(eventID)) {
 				return e.getRejectedRequests();
 			}
 		}

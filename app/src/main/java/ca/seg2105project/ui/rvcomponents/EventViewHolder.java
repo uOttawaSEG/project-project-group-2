@@ -14,7 +14,10 @@ import ca.seg2105project.ui.activities.EventAttendeePendingRequest;
 public class EventViewHolder extends RecyclerView.ViewHolder{
 
     TextView eventTitleTV, eventDescriptionTV, eventDateTV, eventStartTimeTV, eventEndTimeTV, eventAddressTV;
+
+    // The eventId will be set by the EventListAdapter
     String eventId;
+
     Button deleteEventBtn;
 
     /**

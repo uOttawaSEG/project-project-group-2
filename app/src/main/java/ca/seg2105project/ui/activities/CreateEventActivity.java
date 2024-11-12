@@ -101,13 +101,12 @@ public class CreateEventActivity extends AppCompatActivity {
                 boolean enteredAutoApproveCheckBox = autoApproveCheckBox.isChecked();
 
                 LoginSessionRepository loginSessionRepository = eamsApplication.getLoginSessionRepository();
-                UserRepository userRepository = eamsApplication.getUserRepository();
                 String organizerEmail = loginSessionRepository.getActiveLoginSessionEmail();
 
                 EventRepository eventRepository = new EventRepository();
 
                 Event newEvent = new Event(
-                        String.valueOf(System.currentTimeMillis()),
+                        null,
                         enteredEventTitle,
                         enteredEventDescription,
                         enteredYear, enteredMonth, enteredDay,

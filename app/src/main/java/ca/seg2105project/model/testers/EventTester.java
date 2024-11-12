@@ -30,7 +30,7 @@ public class EventTester {
 		LocalTime et1 = LocalTime.of(14, 00);
 		Event e1 = new Event("qwertyuiop", "Midterm", "Computer Architecture, I am very cooked.", d1, st1, et1, "SITE 000", "organizer@gmail.com", false);
 		
-		System.out.println("qwertyuiop=" + e1.getEventID());
+		System.out.println("qwertyuiop=" + e1.getEventId());
 		System.out.println("Midterm=" + e1.getTitle());
 		System.out.println("Computer Architecture, I am very cooked.=" + e1.getDescription());
 		System.out.println(d1.toString() + "=" + e1.getLocalDate().toString());
@@ -50,7 +50,7 @@ public class EventTester {
 		LocalTime et2 = LocalTime.of(23, 30);
 		Event e2 = new Event("asdfghjkl", "My Birthday", "The day I was born.", d2, st2, et2, "Some Medical Hospital", "organizer@gmail.com", true);
 		
-		System.out.println("asdfghjkl=" + e2.getEventID());
+		System.out.println("asdfghjkl=" + e2.getEventId());
 		System.out.println("My Birthday=" + e2.getTitle());
 		System.out.println("The day I was born.=" + e2.getDescription());
 		System.out.println(d2.toString() + "=" + e2.getLocalDate().toString());
@@ -97,7 +97,7 @@ public class EventTester {
 		LocalTime et3 = LocalTime.of(23, 59);
 		Event e3 = new Event("12345", "Assignment 2 SEG", "Client-Server Assignment Chat System", d3, st3, et3, "DMS1600", "organizer@gmail.com", true);
 
-		System.out.println("12345=" + e3.getEventID());
+		System.out.println("12345=" + e3.getEventId());
 		System.out.println("Assignment 2 SEG=" + e3.getTitle());
 		System.out.println("Client-Server Assignment Chat System=" + e3.getDescription());
 		System.out.println(d3.toString() + "=" + e3.getLocalDate().toString());

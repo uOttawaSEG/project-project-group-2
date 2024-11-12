@@ -1,9 +1,5 @@
 package ca.seg2105project.model.eventClasses;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -11,9 +7,8 @@ import java.util.ArrayList;
 /**
  * A class to model an Event. If registrationRequired is false, then pendingRequests and rejectedRequests are set to null.
  */
-@RequiresApi(api = Build.VERSION_CODES.O)
 public class Event {
-	private String eventID, title, description, eventAddress, organizerEmail;
+	private String eventId, title, description, eventAddress, organizerEmail;
 	private long dateMillis; // Store date as milliseconds since epoch for Firebase
 	private long startTimeMillis, endTimeMillis; // Store times as milliseconds since midnight for Firebase
 	private boolean registrationRequired;
@@ -21,7 +16,7 @@ public class Event {
 
 	/**
 	 * A parameterized constructor for Event that takes in LocalDate and LocalTime objects.
-	 * @param eventID a unique id for the event
+	 * @param eventId a unique id for the event
 	 * @param title the title of the event
 	 * @param description the description of the event
 	 * @param date the date the event is taking place on
@@ -31,8 +26,8 @@ public class Event {
 	 * @param organizerEmail the email of the organizer organizing this event
 	 * @param registrationRequired true if the organizer has to manually approve event requests, false if the requests are automatically approved
 	 */
-	public Event (String eventID, String title, String description, LocalDate date, LocalTime startTime, LocalTime endTime, String eventAddress, String organizerEmail, boolean registrationRequired) {
-		this.eventID = eventID;
+	public Event (String eventId, String title, String description, LocalDate date, LocalTime startTime, LocalTime endTime, String eventAddress, String organizerEmail, boolean registrationRequired) {
+		this.eventId = eventId;
 		this.title = title;
 		this.description = description;
 		this.dateMillis = date.toEpochDay() * 24 * 60 * 60 * 1000; // Convert to milliseconds
@@ -55,7 +50,7 @@ public class Event {
 
 	/**
 	 * A parameterized constructor for Event that takes in ints for the date and times instead of LocalDate/LocalTime objects.
-	 * @param eventID a unique id for the event
+	 * @param eventId a unique id for the event
 	 * @param title the title of the event
 	 * @param description the description of the event
 	 * @param year the year the event is taking place in
@@ -69,8 +64,8 @@ public class Event {
 	 * @param organizerEmail the email of the organizer organizing this event
 	 * @param registrationRequired true if the organizer has to manually approve event requests, false if the requests are automatically approved
 	 */
-	public Event (String eventID, String title, String description, int year, int month, int date, int startTimeHour, int startTimeMinute, int endTimeHour, int endTimeMinute, String eventAddress, String organizerEmail, boolean registrationRequired) {
-		this(eventID, title, description,
+	public Event (String eventId, String title, String description, int year, int month, int date, int startTimeHour, int startTimeMinute, int endTimeHour, int endTimeMinute, String eventAddress, String organizerEmail, boolean registrationRequired) {
+		this(eventId, title, description,
 				LocalDate.of(year, month, date),
 				LocalTime.of(startTimeHour, startTimeMinute),
 				LocalTime.of(endTimeHour, endTimeMinute),
@@ -88,7 +83,7 @@ public class Event {
 	 * A getter for eventID.
 	 * @return the unique id for this event
 	 */
-	public String getEventID() { return eventID; }
+	public String getEventId() { return eventId; }
 
 	/**
 	 * A getter for title.
@@ -111,24 +106,6 @@ public class Event {
 	}
 
 	/**
-	 * A getter for the year the event is taking place in as an int.
-	 * @return the year the event is taking place in
-	 */
-	public int getYear() { return getLocalDate().getYear(); }
-
-	/**
-	 * A getter for the month the event is taking place in as an int.
-	 * @return the month the event is taking place in as an int. 1 for January, 2 for February, ..., 12 for December.
-	 */
-	public int getMonth() { return getLocalDate().getMonthValue(); }
-
-	/**
-	 * A getter for the date the event is taking place on as an int.
-	 * @return the date the event is taking place on
-	 */
-	public int getDate() { return getLocalDate().getDayOfMonth(); }
-
-	/**
 	 * A getter for startTime as a LocalTime object.
 	 * @return the start time of the event as a LocalTime object
 	 */
@@ -137,36 +114,12 @@ public class Event {
 	}
 
 	/**
-	 * A getter for the hour the event is starting at as an int.
-	 * @return the hour the event is starting at as an int
-	 */
-	public int getStartTimeHour() { return getLocalStartTime().getHour(); }
-
-	/**
-	 * A getter for the minute the event is starting at as an int.
-	 * @return the minute the event is starting at as an int
-	 */
-	public int getStartTimeMinute() { return getLocalStartTime().getMinute(); }
-
-	/**
 	 * A getter for endTime as a LocalTime object.
 	 * @return the end time of the event as a LocalTime object
 	 */
 	public LocalTime getLocalEndTime() {
 		return LocalTime.ofNanoOfDay(endTimeMillis * 1000000);
 	}
-
-	/**
-	 * A getter for the hour the event is ending at as an int.
-	 * @return the hour the event is ending at as an int
-	 */
-	public int getEndTimeHour() { return getLocalEndTime().getHour(); }
-
-	/**
-	 * A getter for the minute the event is ending at as an int.
-	 * @return the minute the event is ending at as an int
-	 */
-	public int getEndTimeMinute() { return getLocalEndTime().getMinute(); }
 
 	/**
 	 * A getter for eventAddress.
@@ -179,6 +132,24 @@ public class Event {
 	 * @return the email of the organizer organizing this event
 	 */
 	public String getOrganizerEmail() { return organizerEmail; }
+
+	/**
+	 * A getter for dateMillis
+	 * @return the time in millis since epoch for the date of the event
+	 */
+	public long getDateMillis() { return dateMillis; }
+
+	/**
+	 * A getter for startTimeMillis
+	 * @return the time in millis since midnight of the start time of the event
+	 */
+	public long getStartTimeMillis() { return startTimeMillis; }
+
+	/**
+	 * A getter for endTimeMillis
+	 * @return the time in millis since midnight of the end time of the event
+	 */
+	public long getEndTimeMillis() { return endTimeMillis; }
 
 	/**
 	 * A getter for registrationRequired.
