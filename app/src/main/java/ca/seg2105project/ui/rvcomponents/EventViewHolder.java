@@ -2,6 +2,7 @@ package ca.seg2105project.ui.rvcomponents;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ public class EventViewHolder extends RecyclerView.ViewHolder{
 
     TextView eventTitleTV, eventDescriptionTV, eventDateTV, eventStartTimeTV, eventEndTimeTV, eventAddressTV;
     String eventId;
+    Button deleteEventBtn;
 
     /**
      * Constructor for EventViewHolder
@@ -27,6 +29,7 @@ public class EventViewHolder extends RecyclerView.ViewHolder{
         eventStartTimeTV = eventItemView.findViewById(R.id.startTime);
         eventEndTimeTV = eventItemView.findViewById(R.id.endTime);
         eventAddressTV = eventItemView.findViewById(R.id.eventAddress);
+        deleteEventBtn = eventItemView.findViewById(R.id.delete_event_btn);
 
         // Send user to see list of pending event registration requests
         eventItemView.setOnClickListener(v -> {

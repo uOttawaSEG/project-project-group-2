@@ -17,9 +17,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Month;
 import java.util.ArrayList;
 
 import ca.seg2105project.EAMSApplication;
@@ -29,7 +26,6 @@ import ca.seg2105project.model.repositories.EventRepository;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
 import ca.seg2105project.ui.rvcomponents.EventListAdapter;
 
-@RequiresApi(api = Build.VERSION_CODES.O)
 public class OrganizerUpcomingEventsActivity extends AppCompatActivity {
 
     private EAMSApplication eamsApplication;
@@ -58,7 +54,7 @@ public class OrganizerUpcomingEventsActivity extends AppCompatActivity {
         Runnable setPendingRvList = new Runnable() {
             @Override
             public void run() {
-                upcomingEventsRV.setAdapter(new EventListAdapter(events));
+                upcomingEventsRV.setAdapter(new EventListAdapter(events, eventRepository));
 
             }
         };

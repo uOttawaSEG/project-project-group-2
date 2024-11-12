@@ -34,7 +34,6 @@ import ca.seg2105project.model.repositories.LoginSessionRepository;
 import ca.seg2105project.ui.rvcomponents.AccountRegistrationRequestListAdapter;
 import ca.seg2105project.ui.rvcomponents.EventListAdapter;
 
-@RequiresApi(api = Build.VERSION_CODES.O)
 public class OrganizerPastEventsActivity extends AppCompatActivity {
 
     private EAMSApplication eamsApplication;
@@ -63,8 +62,7 @@ public class OrganizerPastEventsActivity extends AppCompatActivity {
         Runnable setPendingRvList = new Runnable() {
             @Override
             public void run() {
-                pastEventsRV.setAdapter(new EventListAdapter(events));
-
+                pastEventsRV.setAdapter(new EventListAdapter(events, eventRepository));
             }
         };
         Handler h = new Handler();
