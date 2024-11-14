@@ -1,10 +1,8 @@
 package ca.seg2105project.model.repositories;
 
-import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,11 +10,10 @@ import java.util.ArrayList;
 
 import com.google.firebase.database.Query;
 
-
 import ca.seg2105project.model.eventClasses.Event;
+import ca.seg2105project.model.registrationRequestClasses.RegistrationRequestStatus;
 
-
- import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DataSnapshot;
  import com.google.firebase.database.DatabaseError;
  import com.google.firebase.database.DatabaseReference;
  import com.google.firebase.database.FirebaseDatabase;
@@ -239,5 +236,81 @@ public class EventRepository {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Changes the status of an existing event registration request
+	 * @param eventID The eventID of the event that the registration request is associated with
+	 * @param attendeeEmail the email of the attendee making the event registration request
+	 * @param currentStatus the current status of the event registration request
+	 * @param newStatus the new status of the event registration request
+	 */
+	public void changeEventRegistrationRequestStatus(String eventID, String attendeeEmail,
+													 RegistrationRequestStatus currentStatus,
+													 RegistrationRequestStatus newStatus) {
+		// First we modify the event's list of event registration requests associated with the currentStatus
+
+		// Get the current list of event registration requests for currentStatus
+		ArrayList<String> currentStatusEventRegistrationRequests = null;
+		for (int i = 0; i < allEvents.size(); i++) {
+			if (allEvents.get(i).getEventID().equals(eventID)) {
+				if (currentStatus.equals(RegistrationRequestStatus.PENDING)) {
+					currentStatusEventRegistrationRequests = allEvents.get(i).getPendingRequests();
+				} else if (currentStatus.equals(RegistrationRequestStatus.REJECTED)) {
+					currentStatusEventRegistrationRequests = allEvents.get(i).getRejectedRequests();
+				} else {
+					currentStatusEventRegistrationRequests = allEvents.get(i).getApprovedRequests();
+				}
+			}
+		}
+
+		currentStatusEventRegistrationRequests.remove(attendeeEmail);
+
+		// Next we modify the event's list of event registration requests associated with the newStatus
+		ArrayList<String> newStatusEventRegistrationRequests = null;
+		for (int i = 0; i < allEvents.size(); i++) {
+			if (allEvents.get(i).getEventID().equals(eventID)) {
+				if (newStatus.equals(RegistrationRequestStatus.PENDING)) {
+					newStatusEventRegistrationRequests = allEvents.get(i).getPendingRequests();
+				} else if (newStatus.equals(RegistrationRequestStatus.REJECTED)) {
+					newStatusEventRegistrationRequests = allEvents.get(i).getRejectedRequests();
+				} else {
+					newStatusEventRegistrationRequests = allEvents.get(i).getApprovedRequests();
+				}
+			}
+		}
+
+		// In case the list of event registration requests is empty, we create a new list
+		if (newStatusEventRegistrationRequests == null) {
+			newStatusEventRegistrationRequests = new ArrayList<>();
+		}
+
+		newStatusEventRegistrationRequests.add(attendeeEmail);
+
+		// Set the new list of current status event registration requests in FB
+		String currentStatusFbRegistrationRequestListKey = getFbRegistrationRequestListKey(currentStatus);
+		eventsDatabase.child(eventID).child(currentStatusFbRegistrationRequestListKey).setValue(currentStatusEventRegistrationRequests);
+
+		// Set the new list of new status event registration requests in FB
+		String newStatusFbRegistrationRequestListKey = getFbRegistrationRequestListKey(newStatus);
+		eventsDatabase.child(eventID).child(newStatusFbRegistrationRequestListKey).setValue(newStatusEventRegistrationRequests);
+	}
+
+	/**
+	 * Utility method for getting the child key string for a list of event registration requests for a given status
+	 * @param currentStatus The status of the list of event registration requests
+	 * @return the key string for specifying fb child location for event registration requests of given status
+	 */
+	@NonNull
+	private String getFbRegistrationRequestListKey(RegistrationRequestStatus currentStatus) {
+		String fbRegistrationRequestListKey;
+		if (currentStatus.equals(RegistrationRequestStatus.PENDING)) {
+			fbRegistrationRequestListKey = "pendingRequests";
+		} else if (currentStatus.equals(RegistrationRequestStatus.REJECTED)) {
+			fbRegistrationRequestListKey = "rejectedRequests";
+		} else {
+			fbRegistrationRequestListKey = "approvedRequests";
+		}
+		return fbRegistrationRequestListKey;
 	}
 }

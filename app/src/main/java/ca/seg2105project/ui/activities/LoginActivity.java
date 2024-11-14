@@ -18,7 +18,7 @@ import java.util.List;
 import ca.seg2105project.EAMSApplication;
 import ca.seg2105project.R;
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
-import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
+import ca.seg2105project.model.registrationRequestClasses.RegistrationRequestStatus;
 import ca.seg2105project.model.repositories.AccountRegistrationRequestRepository;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
 import ca.seg2105project.model.repositories.UserRepository;
@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (hasAccountRegistrationRequestWithEmail) {
                     // We know we found an existing account registration request
 
-                    if (allAccountRegistrationRequests.get(i).getStatus().equals(AccountRegistrationRequestStatus.PENDING)) {
+                    if (allAccountRegistrationRequests.get(i).getStatus().equals(RegistrationRequestStatus.PENDING)) {
                         // User has a pending account registration request
                         Toast.makeText(this, "Account registration approval pending, please try logging in again soon for updates", Toast.LENGTH_LONG).show();
                     } else {

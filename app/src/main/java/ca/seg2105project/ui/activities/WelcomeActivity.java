@@ -73,7 +73,7 @@ public class WelcomeActivity extends AppCompatActivity {
         };
 
         Handler h = new Handler();
-        h.postDelayed(setWelcomePageUserSpecificContent, 1000);
+        h.postDelayed(setWelcomePageUserSpecificContent, 1500);
 
         Button logoutButton = findViewById(R.id.Logout_BTN);
         logoutButton.setOnClickListener(v -> {

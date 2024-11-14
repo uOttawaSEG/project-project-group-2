@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
-import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
+import ca.seg2105project.model.registrationRequestClasses.RegistrationRequestStatus;
 import ca.seg2105project.model.userClasses.Attendee;
 import ca.seg2105project.model.userClasses.Organizer;
 import ca.seg2105project.model.userClasses.User;
@@ -81,7 +81,7 @@ public class AccountRegistrationRequestRepository {
      * Check if new status is approved, if so then retrieve information from the request and remove from firebase and create
      * new user with the information retrieved. If not approved change status to whatever new status is.
      */
-    public void updateRequestStatus(String email, AccountRegistrationRequestStatus newStatus){
+    public void updateRequestStatus(String email, RegistrationRequestStatus newStatus){
         Query emailQuery = mDatabase.orderByChild("email").equalTo(email);
         emailQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -89,7 +89,7 @@ public class AccountRegistrationRequestRepository {
                 if(dataSnapshot.exists()){
                     DataSnapshot snapshot = dataSnapshot.getChildren().iterator().next();
                     AccountRegistrationRequest request = snapshot.getValue(AccountRegistrationRequest.class);
-                    if(newStatus == AccountRegistrationRequestStatus.APPROVED) {
+                    if(newStatus == RegistrationRequestStatus.APPROVED) {
                         String userID = FirebaseDatabase.getInstance().getReference("users").push().getKey();
                         User user;
                         if(request.getOrganizationName() == null) {

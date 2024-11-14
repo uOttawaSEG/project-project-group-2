@@ -2,6 +2,7 @@ package ca.seg2105project.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -11,14 +12,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 
 import ca.seg2105project.EAMSApplication;
 import ca.seg2105project.R;
+import ca.seg2105project.model.registrationRequestClasses.RegistrationRequestStatus;
+import ca.seg2105project.model.repositories.EventRepository;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
+import ca.seg2105project.ui.rvcomponents.EventRegistrationRequestListAdapter;
 
 public class EventAttendeePendingRequests extends AppCompatActivity {
 
     private EAMSApplication eamsApplication;
+    private String eventID;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,10 +41,11 @@ public class EventAttendeePendingRequests extends AppCompatActivity {
 
         eamsApplication = (EAMSApplication) getApplication();
 
-        Toast.makeText(this, getIntent().getStringExtra("event_id"), Toast.LENGTH_LONG).show();
+        eventID = getIntent().getStringExtra("event_id");
 
         setRejectedRequestsButtonLogic();
         setLogoutButtonLogic();
+        setUpPendingRequestsRv();
     }
 
     private void setRejectedRequestsButtonLogic() {
@@ -73,5 +82,25 @@ public class EventAttendeePendingRequests extends AppCompatActivity {
             // User shouldn't be able to return to this activity
             finish();
         });
+    }
+
+    private void setUpPendingRequestsRv() {
+        EventRepository eventRepository = eamsApplication.getEventRepository();
+
+        RecyclerView pendingRequestsRv = findViewById(R.id.pending_requests_rv);
+        pendingRequestsRv.setLayoutManager(new LinearLayoutManager(this));
+
+        // This is delayed so that the constructor for EventRepository from EAMSApplication has time
+        // to run and pull the list of events from fb before we set the list of pending requests
+        Runnable setPendingRvList = new Runnable() {
+            @Override
+            public void run() {
+                pendingRequestsRv.setAdapter(new EventRegistrationRequestListAdapter(eventID,
+                        RegistrationRequestStatus.PENDING, eventRepository.getPendingEventRequests(eventID),
+                        eventRepository, eamsApplication.getUserRepository()));
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(setPendingRvList, 1000);
     }
 }

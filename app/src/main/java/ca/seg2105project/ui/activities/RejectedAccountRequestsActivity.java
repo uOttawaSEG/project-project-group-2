@@ -22,7 +22,7 @@ import ca.seg2105project.ui.rvcomponents.AccountRegistrationRequestListAdapter;
 import ca.seg2105project.EAMSApplication;
 import ca.seg2105project.R;
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
-import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
+import ca.seg2105project.model.registrationRequestClasses.RegistrationRequestStatus;
 import ca.seg2105project.model.repositories.AccountRegistrationRequestRepository;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
 
@@ -82,7 +82,7 @@ public class RejectedAccountRequestsActivity extends AppCompatActivity {
             public void run() {
                 List<AccountRegistrationRequest> rejectedAccountRegistrationRequests = new ArrayList<>();
                 for (int i = 0; i < accountRegistrationRequests.size(); i++) {
-                    if (accountRegistrationRequests.get(i).getStatus() == AccountRegistrationRequestStatus.REJECTED) {
+                    if (accountRegistrationRequests.get(i).getStatus() == RegistrationRequestStatus.REJECTED) {
                         rejectedAccountRegistrationRequests.add(accountRegistrationRequests.get(i));
                     }
                 }

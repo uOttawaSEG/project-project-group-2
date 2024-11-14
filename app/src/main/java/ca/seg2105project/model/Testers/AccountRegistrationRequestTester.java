@@ -1,7 +1,7 @@
 package ca.seg2105project.model.testers;
 
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
-import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
+import ca.seg2105project.model.registrationRequestClasses.RegistrationRequestStatus;
 
 /**
 * A class to test the implementation of AccountRegistrationRequest.java
@@ -40,7 +40,7 @@ public class AccountRegistrationRequestTester {
 		s += r1.getOrganizationName() + "\n";
 		s += "PENDING=";
 		s += getStatusAsString(r1.getStatus()) + "\n";
-		r1.setStatus(AccountRegistrationRequestStatus.REJECTED);
+		r1.setStatus(RegistrationRequestStatus.REJECTED);
 		s += "REJECTED=";
 		s += getStatusAsString(r1.getStatus()) + "\n";
 
@@ -65,7 +65,7 @@ public class AccountRegistrationRequestTester {
 		s += r2.getOrganizationName() + "\n";
 		s += "PENDING=";
 		s += getStatusAsString(r2.getStatus()) + "\n";
-		r2.setStatus(AccountRegistrationRequestStatus.APPROVED);
+		r2.setStatus(RegistrationRequestStatus.APPROVED);
 		s += "APPROVED=";
 		s += getStatusAsString(r2.getStatus()) + "\n";
 
@@ -90,7 +90,7 @@ public class AccountRegistrationRequestTester {
 		s += r3.getOrganizationName() + "\n";
 		s += "PENDING=";
 		s += getStatusAsString(r3.getStatus()) + "\n";
-		r3.setStatus(AccountRegistrationRequestStatus.APPROVED);
+		r3.setStatus(RegistrationRequestStatus.APPROVED);
 		s += "APPROVED=";
 		s += getStatusAsString(r3.getStatus()) + "\n";
 
@@ -115,7 +115,7 @@ public class AccountRegistrationRequestTester {
 		s += r4.getOrganizationName() + "\n";
 		s += "PENDING=";
 		s += getStatusAsString(r4.getStatus()) + "\n";
-		r4.setStatus(AccountRegistrationRequestStatus.REJECTED);
+		r4.setStatus(RegistrationRequestStatus.REJECTED);
 		s += "REJECTED=";
 		s += getStatusAsString(r4.getStatus()) + "\n";
 
@@ -140,7 +140,7 @@ public class AccountRegistrationRequestTester {
 		s += r5.getOrganizationName() + "\n";
 		s += "PENDING=";
 		s += getStatusAsString(r5.getStatus()) + "\n";
-		r5.setStatus(AccountRegistrationRequestStatus.APPROVED);
+		r5.setStatus(RegistrationRequestStatus.APPROVED);
 		s += "APPROVED=";
 		s += getStatusAsString(r5.getStatus()) + "\n";
 
@@ -152,10 +152,10 @@ public class AccountRegistrationRequestTester {
 	* @param status the status whose String representation is to be returned
 	* @return a String representation of the given AccountRegistrationRequestStatus
 	*/
-	private static String getStatusAsString(AccountRegistrationRequestStatus status) {
-		if (status == AccountRegistrationRequestStatus.PENDING) return "PENDING";
-		if (status == AccountRegistrationRequestStatus.REJECTED) return "REJECTED";
-		if (status == AccountRegistrationRequestStatus.APPROVED) return "APPROVED";
+	private static String getStatusAsString(RegistrationRequestStatus status) {
+		if (status == RegistrationRequestStatus.PENDING) return "PENDING";
+		if (status == RegistrationRequestStatus.REJECTED) return "REJECTED";
+		if (status == RegistrationRequestStatus.APPROVED) return "APPROVED";
 		return null;
 	}
 }

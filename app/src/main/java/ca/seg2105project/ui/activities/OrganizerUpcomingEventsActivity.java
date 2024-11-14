@@ -43,7 +43,7 @@ public class OrganizerUpcomingEventsActivity extends AppCompatActivity {
         });
 
         eamsApplication = (EAMSApplication) getApplication();
-        EventRepository eventRepository = new EventRepository();
+        EventRepository eventRepository = eamsApplication.getEventRepository();
         loginSessionRepository = eamsApplication.getLoginSessionRepository();
 
         RecyclerView upcomingEventsRV = findViewById(R.id.upcoming_events_rv);

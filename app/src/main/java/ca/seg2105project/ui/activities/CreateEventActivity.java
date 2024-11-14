@@ -104,7 +104,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 LoginSessionRepository loginSessionRepository = eamsApplication.getLoginSessionRepository();
                 String organizerEmail = loginSessionRepository.getActiveLoginSessionEmail();
 
-                EventRepository eventRepository = new EventRepository();
+                EventRepository eventRepository = eamsApplication.getEventRepository();
 
                 Event newEvent = new Event(
                         null,
