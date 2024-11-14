@@ -11,7 +11,7 @@ public class Event {
 	private String eventID, title, description, eventAddress, organizerEmail;
 	private long dateMillis; // Store date as milliseconds since epoch for Firebase
 	private long startTimeMillis, endTimeMillis; // Store times as milliseconds since midnight for Firebase
-	private boolean registrationRequired;
+	private boolean registrationRequestsAreAutoApproved;
 	private ArrayList<String> approvedRequests, pendingRequests, rejectedRequests;
 
 	/**
@@ -24,9 +24,9 @@ public class Event {
 	 * @param endTime the time the event ends
 	 * @param eventAddress the address the event is taking place at
 	 * @param organizerEmail the email of the organizer organizing this event
-	 * @param registrationRequired true if the organizer has to manually approve event requests, false if the requests are automatically approved
+	 * @param registrationRequestsAreAutoApproved true if the organizer has to manually approve event requests, false if the requests are automatically approved
 	 */
-	public Event (String eventID, String title, String description, LocalDate date, LocalTime startTime, LocalTime endTime, String eventAddress, String organizerEmail, boolean registrationRequired) {
+	public Event (String eventID, String title, String description, LocalDate date, LocalTime startTime, LocalTime endTime, String eventAddress, String organizerEmail, boolean registrationRequestsAreAutoApproved) {
 		this.eventID = eventID;
 		this.title = title;
 		this.description = description;
@@ -35,11 +35,11 @@ public class Event {
 		this.endTimeMillis = endTime.toNanoOfDay() / 1000000; // Convert to milliseconds
 		this.eventAddress = eventAddress;
 		this.organizerEmail = organizerEmail;
-		this.registrationRequired = registrationRequired;
+		this.registrationRequestsAreAutoApproved = registrationRequestsAreAutoApproved;
 
 		this.approvedRequests = new ArrayList<String>();
 
-		if (registrationRequired == true) { //if requests need to be manually approved by organizer, then keep track of pending and approved requests
+		if (!registrationRequestsAreAutoApproved) { //if requests need to be manually approved by organizer, then keep track of pending and approved requests
 			this.pendingRequests = new ArrayList<String>();
 			this.rejectedRequests = new ArrayList<String>();
 		} else { //if requests are automatically approved, there won't ever be any pending or rejected requests, so we won't keep track of them
@@ -62,14 +62,14 @@ public class Event {
 	 * @param endTimeMinute the minute the event ends
 	 * @param eventAddress the address the event is taking place at
 	 * @param organizerEmail the email of the organizer organizing this event
-	 * @param registrationRequired true if the organizer has to manually approve event requests, false if the requests are automatically approved
+	 * @param registrationRequestsAreAutoApproved true if the organizer has to manually approve event requests, false if the requests are automatically approved
 	 */
-	public Event (String eventID, String title, String description, int year, int month, int date, int startTimeHour, int startTimeMinute, int endTimeHour, int endTimeMinute, String eventAddress, String organizerEmail, boolean registrationRequired) {
+	public Event (String eventID, String title, String description, int year, int month, int date, int startTimeHour, int startTimeMinute, int endTimeHour, int endTimeMinute, String eventAddress, String organizerEmail, boolean registrationRequestsAreAutoApproved) {
 		this(eventID, title, description,
 				LocalDate.of(year, month, date),
 				LocalTime.of(startTimeHour, startTimeMinute),
 				LocalTime.of(endTimeHour, endTimeMinute),
-				eventAddress, organizerEmail, registrationRequired);
+				eventAddress, organizerEmail, registrationRequestsAreAutoApproved);
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class Event {
 	 * A getter for registrationRequired.
 	 * @return true if the organizer must manually approve requests for this event, false if all requests are automatically approved
 	 */
-	public boolean getRegistrationRequired() { return registrationRequired; }
+	public boolean getRegistrationRequestsAreAutoApproved() { return registrationRequestsAreAutoApproved; }
 
 	/**
 	 * A getter for the array list approvedRequests.
@@ -179,5 +179,17 @@ public class Event {
 
 	public void setEventID (String eventId) {
 		this.eventID = eventId;
+	}
+
+	// utility methods
+
+	/**
+	 * Adds a pending event registration request from attendee specified by attendeeEmail
+	 * @param attendeeEmail the email of the attendee making the request
+	 */
+	public void addPendingRequest(String attendeeEmail) {
+		if (pendingRequests != null) {
+			pendingRequests.add(attendeeEmail);
+		}
 	}
 }

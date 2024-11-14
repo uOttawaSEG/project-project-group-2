@@ -16,7 +16,7 @@ import ca.seg2105project.EAMSApplication;
 import ca.seg2105project.R;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
 
-public class EventAttendeeRejectedRequests extends AppCompatActivity {
+public class EventAttendeeApprovedRequests extends AppCompatActivity {
 
     private EAMSApplication eamsApplication;
 
@@ -24,7 +24,7 @@ public class EventAttendeeRejectedRequests extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_eventattendeerejectedrequest);
+        setContentView(R.layout.activity_eventattendeeapprovedrequests);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -35,20 +35,20 @@ public class EventAttendeeRejectedRequests extends AppCompatActivity {
 
         Toast.makeText(this, getIntent().getStringExtra("event_id"), Toast.LENGTH_LONG).show();
 
-        setApprovedRequestsButtonLogic();
+        setPendingRequestsButtonLogic();
         setLogoutButtonLogic();
     }
 
-    private void setApprovedRequestsButtonLogic() {
-        Button seeApprovedEventRequestsButton = findViewById(R.id.see_approved_event_requests_btn);
+    private void setPendingRequestsButtonLogic() {
+        Button seePendingEventRequestsButton = findViewById(R.id.see_pending_event_requests_btn);
 
-        seeApprovedEventRequestsButton.setOnClickListener(v -> {
-            Intent eventAttendeeApprovedRequestsActivityIntent = new Intent(this, EventAttendeeApprovedRequests.class);
+        seePendingEventRequestsButton.setOnClickListener(v -> {
+            Intent eventAttendeePendingRequestsActivityIntent = new Intent(this, EventAttendeePendingRequests.class);
 
-            // Pass along the event id to the rejected attendee requests activity
-            eventAttendeeApprovedRequestsActivityIntent.putExtra("event_id", getIntent().getStringExtra("event_id"));
+            // Pass along the event id to the pending attendee requests activity
+            eventAttendeePendingRequestsActivityIntent.putExtra("event_id", getIntent().getStringExtra("event_id"));
 
-            startActivity(eventAttendeeApprovedRequestsActivityIntent);
+            startActivity(eventAttendeePendingRequestsActivityIntent);
 
             finish();
         });

@@ -38,7 +38,7 @@ public class EventTester {
 		System.out.println(et1.toString() + "=" + e1.getLocalEndTime());
 		System.out.println("SITE 000=" + e1.getEventAddress());
 		System.out.println("organizer@gmail.com=" + e1.getOrganizerEmail());
-		System.out.println("false=" + e1.getRegistrationRequired());
+		System.out.println("false=" + e1.getRegistrationRequestsAreAutoApproved());
 		System.out.println("false=" + (e1.getApprovedRequests() == null));
 		System.out.println("true=" + (e1.getPendingRequests() == null));
 		System.out.println("true=" + (e1.getRejectedRequests() == null));
@@ -58,7 +58,7 @@ public class EventTester {
 		System.out.println(et2.toString() + "=" + e2.getLocalEndTime().toString());
 		System.out.println("Some Medical Hospital=" + e2.getEventAddress());
 		System.out.println("organizer@gmail.com=" + e2.getOrganizerEmail());
-		System.out.println("true=" + e2.getRegistrationRequired());
+		System.out.println("true=" + e2.getRegistrationRequestsAreAutoApproved());
 		System.out.println("false=" + (e2.getApprovedRequests() == null));
 		System.out.println("false=" + (e2.getPendingRequests() == null));
 		System.out.println("false=" + (e2.getRejectedRequests() == null));
@@ -105,7 +105,7 @@ public class EventTester {
 		System.out.println(et3.toString() + "=" + e3.getLocalEndTime().toString());
 		System.out.println("DMS1600=" + e3.getEventAddress());
 		System.out.println("organizer@gmail.com=" + e3.getOrganizerEmail());
-		System.out.println("true=" + e3.getRegistrationRequired());
+		System.out.println("true=" + e3.getRegistrationRequestsAreAutoApproved());
 
 
 		System.out.println("0=" + (e3.getApprovedRequests().size()));
