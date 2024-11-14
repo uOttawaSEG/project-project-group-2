@@ -27,7 +27,7 @@ public class AccountRegistrationRequestRepository {
 
     public AccountRegistrationRequestRepository() {
         // Initializing Firebase database reference
-        mDatabase = FirebaseDatabase.getInstance().getReference("requests");
+        mDatabase = FirebaseDatabase.getInstance().getReference("account_requests");
     }
 
     /**

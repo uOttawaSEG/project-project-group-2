@@ -27,9 +27,7 @@ import ca.seg2105project.model.eventClasses.Event;
  * In the next iteration of this class in this sprint, this class will hold a 'real'
  * list of registered users that will actually be modifiable.
  */
-@RequiresApi(api = Build.VERSION_CODES.O) //since LocalDate and LocalTime requires a newer API
 public class EventRepository {
-
 
 	//Two types of events in firebase (upcoming and past) 
 	private final ArrayList<Event> upcomingEvents; //NOTE: WE ARE ESTABLISHING THAT EVENT HAPPENING RIGHT NOW IS STILL AN UPCOMING EVENT (ATTENDEES CAN STILL REGISTER) 

@@ -116,6 +116,13 @@ public class CreateEventActivity extends AppCompatActivity {
                         enteredEventAddress,
                         organizerEmail,
                         enteredAutoApproveCheckBox);
+
+                // For testing purposes, we add 5 pending attendee requests to every event that is created
+                newEvent.addPendingRequest("j@g.com");
+                newEvent.addPendingRequest("j2@g.com");
+                newEvent.addPendingRequest("j3@g.com");
+                newEvent.addPendingRequest("j4@g.com");
+                newEvent.addPendingRequest("j5@g.com");
                 eventRepository.addEvent(newEvent);
 
                 Intent launchOrganizerUpcomingEventsActivity = new Intent(this, OrganizerUpcomingEventsActivity.class);
