@@ -35,7 +35,23 @@ public class EventAttendeeApprovedRequests extends AppCompatActivity {
 
         Toast.makeText(this, getIntent().getStringExtra("event_id"), Toast.LENGTH_LONG).show();
 
+        setPendingRequestsButtonLogic();
         setLogoutButtonLogic();
+    }
+
+    private void setPendingRequestsButtonLogic() {
+        Button seePendingEventRequestsButton = findViewById(R.id.see_pending_event_requests_btn);
+
+        seePendingEventRequestsButton.setOnClickListener(v -> {
+            Intent eventAttendeePendingRequestsActivityIntent = new Intent(this, EventAttendeePendingRequests.class);
+
+            // Pass along the event id to the pending attendee requests activity
+            eventAttendeePendingRequestsActivityIntent.putExtra("event_id", getIntent().getStringExtra("event_id"));
+
+            startActivity(eventAttendeePendingRequestsActivityIntent);
+
+            finish();
+        });
     }
 
     private void setLogoutButtonLogic() {
