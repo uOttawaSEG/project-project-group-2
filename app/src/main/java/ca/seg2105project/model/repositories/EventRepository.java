@@ -248,52 +248,53 @@ public class EventRepository {
 	public void changeEventRegistrationRequestStatus(String eventID, String attendeeEmail,
 													 RegistrationRequestStatus currentStatus,
 													 RegistrationRequestStatus newStatus) {
-		// First we modify the event's list of event registration requests associated with the currentStatus
 
-		// Get the current list of event registration requests for currentStatus
-		ArrayList<String> currentStatusEventRegistrationRequests = null;
-		for (int i = 0; i < allEvents.size(); i++) {
-			if (allEvents.get(i).getEventID().equals(eventID)) {
-				if (currentStatus.equals(RegistrationRequestStatus.PENDING)) {
-					currentStatusEventRegistrationRequests = allEvents.get(i).getPendingRequests();
-				} else if (currentStatus.equals(RegistrationRequestStatus.REJECTED)) {
-					currentStatusEventRegistrationRequests = allEvents.get(i).getRejectedRequests();
-				} else {
-					currentStatusEventRegistrationRequests = allEvents.get(i).getApprovedRequests();
-				}
-			}
-		}
-
-		currentStatusEventRegistrationRequests.remove(attendeeEmail);
-
-		// Next we modify the event's list of event registration requests associated with the newStatus
-		ArrayList<String> newStatusEventRegistrationRequests = null;
-		for (int i = 0; i < allEvents.size(); i++) {
-			if (allEvents.get(i).getEventID().equals(eventID)) {
-				if (newStatus.equals(RegistrationRequestStatus.PENDING)) {
-					newStatusEventRegistrationRequests = allEvents.get(i).getPendingRequests();
-				} else if (newStatus.equals(RegistrationRequestStatus.REJECTED)) {
-					newStatusEventRegistrationRequests = allEvents.get(i).getRejectedRequests();
-				} else {
-					newStatusEventRegistrationRequests = allEvents.get(i).getApprovedRequests();
-				}
-			}
-		}
-
-		// In case the list of event registration requests is empty, we create a new list
-		if (newStatusEventRegistrationRequests == null) {
-			newStatusEventRegistrationRequests = new ArrayList<>();
-		}
-
-		newStatusEventRegistrationRequests.add(attendeeEmail);
-
-		// Set the new list of current status event registration requests in FB
+		// First remove the event registration request from the currentStatus list of event
+		// registration requests
 		String currentStatusFbRegistrationRequestListKey = getFbRegistrationRequestListKey(currentStatus);
-		eventsDatabase.child(eventID).child(currentStatusFbRegistrationRequestListKey).setValue(currentStatusEventRegistrationRequests);
 
-		// Set the new list of new status event registration requests in FB
+		Query registrationRequestQuery = eventsDatabase.child(eventID)
+				.child(currentStatusFbRegistrationRequestListKey).orderByValue().equalTo(attendeeEmail);
+
+		registrationRequestQuery.addValueEventListener(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot snapshot) {
+				if (snapshot.exists()) {
+					for (DataSnapshot registrationRequestSnapshot: snapshot.getChildren()) {
+						String key = registrationRequestSnapshot.getKey();
+						eventsDatabase.child(eventID).child(currentStatusFbRegistrationRequestListKey)
+								.child(key).removeValue();
+					}
+				}
+				registrationRequestQuery.removeEventListener(this);
+			}
+
+			@Override
+			public void onCancelled(@NonNull DatabaseError error) {
+				registrationRequestQuery.removeEventListener(this);
+			}
+		});
+
+
+		ArrayList<String> newStatusRegistrationRequests;
+		if (newStatus.equals(RegistrationRequestStatus.PENDING)) {
+			newStatusRegistrationRequests = getPendingEventRequests(eventID);
+		} else if (newStatus.equals(RegistrationRequestStatus.REJECTED)) {
+			newStatusRegistrationRequests = getRejectedEventRequests(eventID);
+		} else {
+			newStatusRegistrationRequests = getApprovedEventRequests(eventID);
+		}
+
+		// In case the new status registration requests list is currently empty
+		if (newStatusRegistrationRequests == null) {
+			newStatusRegistrationRequests = new ArrayList<>();
+		}
+
+		newStatusRegistrationRequests.add(attendeeEmail);
+
+		// Add the email to the list of event registration requests of new status
 		String newStatusFbRegistrationRequestListKey = getFbRegistrationRequestListKey(newStatus);
-		eventsDatabase.child(eventID).child(newStatusFbRegistrationRequestListKey).setValue(newStatusEventRegistrationRequests);
+		eventsDatabase.child(eventID).child(newStatusFbRegistrationRequestListKey).setValue(newStatusRegistrationRequests);
 	}
 
 	/**

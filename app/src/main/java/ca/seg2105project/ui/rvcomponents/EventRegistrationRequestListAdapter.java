@@ -84,6 +84,7 @@ public class EventRegistrationRequestListAdapter extends RecyclerView.Adapter<Us
             eventRepository.changeEventRegistrationRequestStatus(eventID, user.getEmail(),
                     registrationRequestStatus, RegistrationRequestStatus.APPROVED);
 
+            eventRegistrationRequests.remove(position);
             notifyDataSetChanged();
         });
         holder.rejectButton.setOnClickListener(v -> {
@@ -91,6 +92,7 @@ public class EventRegistrationRequestListAdapter extends RecyclerView.Adapter<Us
             eventRepository.changeEventRegistrationRequestStatus(eventID, user.getEmail(),
                     registrationRequestStatus, RegistrationRequestStatus.REJECTED);
 
+            eventRegistrationRequests.remove(position);
             notifyDataSetChanged();
         });
     }
