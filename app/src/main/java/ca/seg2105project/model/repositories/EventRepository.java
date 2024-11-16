@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.google.firebase.database.Query;
 
@@ -204,7 +205,11 @@ public class EventRepository {
 	public ArrayList<String> getApprovedEventRequests (String eventID) {
 		for (Event e : allEvents) {
 			if (e.getEventID().equals(eventID)) {
-				return e.getApprovedRequests();
+				if (e.getApprovedRequests() == null) {
+					return new ArrayList<>();
+				} else {
+					return new ArrayList<>(e.getApprovedRequests().values());
+				}
 			}
 		}
 		return null;
@@ -218,7 +223,11 @@ public class EventRepository {
 	public ArrayList<String> getPendingEventRequests (String eventID) {
 		for (Event e : allEvents) {
 			if (e.getEventID().equals(eventID)) {
-				return e.getPendingRequests();
+				if (e.getPendingRequests() == null) {
+					return new ArrayList<>();
+				} else {
+					return new ArrayList<>(e.getPendingRequests().values());
+				}
 			}
 		}
 		return null;
@@ -232,7 +241,11 @@ public class EventRepository {
 	public ArrayList<String> getRejectedEventRequests(String eventID) {
 		for (Event e : allEvents) {
 			if (e.getEventID().equals(eventID)) {
-				return e.getRejectedRequests();
+				if (e.getRejectedRequests() == null) {
+					return new ArrayList<>();
+				} else {
+					return new ArrayList<>(e.getRejectedRequests().values());
+				}
 			}
 		}
 		return null;
@@ -275,26 +288,9 @@ public class EventRepository {
 			}
 		});
 
-
-		ArrayList<String> newStatusRegistrationRequests;
-		if (newStatus.equals(RegistrationRequestStatus.PENDING)) {
-			newStatusRegistrationRequests = getPendingEventRequests(eventID);
-		} else if (newStatus.equals(RegistrationRequestStatus.REJECTED)) {
-			newStatusRegistrationRequests = getRejectedEventRequests(eventID);
-		} else {
-			newStatusRegistrationRequests = getApprovedEventRequests(eventID);
-		}
-
-		// In case the new status registration requests list is currently empty
-		if (newStatusRegistrationRequests == null) {
-			newStatusRegistrationRequests = new ArrayList<>();
-		}
-
-		newStatusRegistrationRequests.add(attendeeEmail);
-
 		// Add the email to the list of event registration requests of new status
 		String newStatusFbRegistrationRequestListKey = getFbRegistrationRequestListKey(newStatus);
-		eventsDatabase.child(eventID).child(newStatusFbRegistrationRequestListKey).setValue(newStatusRegistrationRequests);
+		eventsDatabase.child(eventID).child(newStatusFbRegistrationRequestListKey).push().setValue(attendeeEmail);
 	}
 
 	/**
@@ -313,5 +309,16 @@ public class EventRepository {
 			fbRegistrationRequestListKey = "approvedRequests";
 		}
 		return fbRegistrationRequestListKey;
+	}
+
+	/**
+	 * Adds event registration request to fb with provided status
+	 * @param eventID the event ID of the event that should have the new registration request
+	 * @param attendeeEmail the email of the attendee requesting registration
+	 * @param status the status of the new registration request
+	 */
+	public void addEventRegistrationRequest(String eventID, String attendeeEmail, RegistrationRequestStatus status) {
+		String fbRegistrationRequestListKey = getFbRegistrationRequestListKey(status);
+		eventsDatabase.child(eventID).child(fbRegistrationRequestListKey).push().setValue(attendeeEmail);
 	}
 }

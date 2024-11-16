@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import java.util.ArrayList;
+
 import ca.seg2105project.EAMSApplication;
 import ca.seg2105project.R;
 import ca.seg2105project.model.registrationRequestClasses.RegistrationRequestStatus;
@@ -55,7 +57,7 @@ public class EventAttendeePendingRequests extends AppCompatActivity {
             Intent eventAttendeeRejectedRequestsActivityIntent = new Intent(this, EventAttendeeRejectedRequests.class);
 
             // Pass along the event id to the rejected attendee requests activity
-            eventAttendeeRejectedRequestsActivityIntent.putExtra("event_id", getIntent().getStringExtra("event_id"));
+            eventAttendeeRejectedRequestsActivityIntent.putExtra("event_id", eventID);
 
             startActivity(eventAttendeeRejectedRequestsActivityIntent);
 
@@ -87,7 +89,7 @@ public class EventAttendeePendingRequests extends AppCompatActivity {
     private void setUpPendingRequestsRv() {
         EventRepository eventRepository = eamsApplication.getEventRepository();
 
-        RecyclerView pendingRequestsRv = findViewById(R.id.pending_requests_rv);
+        RecyclerView pendingRequestsRv = findViewById(R.id.pending_attendee_requests_rv);
         pendingRequestsRv.setLayoutManager(new LinearLayoutManager(this));
 
         // This is delayed so that the constructor for EventRepository from EAMSApplication has time
@@ -96,8 +98,8 @@ public class EventAttendeePendingRequests extends AppCompatActivity {
             @Override
             public void run() {
                 pendingRequestsRv.setAdapter(new EventRegistrationRequestListAdapter(eventID,
-                        RegistrationRequestStatus.PENDING, eventRepository.getPendingEventRequests(eventID),
-                        eventRepository, eamsApplication.getUserRepository()));
+                        RegistrationRequestStatus.PENDING, new ArrayList<>(eventRepository.getPendingEventRequests(eventID)),
+                        eventRepository, eamsApplication.getUserRepository(), findViewById(R.id.approve_all_request_btn)));
             }
         };
         Handler h = new Handler();

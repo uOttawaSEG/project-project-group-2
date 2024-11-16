@@ -3,6 +3,7 @@ package ca.seg2105project.ui.rvcomponents;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,20 +25,32 @@ public class EventRegistrationRequestListAdapter extends RecyclerView.Adapter<Us
     // It's one of PENDING, REJECTED, APPROVED
     private final RegistrationRequestStatus registrationRequestStatus;
 
-    // The list of attendee emails that have made event registration requests for this event
-    private final ArrayList<String> eventRegistrationRequests;
+    // The list of event registration request emails
+    private final ArrayList<String> eventRegistrationRequestEmails;
 
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
 
     public EventRegistrationRequestListAdapter(String eventID, RegistrationRequestStatus registrationRequestStatus,
-                                               ArrayList<String> eventRegistrationRequests, EventRepository eventRepository,
-                                               UserRepository userRepository) {
+                                               ArrayList<String> eventRegistrationRequestEmails, EventRepository eventRepository,
+                                               UserRepository userRepository, Button approveAllEventRegistrationRequestsButton) {
         this.eventID = eventID;
         this.registrationRequestStatus = registrationRequestStatus;
-        this.eventRegistrationRequests = eventRegistrationRequests;
+        this.eventRegistrationRequestEmails = eventRegistrationRequestEmails;
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
+
+        if (approveAllEventRegistrationRequestsButton != null) {
+            approveAllEventRegistrationRequestsButton.setOnClickListener(v -> {
+                for (String email : eventRegistrationRequestEmails) {
+                    eventRepository.changeEventRegistrationRequestStatus(eventID, email,
+                            registrationRequestStatus, RegistrationRequestStatus.APPROVED);
+                }
+                eventRegistrationRequestEmails.clear();
+
+                notifyDataSetChanged();
+            });
+        }
     }
 
     @NonNull
@@ -53,7 +66,7 @@ public class EventRegistrationRequestListAdapter extends RecyclerView.Adapter<Us
     @Override
     public void onBindViewHolder(@NonNull UserRequestViewHolder holder, int position) {
         // First get the User associated with the event registration request from FB
-        User user = userRepository.getUser(eventRegistrationRequests.get(position));
+        User user = userRepository.getUser(eventRegistrationRequestEmails.get(position));
 
         // Now set the view holder data
         holder.firstName.setText(user.getFirstName());
@@ -84,7 +97,7 @@ public class EventRegistrationRequestListAdapter extends RecyclerView.Adapter<Us
             eventRepository.changeEventRegistrationRequestStatus(eventID, user.getEmail(),
                     registrationRequestStatus, RegistrationRequestStatus.APPROVED);
 
-            eventRegistrationRequests.remove(position);
+            eventRegistrationRequestEmails.remove(position);
             notifyDataSetChanged();
         });
         holder.rejectButton.setOnClickListener(v -> {
@@ -92,13 +105,13 @@ public class EventRegistrationRequestListAdapter extends RecyclerView.Adapter<Us
             eventRepository.changeEventRegistrationRequestStatus(eventID, user.getEmail(),
                     registrationRequestStatus, RegistrationRequestStatus.REJECTED);
 
-            eventRegistrationRequests.remove(position);
+            eventRegistrationRequestEmails.remove(position);
             notifyDataSetChanged();
         });
     }
 
     @Override
     public int getItemCount() {
-        return eventRegistrationRequests.size();
+        return eventRegistrationRequestEmails.size();
     }
 }

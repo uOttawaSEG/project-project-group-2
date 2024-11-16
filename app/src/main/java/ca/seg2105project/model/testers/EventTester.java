@@ -72,10 +72,10 @@ public class EventTester {
 		
 		System.out.println();
 
-		e1.getApprovedRequests().add("raclu@uottawa.ca");
-		e1.getApprovedRequests().add("ij@uottawa.ca");
-		e1.getApprovedRequests().add("s@uottawa.ca");
-		e1.getApprovedRequests().add("r@uottawa.ca");
+		e1.getApprovedRequests().put("a", "raclu@uottawa.ca");
+		e1.getApprovedRequests().put("b", "ij@uottawa.ca");
+		e1.getApprovedRequests().put("c", "s@uottawa.ca");
+		e1.getApprovedRequests().put("d", "r@uottawa.ca");
 		System.out.println("raclu@uottawa.ca=" + e1.getApprovedRequests().get(0));
 		System.out.println("ij@uottawa.ca=" + e1.getApprovedRequests().get(1));
 		System.out.println("s@uottawa.ca=" + e1.getApprovedRequests().get(2));
@@ -84,7 +84,7 @@ public class EventTester {
 		System.out.println();
 		
 		System.out.println("0=" + e2.getApprovedRequests().size());
-		e2.getApprovedRequests().add("youngme@birth.in");
+		e2.getApprovedRequests().put("a", "youngme@birth.in");
 		System.out.println("1=" + e2.getApprovedRequests().size());
 		
 		System.out.println();
@@ -113,12 +113,12 @@ public class EventTester {
 		System.out.println("0=" + (e3.getRejectedRequests().size()));
 
 
-		e3.getApprovedRequests().add("ImIn@gmail.com");
-		e3.getRejectedRequests().add("ImRejected@hotmail.com");
-		e3.getRejectedRequests().add("ImRejected2@hotmail.com");
-		e3.getPendingRequests().add("ImWaiting@outlook.com");
-		e3.getPendingRequests().add("ImWaiting2@outlook.com");
-		e3.getPendingRequests().add("ImWaiting3@outlook.com");
+		e3.getApprovedRequests().put("a", "ImIn@gmail.com");
+		e3.getRejectedRequests().put("b", "ImRejected@hotmail.com");
+		e3.getRejectedRequests().put("c", "ImRejected2@hotmail.com");
+		e3.getPendingRequests().put("d", "ImWaiting@outlook.com");
+		e3.getPendingRequests().put("e", "ImWaiting2@outlook.com");
+		e3.getPendingRequests().put("f", "ImWaiting3@outlook.com");
 
 		System.out.println("1=" + (e3.getApprovedRequests().size()));
 		System.out.println("3=" + (e3.getPendingRequests().size()));

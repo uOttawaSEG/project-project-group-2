@@ -22,6 +22,7 @@ import java.util.Objects;
 import ca.seg2105project.EAMSApplication;
 import ca.seg2105project.R;
 import ca.seg2105project.model.eventClasses.Event;
+import ca.seg2105project.model.registrationRequestClasses.RegistrationRequestStatus;
 import ca.seg2105project.model.repositories.EventRepository;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
 import ca.seg2105project.model.repositories.UserRepository;
@@ -118,12 +119,12 @@ public class CreateEventActivity extends AppCompatActivity {
                         enteredAutoApproveCheckBox);
 
                 // For testing purposes, we add 5 pending attendee requests to every event that is created
-                newEvent.addPendingRequest("j@g.com");
-                newEvent.addPendingRequest("j2@g.com");
-                newEvent.addPendingRequest("j3@g.com");
-                newEvent.addPendingRequest("j4@g.com");
-                newEvent.addPendingRequest("j5@g.com");
                 eventRepository.addEvent(newEvent);
+                eventRepository.addEventRegistrationRequest(newEvent.getEventID(), "j@g.com", RegistrationRequestStatus.PENDING);
+                eventRepository.addEventRegistrationRequest(newEvent.getEventID(), "j2@g.com", RegistrationRequestStatus.PENDING);
+                eventRepository.addEventRegistrationRequest(newEvent.getEventID(), "j3@g.com", RegistrationRequestStatus.PENDING);
+                eventRepository.addEventRegistrationRequest(newEvent.getEventID(), "j4@g.com", RegistrationRequestStatus.PENDING);
+                eventRepository.addEventRegistrationRequest(newEvent.getEventID(), "j5@g.com", RegistrationRequestStatus.PENDING);
 
                 Intent launchOrganizerUpcomingEventsActivity = new Intent(this, OrganizerUpcomingEventsActivity.class);
                 startActivity(launchOrganizerUpcomingEventsActivity);
