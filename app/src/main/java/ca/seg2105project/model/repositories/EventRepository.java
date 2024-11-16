@@ -1,22 +1,20 @@
 package ca.seg2105project.model.repositories;
 
-import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.google.firebase.database.Query;
 
-
 import ca.seg2105project.model.eventClasses.Event;
+import ca.seg2105project.model.registrationRequestClasses.RegistrationRequestStatus;
 
-
- import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DataSnapshot;
  import com.google.firebase.database.DatabaseError;
  import com.google.firebase.database.DatabaseReference;
  import com.google.firebase.database.FirebaseDatabase;
@@ -207,7 +205,11 @@ public class EventRepository {
 	public ArrayList<String> getApprovedEventRequests (String eventID) {
 		for (Event e : allEvents) {
 			if (e.getEventID().equals(eventID)) {
-				return e.getApprovedRequests();
+				if (e.getApprovedRequests() == null) {
+					return new ArrayList<>();
+				} else {
+					return new ArrayList<>(e.getApprovedRequests().values());
+				}
 			}
 		}
 		return null;
@@ -221,7 +223,11 @@ public class EventRepository {
 	public ArrayList<String> getPendingEventRequests (String eventID) {
 		for (Event e : allEvents) {
 			if (e.getEventID().equals(eventID)) {
-				return e.getPendingRequests();
+				if (e.getPendingRequests() == null) {
+					return new ArrayList<>();
+				} else {
+					return new ArrayList<>(e.getPendingRequests().values());
+				}
 			}
 		}
 		return null;
@@ -235,9 +241,84 @@ public class EventRepository {
 	public ArrayList<String> getRejectedEventRequests(String eventID) {
 		for (Event e : allEvents) {
 			if (e.getEventID().equals(eventID)) {
-				return e.getRejectedRequests();
+				if (e.getRejectedRequests() == null) {
+					return new ArrayList<>();
+				} else {
+					return new ArrayList<>(e.getRejectedRequests().values());
+				}
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Changes the status of an existing event registration request
+	 * @param eventID The eventID of the event that the registration request is associated with
+	 * @param attendeeEmail the email of the attendee making the event registration request
+	 * @param currentStatus the current status of the event registration request
+	 * @param newStatus the new status of the event registration request
+	 */
+	public void changeEventRegistrationRequestStatus(String eventID, String attendeeEmail,
+													 RegistrationRequestStatus currentStatus,
+													 RegistrationRequestStatus newStatus) {
+
+		// First remove the event registration request from the currentStatus list of event
+		// registration requests
+		String currentStatusFbRegistrationRequestListKey = getFbRegistrationRequestListKey(currentStatus);
+
+		Query registrationRequestQuery = eventsDatabase.child(eventID)
+				.child(currentStatusFbRegistrationRequestListKey).orderByValue().equalTo(attendeeEmail);
+
+		registrationRequestQuery.addValueEventListener(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot snapshot) {
+				if (snapshot.exists()) {
+					for (DataSnapshot registrationRequestSnapshot: snapshot.getChildren()) {
+						String key = registrationRequestSnapshot.getKey();
+						eventsDatabase.child(eventID).child(currentStatusFbRegistrationRequestListKey)
+								.child(key).removeValue();
+					}
+				}
+				registrationRequestQuery.removeEventListener(this);
+			}
+
+			@Override
+			public void onCancelled(@NonNull DatabaseError error) {
+				registrationRequestQuery.removeEventListener(this);
+			}
+		});
+
+		// Add the email to the list of event registration requests of new status
+		String newStatusFbRegistrationRequestListKey = getFbRegistrationRequestListKey(newStatus);
+		eventsDatabase.child(eventID).child(newStatusFbRegistrationRequestListKey).push().setValue(attendeeEmail);
+	}
+
+	/**
+	 * Utility method for getting the child key string for a list of event registration requests for a given status
+	 * @param currentStatus The status of the list of event registration requests
+	 * @return the key string for specifying fb child location for event registration requests of given status
+	 */
+	@NonNull
+	private String getFbRegistrationRequestListKey(RegistrationRequestStatus currentStatus) {
+		String fbRegistrationRequestListKey;
+		if (currentStatus.equals(RegistrationRequestStatus.PENDING)) {
+			fbRegistrationRequestListKey = "pendingRequests";
+		} else if (currentStatus.equals(RegistrationRequestStatus.REJECTED)) {
+			fbRegistrationRequestListKey = "rejectedRequests";
+		} else {
+			fbRegistrationRequestListKey = "approvedRequests";
+		}
+		return fbRegistrationRequestListKey;
+	}
+
+	/**
+	 * Adds event registration request to fb with provided status
+	 * @param eventID the event ID of the event that should have the new registration request
+	 * @param attendeeEmail the email of the attendee requesting registration
+	 * @param status the status of the new registration request
+	 */
+	public void addEventRegistrationRequest(String eventID, String attendeeEmail, RegistrationRequestStatus status) {
+		String fbRegistrationRequestListKey = getFbRegistrationRequestListKey(status);
+		eventsDatabase.child(eventID).child(fbRegistrationRequestListKey).push().setValue(attendeeEmail);
 	}
 }

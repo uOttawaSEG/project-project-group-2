@@ -2,6 +2,7 @@ package ca.seg2105project.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -11,14 +12,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 import ca.seg2105project.EAMSApplication;
 import ca.seg2105project.R;
+import ca.seg2105project.model.registrationRequestClasses.RegistrationRequestStatus;
+import ca.seg2105project.model.repositories.EventRepository;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
+import ca.seg2105project.ui.rvcomponents.EventRegistrationRequestListAdapter;
 
 public class EventAttendeeRejectedRequests extends AppCompatActivity {
 
     private EAMSApplication eamsApplication;
+    private String eventID;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,10 +42,11 @@ public class EventAttendeeRejectedRequests extends AppCompatActivity {
 
         eamsApplication = (EAMSApplication) getApplication();
 
-        Toast.makeText(this, getIntent().getStringExtra("event_id"), Toast.LENGTH_LONG).show();
+        eventID = getIntent().getStringExtra("event_id");
 
         setApprovedRequestsButtonLogic();
         setLogoutButtonLogic();
+        setUpRejectedRequestsRv();
     }
 
     private void setApprovedRequestsButtonLogic() {
@@ -46,7 +56,7 @@ public class EventAttendeeRejectedRequests extends AppCompatActivity {
             Intent eventAttendeeApprovedRequestsActivityIntent = new Intent(this, EventAttendeeApprovedRequests.class);
 
             // Pass along the event id to the rejected attendee requests activity
-            eventAttendeeApprovedRequestsActivityIntent.putExtra("event_id", getIntent().getStringExtra("event_id"));
+            eventAttendeeApprovedRequestsActivityIntent.putExtra("event_id", eventID);
 
             startActivity(eventAttendeeApprovedRequestsActivityIntent);
 
@@ -73,5 +83,25 @@ public class EventAttendeeRejectedRequests extends AppCompatActivity {
             // User shouldn't be able to return to this activity
             finish();
         });
+    }
+
+    private void setUpRejectedRequestsRv() {
+        EventRepository eventRepository = eamsApplication.getEventRepository();
+
+        RecyclerView rejectedRequestsRv = findViewById(R.id.rejected_attendee_requests_rv);
+        rejectedRequestsRv.setLayoutManager(new LinearLayoutManager(this));
+
+        // This is delayed so that the constructor for EventRepository from EAMSApplication has time
+        // to run and pull the list of events from fb before we set the list of rejected requests
+        Runnable setRejectedRvList = new Runnable() {
+            @Override
+            public void run() {
+                rejectedRequestsRv.setAdapter(new EventRegistrationRequestListAdapter(eventID,
+                        RegistrationRequestStatus.REJECTED, new ArrayList<>(eventRepository.getRejectedEventRequests(eventID)),
+                        eventRepository, eamsApplication.getUserRepository(), findViewById(R.id.approve_all_request_btn)));
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(setRejectedRvList, 1000);
     }
 }

@@ -2,7 +2,7 @@ package ca.seg2105project.model.eventClasses;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A class to model an Event. If registrationRequired is false, then pendingRequests and rejectedRequests are set to null.
@@ -12,7 +12,7 @@ public class Event {
 	private long dateMillis; // Store date as milliseconds since epoch for Firebase
 	private long startTimeMillis, endTimeMillis; // Store times as milliseconds since midnight for Firebase
 	private boolean registrationRequestsAreAutoApproved;
-	private ArrayList<String> approvedRequests, pendingRequests, rejectedRequests;
+	private HashMap<String, String> approvedRequests, pendingRequests, rejectedRequests;
 
 	/**
 	 * A parameterized constructor for Event that takes in LocalDate and LocalTime objects.
@@ -37,11 +37,11 @@ public class Event {
 		this.organizerEmail = organizerEmail;
 		this.registrationRequestsAreAutoApproved = registrationRequestsAreAutoApproved;
 
-		this.approvedRequests = new ArrayList<String>();
+		this.approvedRequests = new HashMap<>();
 
 		if (!registrationRequestsAreAutoApproved) { //if requests need to be manually approved by organizer, then keep track of pending and approved requests
-			this.pendingRequests = new ArrayList<String>();
-			this.rejectedRequests = new ArrayList<String>();
+			this.pendingRequests = new HashMap<>();
+			this.rejectedRequests = new HashMap<>();
 		} else { //if requests are automatically approved, there won't ever be any pending or rejected requests, so we won't keep track of them
 			this.pendingRequests = null;
 			this.rejectedRequests = null;
@@ -159,37 +159,25 @@ public class Event {
 
 	/**
 	 * A getter for the array list approvedRequests.
-	 * @return the list of the attendees' emails that will be attending this event (synonymous to approvedRequests)
+	 * @return the map of the attendees' emails (key is firebase generated hash) that will be attending this event (synonymous to approvedRequests)
 	 */
-	public ArrayList<String> getApprovedRequests() { return approvedRequests; }
+	public HashMap<String, String> getApprovedRequests() { return approvedRequests; }
 
 	/**
 	 * A getter for the array list pendingRequests.
-	 * @return the list of the attendees' emails that have requested to join this event, null if registration is not required
+	 * @return the map of the attendees' emails (key is firebase generated hash) that have requested to join this event, null if registration is not required
 	 */
-	public ArrayList<String> getPendingRequests() { return pendingRequests; }
+	public HashMap<String, String> getPendingRequests() { return pendingRequests; }
 
 	/**
 	 * A getter for the array list rejectedRequests.
-	 * @return the list of the attendees' emails whose requests have been rejected, null if registration is not required
+	 * @return the map of the attendees' emails (key is firebase generated hash) whose requests have been rejected, null if registration is not required
 	 */
-	public ArrayList<String> getRejectedRequests() { return rejectedRequests; }
+	public HashMap<String, String> getRejectedRequests() { return rejectedRequests; }
 
 	//setter methods
 
 	public void setEventID (String eventId) {
 		this.eventID = eventId;
-	}
-
-	// utility methods
-
-	/**
-	 * Adds a pending event registration request from attendee specified by attendeeEmail
-	 * @param attendeeEmail the email of the attendee making the request
-	 */
-	public void addPendingRequest(String attendeeEmail) {
-		if (pendingRequests != null) {
-			pendingRequests.add(attendeeEmail);
-		}
 	}
 }

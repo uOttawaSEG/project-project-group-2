@@ -5,7 +5,7 @@ package ca.seg2105project.model.registrationRequestClasses;
 */
 public class AccountRegistrationRequest {
 	private String firstName, lastName, email, password, address, phoneNumber, organizationName;
-	private AccountRegistrationRequestStatus status;
+	private RegistrationRequestStatus status;
 	
 	/** 
      * A paramterized constructor for AccountRegistrationRequest. A request is PENDING to begin with and can be REJECTED or APPROVED later.
@@ -27,7 +27,7 @@ public class AccountRegistrationRequest {
         this.organizationName = organizationName;
 
         //when a request is first created, the status is always PENDING until an admin approves it.
-        this.status = AccountRegistrationRequestStatus.PENDING;
+        this.status = RegistrationRequestStatus.PENDING;
     }
 
     public AccountRegistrationRequest() {
@@ -96,7 +96,7 @@ public class AccountRegistrationRequest {
      * Gets the status of the request (PENDING, REJECTED, or APPROVED)
      * @return the status of the request as an enum constant AccountRegistrationRequestStatus (PENDING, REJECTED, or APPROVED)
      */
-    public AccountRegistrationRequestStatus getStatus() {
+    public RegistrationRequestStatus getStatus() {
         return status; 
     }
 	
@@ -106,7 +106,7 @@ public class AccountRegistrationRequest {
 	* Sets the status of the request to a given AccountRegistrationRequestStatus
 	* @param status the new status to set the status of the request to
 	*/
-	public void setStatus(AccountRegistrationRequestStatus status) {
+	public void setStatus(RegistrationRequestStatus status) {
 		this.status = status;
 	}
 }

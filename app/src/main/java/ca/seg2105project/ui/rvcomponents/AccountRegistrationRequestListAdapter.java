@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ca.seg2105project.R;
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
-import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
+import ca.seg2105project.model.registrationRequestClasses.RegistrationRequestStatus;
 import ca.seg2105project.model.repositories.AccountRegistrationRequestRepository;
 
 
@@ -60,19 +60,19 @@ public class AccountRegistrationRequestListAdapter extends RecyclerView.Adapter<
         holder.organizationName.setText(registrationRequests.get(position).getOrganizationName());
 
         // Make reject button invisible if we are on rejected requests screen
-        if (registrationRequests.get(position).getStatus() == AccountRegistrationRequestStatus.REJECTED) {
+        if (registrationRequests.get(position).getStatus() == RegistrationRequestStatus.REJECTED) {
             holder.rejectButton.setVisibility(View.INVISIBLE);
         }
 
         holder.approveButton.setOnClickListener(v -> {
-                accountRegistrationRequestRepository.updateRequestStatus(registrationRequests.get(position).getEmail(), AccountRegistrationRequestStatus.APPROVED);
+                accountRegistrationRequestRepository.updateRequestStatus(registrationRequests.get(position).getEmail(), RegistrationRequestStatus.APPROVED);
                 registrationRequests.remove(position);
                 notifyDataSetChanged();
         });
         holder.rejectButton.setOnClickListener(v -> {
             // Only change status if it hasn't already been changed
-            if (registrationRequests.get(position).getStatus() != AccountRegistrationRequestStatus.REJECTED) {
-                accountRegistrationRequestRepository.updateRequestStatus(registrationRequests.get(position).getEmail(), AccountRegistrationRequestStatus.REJECTED);
+            if (registrationRequests.get(position).getStatus() != RegistrationRequestStatus.REJECTED) {
+                accountRegistrationRequestRepository.updateRequestStatus(registrationRequests.get(position).getEmail(), RegistrationRequestStatus.REJECTED);
                 registrationRequests.remove(position);
                 notifyDataSetChanged();
             }

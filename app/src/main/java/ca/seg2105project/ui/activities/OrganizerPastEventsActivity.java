@@ -1,16 +1,13 @@
 package ca.seg2105project.ui.activities;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -18,20 +15,13 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Month;
 import java.util.ArrayList;
-import java.util.List;
 
 import ca.seg2105project.EAMSApplication;
 import ca.seg2105project.R;
 import ca.seg2105project.model.eventClasses.Event;
-import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
-import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequestStatus;
 import ca.seg2105project.model.repositories.EventRepository;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
-import ca.seg2105project.ui.rvcomponents.AccountRegistrationRequestListAdapter;
 import ca.seg2105project.ui.rvcomponents.EventListAdapter;
 
 public class OrganizerPastEventsActivity extends AppCompatActivity {
@@ -51,7 +41,7 @@ public class OrganizerPastEventsActivity extends AppCompatActivity {
         });
 
         eamsApplication = (EAMSApplication) getApplication();
-        EventRepository eventRepository = new EventRepository();
+        EventRepository eventRepository = eamsApplication.getEventRepository();
         loginSessionRepository = eamsApplication.getLoginSessionRepository();
 
         RecyclerView pastEventsRV = findViewById(R.id.past_events_rv);

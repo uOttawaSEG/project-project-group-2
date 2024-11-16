@@ -160,4 +160,19 @@ public class UserRepository {
 		//have not found email in the list of registered users
 		return null;
 	}
+
+	/**
+	 * Gets the user associated with provided email
+	 * @param email the email of the user to be returned
+	 * @return the User object of the user associated with provided email or null if there is no
+	 * 		user associated with provided email
+	 */
+	public User getUser(String email) {
+		for (int i = 0; i < registeredUsers.size(); i++) {
+			if (registeredUsers.get(i).getEmail().equals(email)) {
+				return registeredUsers.get(i);
+			}
+		}
+		return null;
+	}
 }

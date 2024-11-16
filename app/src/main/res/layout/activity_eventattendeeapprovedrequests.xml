@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:backgroundTint="@color/white"
-        android:text="Pending Request"
+        android:text="Pending Requests"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -52,12 +52,12 @@
         app:layout_constraintTop_toBottomOf="@id/activity_title" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/pending_requests_rv"
+        android:id="@+id/approved_attendee_requests_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
-        android:paddingTop="96dp"
+        android:paddingTop="148dp"
         android:translationZ="-1dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Logout_BTN" />
