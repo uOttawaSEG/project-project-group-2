@@ -104,7 +104,6 @@ public class OrganizerUpcomingEventsActivity extends AppCompatActivity {
         addButton.setOnClickListener(v -> {
             Intent launchUpcomingEventsActivityIntent = new Intent(this, CreateEventActivity.class);
             startActivity(launchUpcomingEventsActivityIntent);
-            finish();
         });
     }
 }
