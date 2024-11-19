@@ -32,6 +32,7 @@
         <activity android:name=".ui.activities.EventAttendeePendingRequests" />
         <activity android:name=".ui.activities.EventAttendeeRejectedRequests" />
         <activity android:name=".ui.activities.EventAttendeeApprovedRequests" />
+        <activity android:name=".ui.activities.AttendeeEventSearchActivity" />
     </application>
 
 </manifest>
