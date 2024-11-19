@@ -52,7 +52,6 @@ public class EventRepository {
 	 * Updates the lists allEvents, pastEvents, and upcomingEvents. Does so 'in-place.' Takes its updated data from the firebase database.
 	 */
 	private void pullAllEvents() {
-		allEvents.clear();
 		eventsDatabase.addValueEventListener(new ValueEventListener() {
 
 			@Override
