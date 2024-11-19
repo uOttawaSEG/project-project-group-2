@@ -169,6 +169,20 @@ public class EventRepository {
     }
 
 	/**
+	 * A helper method to get the event object with the given eventID. Returns null if there is no event with the given eventID.
+	 * @param eventID the unique eventID of the event to be returned
+	 * @return the event object with the given eventID. Null if no such event exists.
+	 */
+	private Event getEventByEventID (String eventID) {
+		for (Event e : allEvents) {
+			if (e.getEventID().equals(eventID))
+				return e;
+		}
+		//went through the entire allEvents list and found no event with the given eventID
+		return null;
+	}
+
+	/**
 	 * A method to determine if a given event can be deleted. A given event cannot be deleted if:
 	 * <p>
 	 *     - it has any approved requests
@@ -181,10 +195,14 @@ public class EventRepository {
 	}
 
 	/**
-     * Removes the event associated with a specific id from firebase 
-	 * @param eventID the event id that identifies the event we want to remove 
+     * Removes the event associated with a specific id from firebase if that event can be removed.
+	 * @param eventID the event id that identifies the event we want to remove. Must not be given a null String reference.
      */
-    public void deleteEvent(String eventID){ 
+    public void deleteEvent(String eventID) {
+		Event event = getEventByEventID(eventID);
+		if (!canDeleteEvent(event)) return;
+		//canDeleteEvent(event)
+
 		Query eventIDQuery = eventsDatabase.orderByChild("eventID").equalTo(eventID); //filter data based on eventID field in fb and then get the one with the matching eventID
         
 		//listens for changes in eventIDQuery results 
