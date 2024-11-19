@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -319,5 +320,38 @@ public class EventRepository {
 	public void addEventRegistrationRequest(String eventID, String attendeeEmail, RegistrationRequestStatus status) {
 		String fbRegistrationRequestListKey = getFbRegistrationRequestListKey(status);
 		eventsDatabase.child(eventID).child(fbRegistrationRequestListKey).push().setValue(attendeeEmail);
+	}
+
+	/**
+	 * A private helper method to sort an arraylist of type event in-place from earliest to latest start time.
+	 * This will make it so that the given events is transformed such that the events happening earlier have smaller indices than ones happening later.
+	 * Uses a selective sort algorithm, so runs in O(n^2) time if n = events.size()
+	 * @param events the list of events to be sorted in-place from earliest start time to latest
+	 */
+	private void sortEventsByStartTime (ArrayList<Event> events) {
+		int n = events.size();
+		for (int i = 0; i < n; i++) {
+			int earliestEventIndex = i;
+			for (int j = i + 1; j < n; j++) {
+				Event a = events.get(earliestEventIndex); //a = earliestEvent so far, at index earliestEventIndex
+				Event b = events.get(j); //b = the event being considered right now, at index j
+
+				LocalDate aDate = a.getLocalDate();
+				LocalTime aStartTime = a.getLocalStartTime();
+				LocalDateTime aDateTime = LocalDateTime.of(aDate, aStartTime); //the LocalDateTime object corresponding to the event a's start time
+				LocalDate bDate = b.getLocalDate();
+				LocalTime bStartTime = b.getLocalStartTime();
+				LocalDateTime bDateTime = LocalDateTime.of(bDate, bStartTime); //the LocalDateTime object corresponding to the event b's start time
+
+				if (bDateTime.isBefore(aDateTime)) {
+					//if b started before a did
+					earliestEventIndex = j;
+				}
+			}
+			//earliestEventIndex now has the index of the earliest event found from index i onwards, so now need to switch the event at index i with the event at index earliestEventIndex
+			Event temp = events.get(i);
+			events.set(i, events.get(earliestEventIndex));
+			events.set(earliestEventIndex, temp);
+		}
 	}
 }
