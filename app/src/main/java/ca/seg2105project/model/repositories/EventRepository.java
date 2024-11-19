@@ -168,6 +168,17 @@ public class EventRepository {
         return true;
     }
 
+	/**
+	 * A method to determine if a given event can be deleted. A given event cannot be deleted if:
+	 * <p>
+	 *     - it has any approved requests
+	 * </p>
+	 * @param event the event that we need to determine if can be deleted or not. Must not be given a null event reference.
+	 * @return true if the event can be deleted, false if it cannot be deleted
+	 */
+	public boolean canDeleteEvent (Event event) {
+		return event.getApprovedRequests().isEmpty();
+	}
 
 	/**
      * Removes the event associated with a specific id from firebase 
