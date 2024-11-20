@@ -33,7 +33,8 @@ public class EventRequestViewHolder extends RecyclerView.ViewHolder{
         eventEndTimeTV = eventItemView.findViewById(R.id.end_time_tv);
         eventLocationTV = eventItemView.findViewById(R.id.event_location_tv);
 
-        requestOrCancelBtn = eventItemView.findViewById(R.id.delete_event_btn);
+        requestOrCancelBtn = eventItemView.findViewById(R.id.request_or_cancel_btn);
+        viewEventDetailsBtn = eventItemView.findViewById(R.id.view_event_details_btn);
 
         // Send user to see list of pending event registration requests
         eventItemView.setOnClickListener(v -> {
