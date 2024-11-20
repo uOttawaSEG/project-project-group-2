@@ -87,7 +87,7 @@
         android:textColor="@color/black" />
 
     <Button
-        android:id="@+id/request_or_delete_btn"
+        android:id="@+id/request_or_cancel_btn"
         android:layout_width="165dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
