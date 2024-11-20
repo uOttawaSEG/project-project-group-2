@@ -28,11 +28,11 @@ public class UserRequestViewHolder extends RecyclerView.ViewHolder{
         super(userRequestItemView);
         firstName = userRequestItemView.findViewById(R.id.firstName);
         lastName = userRequestItemView.findViewById(R.id.lastName);
-        email = userRequestItemView.findViewById(R.id.end_time_tv);
-        phoneNumber = userRequestItemView.findViewById(R.id.event_location_tv);
-        address = userRequestItemView.findViewById(R.id.request_status_tv);
+        email = userRequestItemView.findViewById(R.id.email);
+        phoneNumber = userRequestItemView.findViewById(R.id.phoneNumber);
+        address = userRequestItemView.findViewById(R.id.address);
         organizationName = userRequestItemView.findViewById(R.id.organizationName);
-        approveButton = userRequestItemView.findViewById(R.id.view_event_details_btn);
-        rejectButton = userRequestItemView.findViewById(R.id.request_to_join_btn);
+        approveButton = userRequestItemView.findViewById(R.id.approve_button);
+        rejectButton = userRequestItemView.findViewById(R.id.reject_button);
     }
 }
