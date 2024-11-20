@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="108dp"
+    android:layout_height="120dp"
     android:background="@color/white"
     android:orientation="horizontal"
     tools:context=".ui.activities.PendingAccountRequestsActivity"
@@ -16,6 +16,7 @@
         android:layout_height="48dp"
         android:layout_centerVertical="true" />
 
+
     <!--Event Title-->
     <TextView
         android:id="@+id/event_title_tv"
@@ -25,6 +26,7 @@
         android:textColor="@color/black"
         android:textSize="17dp"
         tools:text="Event Title" />
+
 
     <!--Start Time-->
     <TextView
@@ -37,6 +39,7 @@
         android:textSize="15dp"
         tools:text="Starts at: " />
 
+
     <!--End Time-->
     <TextView
         android:id="@+id/end_time_tv"
@@ -47,6 +50,7 @@
         android:textColor="@color/black"
         android:textSize="15dp"
         tools:text="Ends at:" />
+
 
     <!--Event location-->
     <TextView
@@ -59,17 +63,16 @@
         android:textSize="15dp"
         tools:text="Location: 123 Cool Street, 2nd floor" />
 
-    <Button
-        android:id="@+id/request_to_join_btn"
-        android:layout_width="165dp"
+    <!--Request Status-->
+    <TextView
+        android:id="@+id/request_status_tv"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="11dp"
-        android:backgroundTint="@color/pastel_green"
-        android:text="Request To Join"
-        android:textColor="@color/black" />
+        android:layout_below="@+id/event_location_tv"
+        android:layout_toEndOf="@+id/eventbox_iv"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        tools:text="Request Status: null" />
 
     <Button
         android:id="@+id/view_event_details_btn"
@@ -77,10 +80,22 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="47dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="7dp"
         android:backgroundTint="@color/pastel_blue"
         android:text="View Event Details"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/request_to_join_btn"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="7dp"
+        android:backgroundTint="@color/pastel_green"
+        android:text="Request To Join"
         android:textColor="@color/black" />
 
 </RelativeLayout>
