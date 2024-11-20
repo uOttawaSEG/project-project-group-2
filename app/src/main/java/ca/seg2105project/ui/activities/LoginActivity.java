@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
     // below is view logic setup
 
     private void setLoginViewLogic() {
-        EditText editEmail = findViewById(R.id.email);
+        EditText editEmail = findViewById(R.id.end_time_tv);
         EditText editPassword = findViewById(R.id.password);
         Button loginButton = findViewById(R.id.loginBTN);
 
