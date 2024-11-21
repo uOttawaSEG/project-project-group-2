@@ -36,7 +36,7 @@ public class EventRequestViewHolder extends RecyclerView.ViewHolder{
         requestOrCancelBtn = eventItemView.findViewById(R.id.request_or_cancel_btn);
         viewEventDetailsBtn = eventItemView.findViewById(R.id.view_event_details_btn);
 
-        // Send user to see list of pending event registration requests
+        //not sure about implementation here
         eventItemView.setOnClickListener(v -> {
             Intent launchEventAttendeePendingRequestActivityIntent = new Intent(eventItemView.getContext(),
                     EventAttendeePendingRequests.class);
