@@ -1,7 +1,6 @@
 package ca.seg2105project.ui.activities;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
@@ -9,7 +8,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -81,7 +79,7 @@ public class OrganizerUpcomingEventsActivity extends AppCompatActivity {
     }
 
     private void setLogoutButtonLogic() {
-        Button logoutButton = findViewById(R.id.Logout_BTN);
+        Button logoutButton = findViewById(R.id.logout_btn);
         logoutButton.setOnClickListener(v -> {
             // Removes email from our shared preferences
             loginSessionRepository.endLoginSession();
