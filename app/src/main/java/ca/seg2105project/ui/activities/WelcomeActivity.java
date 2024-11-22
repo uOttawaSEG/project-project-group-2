@@ -69,6 +69,20 @@ public class WelcomeActivity extends AppCompatActivity {
                         finish();
                     });
                 }
+                //Setup to go the AttendeeUpcomingEvents page if user is an Attendee
+                else if (userRepository.getUserTypeByEmail(loginSessionRepository.getActiveLoginSessionEmail()).equals("Attendee")) {
+                    Button goToRequestInboxBtn = findViewById(R.id.launch_user_specific_activity_btn);
+                    goToRequestInboxBtn.setText(R.string.organizer_welcome_screen_launch_account_request_inbox_button_text);
+                    goToRequestInboxBtn.setVisibility(View.VISIBLE);
+                    goToRequestInboxBtn.setOnClickListener(v -> {
+                        Intent launchAttendeeUpcomingEventsActivityIntent = new Intent(
+                                WelcomeActivity.this, AttendeeUpcomingEventsActivity.class);
+                        startActivity(launchAttendeeUpcomingEventsActivityIntent);
+
+                        finish();
+                    });
+                }
+
             }
         };
 
