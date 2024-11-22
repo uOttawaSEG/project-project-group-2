@@ -200,8 +200,8 @@ public class EventRepository {
      */
     public void deleteEvent(String eventID) {
 		Event event = getEventByEventID(eventID);
-		if (!canDeleteEvent(event)) return;
-		//canDeleteEvent(event)
+		if (event == null) return; //the event with the given eventID was not found
+		if (!canDeleteEvent(event)) return; //event cannot be deleted
 
 		Query eventIDQuery = eventsDatabase.orderByChild("eventID").equalTo(eventID); //filter data based on eventID field in fb and then get the one with the matching eventID
         
