@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.seg2105project.ui.rvcomponents.AccountRegistrationRequestListAdapter;
+import ca.seg2105project.ui.rvcomponents.ARRListAdapter;
 import ca.seg2105project.EAMSApplication;
 import ca.seg2105project.R;
 import ca.seg2105project.model.registrationRequestClasses.AccountRegistrationRequest;
@@ -87,7 +87,7 @@ public class RejectedAccountRequestsActivity extends AppCompatActivity {
                     }
                 }
 
-                recyclerView.setAdapter(new AccountRegistrationRequestListAdapter(
+                recyclerView.setAdapter(new ARRListAdapter(
                         rejectedAccountRegistrationRequests,
                         accountRegistrationRequestRepository));
             }

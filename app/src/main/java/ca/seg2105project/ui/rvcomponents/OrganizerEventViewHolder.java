@@ -11,32 +11,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import ca.seg2105project.R;
 import ca.seg2105project.ui.activities.EventAttendeePendingRequests;
 
-public class EventRequestViewHolder extends RecyclerView.ViewHolder{
+public class OrganizerEventViewHolder extends RecyclerView.ViewHolder{
 
-    TextView eventTitleTV, eventStartTimeTV, eventEndTimeTV, eventLocationTV, eventRequestStatusTV;
+    TextView eventTitleTV, eventDescriptionTV, eventDateTV, eventStartTimeTV, eventEndTimeTV, eventAddressTV;
 
     // The eventId will be set by the EventListAdapter
     String eventId;
-    
-    Button requestOrCancelBtn;
-    Button viewEventDetailsBtn;
+
+    Button deleteEventBtn;
 
     /**
      * Constructor for EventViewHolder
      * @param eventItemView the view inflated from rvitem_event xml layout passed by EventListAdapter
      */
 
-    public EventRequestViewHolder(@NonNull View eventItemView) {
+    public OrganizerEventViewHolder(@NonNull View eventItemView) {
         super(eventItemView);
-        eventTitleTV = eventItemView.findViewById(R.id.event_title_tv);
-        eventStartTimeTV = eventItemView.findViewById(R.id.start_time_tv);
-        eventEndTimeTV = eventItemView.findViewById(R.id.end_time_tv);
-        eventLocationTV = eventItemView.findViewById(R.id.event_location_tv);
+        eventTitleTV = eventItemView.findViewById(R.id.event_title);
+        eventDescriptionTV = eventItemView.findViewById(R.id.event_description);
+        eventDateTV = eventItemView.findViewById(R.id.date);
+        eventStartTimeTV = eventItemView.findViewById(R.id.startTime);
+        eventEndTimeTV = eventItemView.findViewById(R.id.endTime);
+        eventAddressTV = eventItemView.findViewById(R.id.eventAddress);
+        deleteEventBtn = eventItemView.findViewById(R.id.delete_event_btn);
 
-        requestOrCancelBtn = eventItemView.findViewById(R.id.request_or_cancel_btn);
-        viewEventDetailsBtn = eventItemView.findViewById(R.id.view_event_details_btn);
-
-        //not sure about implementation here
+        // Send user to see list of pending event registration requests
         eventItemView.setOnClickListener(v -> {
             Intent launchEventAttendeePendingRequestActivityIntent = new Intent(eventItemView.getContext(),
                     EventAttendeePendingRequests.class);

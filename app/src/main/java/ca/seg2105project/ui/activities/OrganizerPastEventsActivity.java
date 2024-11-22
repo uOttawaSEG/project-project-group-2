@@ -22,7 +22,7 @@ import ca.seg2105project.R;
 import ca.seg2105project.model.eventClasses.Event;
 import ca.seg2105project.model.repositories.EventRepository;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
-import ca.seg2105project.ui.rvcomponents.EventListAdapter;
+import ca.seg2105project.ui.rvcomponents.OrganizerEventListAdapter;
 
 public class OrganizerPastEventsActivity extends AppCompatActivity {
 
@@ -58,7 +58,7 @@ public class OrganizerPastEventsActivity extends AppCompatActivity {
                 // We don't need to put this call outside the runnable because we're not making
                 // a call to fb in getAllPastEvents
                 ArrayList<Event> events = eventRepository.getAllPastEvents(loginSessionRepository.getActiveLoginSessionEmail());
-                pastEventsRV.setAdapter(new EventListAdapter(events, eventRepository));
+                pastEventsRV.setAdapter(new OrganizerEventListAdapter(events, eventRepository));
             }
         };
         Handler h = new Handler();

@@ -16,9 +16,10 @@ import ca.seg2105project.model.repositories.AccountRegistrationRequestRepository
 
 
 /**
+ * ARR is an acronym for account registration request
  * A class that displays the list of registration requests in a RecyclerView
  */
-public class AccountRegistrationRequestListAdapter extends RecyclerView.Adapter<UserRequestViewHolder> {
+public class ARRListAdapter extends RecyclerView.Adapter<UserRequestViewHolder> {
 
     List<AccountRegistrationRequest> registrationRequests;
     AccountRegistrationRequestRepository accountRegistrationRequestRepository;
@@ -28,7 +29,7 @@ public class AccountRegistrationRequestListAdapter extends RecyclerView.Adapter<
      * @param registrationRequests a list of registration requests
      * @param
      */
-    public AccountRegistrationRequestListAdapter(List<AccountRegistrationRequest> registrationRequests, AccountRegistrationRequestRepository accountRegistrationRequestRepository) {
+    public ARRListAdapter(List<AccountRegistrationRequest> registrationRequests, AccountRegistrationRequestRepository accountRegistrationRequestRepository) {
         this.registrationRequests = registrationRequests;
         this.accountRegistrationRequestRepository = accountRegistrationRequestRepository;
     }

@@ -12,7 +12,7 @@ import ca.seg2105project.R;
 import ca.seg2105project.model.eventClasses.Event;
 import ca.seg2105project.model.repositories.EventRepository;
 
-public class EventListAdapter extends RecyclerView.Adapter<EventViewHolder> {
+public class OrganizerEventListAdapter extends RecyclerView.Adapter<OrganizerEventViewHolder> {
 
     private final ArrayList<Event> events;
     private final EventRepository eventRepository;
@@ -20,22 +20,22 @@ public class EventListAdapter extends RecyclerView.Adapter<EventViewHolder> {
     /**
      * @param events the list of events to be adapted to the viewholders
      */
-    public EventListAdapter(ArrayList<Event> events, EventRepository eventRepository) {
+    public OrganizerEventListAdapter(ArrayList<Event> events, EventRepository eventRepository) {
         this.events = events;
         this.eventRepository = eventRepository;
     }
 
     @NonNull
     @Override
-    public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new EventViewHolder(LayoutInflater.from(parent.getContext()).inflate(
+    public OrganizerEventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new OrganizerEventViewHolder(LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.rvitem_event,
                 parent,
                 false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull OrganizerEventViewHolder holder, int position) {
         holder.eventTitleTV.setText(events.get(position).getTitle());
         holder.eventDescriptionTV.setText(events.get(position).getDescription());
         holder.eventDateTV.setText(events.get(position).getLocalDate().toString());
