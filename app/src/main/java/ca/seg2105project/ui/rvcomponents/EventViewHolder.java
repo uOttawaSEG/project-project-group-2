@@ -24,6 +24,7 @@ public class EventViewHolder extends RecyclerView.ViewHolder{
      * Constructor for EventViewHolder
      * @param eventItemView the view inflated from rvitem_event xml layout passed by EventListAdapter
      */
+
     public EventViewHolder(@NonNull View eventItemView) {
         super(eventItemView);
         eventTitleTV = eventItemView.findViewById(R.id.event_title);
