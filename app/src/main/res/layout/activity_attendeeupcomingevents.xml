@@ -22,13 +22,13 @@
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/see_new_events_btn"
+        android:id="@+id/search_for_events_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/see_attendee_request"
-        android:text="New Events"
+        android:text="Search for Events"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -48,8 +48,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/attendee_request_rv"
-        android:layout_width="440dp"
-        android:layout_height="882dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:paddingTop="96dp"
