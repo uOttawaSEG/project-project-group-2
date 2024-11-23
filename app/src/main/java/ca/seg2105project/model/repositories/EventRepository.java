@@ -120,7 +120,6 @@ public class EventRepository {
 		return ret;
 	}
 
-
 	/**
  	* This method returns a list of past events in Firebase by returning pastEvents
  	* @return a full list of all past events
