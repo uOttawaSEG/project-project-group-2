@@ -75,7 +75,7 @@ public class WelcomeActivity extends AppCompatActivity {
         Handler h = new Handler();
         h.postDelayed(setWelcomePageUserSpecificContent, 1500);
 
-        Button logoutButton = findViewById(R.id.Logout_BTN);
+        Button logoutButton = findViewById(R.id.logout_btn);
         logoutButton.setOnClickListener(v -> {
             // Removes email from our shared preferences
             loginSessionRepository.endLoginSession();
