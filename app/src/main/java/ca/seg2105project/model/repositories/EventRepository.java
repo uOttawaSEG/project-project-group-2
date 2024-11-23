@@ -321,4 +321,8 @@ public class EventRepository {
 		String fbRegistrationRequestListKey = getFbRegistrationRequestListKey(status);
 		eventsDatabase.child(eventID).child(fbRegistrationRequestListKey).push().setValue(attendeeEmail);
 	}
+
+	public ArrayList<Event> mockGetListOfEventsWithERRsFromAttendee(String attendeeEmail) {
+
+	}
 }
