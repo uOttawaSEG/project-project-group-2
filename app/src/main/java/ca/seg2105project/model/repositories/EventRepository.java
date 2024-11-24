@@ -74,6 +74,7 @@ public class EventRepository {
 					LocalTime eventStartTime = curEvent.getLocalStartTime();
 					LocalTime eventEndTime = curEvent.getLocalEndTime();
 
+
 					if (eventDate.isBefore(currentDate)) {
 						pastEvents.add(curEvent);
 					} else if (eventDate.isAfter(currentDate)) {
@@ -383,4 +384,47 @@ public class EventRepository {
 			events.set(earliestEventIndex, temp);
 		}
 	}
+
+	public boolean canCancelEventRegistrationRequest (Event e) {
+		//to cancel: request must be more than 24 hours away from now
+		LocalDate currentDate = LocalDate.now();
+		LocalTime currentTime = LocalTime.now();
+		LocalDateTime curDateTime = LocalDateTime.of(currentDate, currentTime);
+		LocalDate eventDate = e.getLocalDate();
+		LocalTime eventStartTime = e.getLocalStartTime();
+		LocalDateTime eventDateTime = LocalDateTime.of(eventDate, eventStartTime);
+
+		//Note: I split it up into multiple if statements to make it easier to understand even though I could combine it
+		if(curDateTime.isAfter(eventDateTime)) { //event already passed
+			return false;
+		}
+
+		//check that it is within 24 hrs
+		if (curDateTime.getYear()==eventDateTime.getYear() && curDateTime.getMonth()==eventDateTime.getMonth()) { //same year and month
+			if (curDateTime.getDayOfMonth()==eventDateTime.getDayOfMonth()) { //same day so less than 24 hrs
+				return false;
+			} else if (curDateTime.getDayOfMonth()+1==eventDateTime.getDayOfMonth()) {
+				if(curDateTime.getHour()>eventDateTime.getHour()) { //hours make it within than 24hrs
+					return false;
+				} else if (curDateTime.getHour()==eventDateTime.getHour() && curDateTime.getMinute()>eventDateTime.getMinute())) { //mintues make it within 24 hrs
+ 					return false;
+				}
+			}
+		}
+		return true;
+
+
+	}
+	public void cancelEventRegistrationRequest (String attendeeEmail, Event e) {
+		//need to discuss this method with Issac
+	}
+
+	public boolean canRegisterForEvent (String attendeeEmail, Event e) {
+		//no time conflicts, haven't already registered, not a past event
+	}
+	public void registerForEvent(String attendeeEmail, Event e) {
+		//put into pendingRequests if registrationRequired, put into approvedRequests if !registrationRequired
+	}
+
+
 }
