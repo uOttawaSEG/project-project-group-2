@@ -227,6 +227,35 @@ public class EventRepository {
     }
 
 	/**
+	 * Returns a list of upcoming events that the attendeeEmail has not registered for and that also contain the keyword in either their title or description.
+	 * @param keyword the keyword to search
+	 * @param attendeeEmail the attendeeEmail that must not be registered for any events in the returned events list
+	 * @return an arraylist of upcoming events that the attendeeEmail has not registered for and that also contain the keyword in either their title or description.
+	 */
+	public ArrayList<Event> getEventsByKeyword (String keyword, String attendeeEmail) {
+		ArrayList<Event> ret = new ArrayList<Event>();
+		for (Event e : upcomingEvents) { //for all upcoming events
+			if (attendeeHasRegisteredForEvent(attendeeEmail, e))
+				continue;
+			//attendee has not registered for e
+
+			boolean titleContainsKeyword = false;
+			if (e.getTitle() != null && e.getTitle().contains(keyword))
+				titleContainsKeyword = true;
+
+			boolean descriptionContainsKeyword = false;
+			if (e.getDescription() != null && e.getDescription().contains(keyword))
+				titleContainsKeyword = true;
+
+			if (titleContainsKeyword || descriptionContainsKeyword)
+				ret.add(e);
+		}
+
+		sortEventsByStartTime(ret);
+		return ret;
+	}
+
+	/**
 	 * Returns a list of events where attendeeEmail is in the list of pending, rejected, or approved requests. Returns a list that has been sorted from earliest start time to latest.
 	 * @param attendeeEmail the attendee email whose list of events will be returned
 	 * @return an arraylist of type event containing all the events (sorted by start time) that have attendeeEmail in either 3 of the lists. If given a null reference for attendeeEmail, returns an empty arraylist.
