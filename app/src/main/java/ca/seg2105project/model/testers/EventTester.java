@@ -23,7 +23,6 @@ public class EventTester {
 	*/
 	public static void main (String[] args) {
 		Organizer org = new Organizer("Mz", "Organizer", "organizer@gmail.com", "theirpassword", "Someplace", "1234567890", "EAMS app");
-		ArrayList<Event> orgEvents = org.getEvents();
 		
 		LocalDate d1 = LocalDate.of(2024, 11, 02);
 		LocalTime st1 = LocalTime.of(12, 00);
@@ -64,11 +63,6 @@ public class EventTester {
 		System.out.println("false=" + (e2.getRejectedRequests() == null));
 		
 		System.out.println();
-		
-		System.out.println("0=" + orgEvents.size());
-		orgEvents.add(e1);
-		orgEvents.add(e2);
-		System.out.println("2=" + orgEvents.size());
 		
 		System.out.println();
 
