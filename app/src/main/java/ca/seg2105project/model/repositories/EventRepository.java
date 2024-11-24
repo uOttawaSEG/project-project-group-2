@@ -227,6 +227,43 @@ public class EventRepository {
     }
 
 	/**
+	 * Returns a list of events where attendeeEmail is in the list of pending, rejected, or approved requests. Returns a list that has been sorted from earliest start time to latest.
+	 * @param attendeeEmail the attendee email whose list of events will be returned
+	 * @return an arraylist of type event containing all the events (sorted by start time) that have attendeeEmail in either 3 of the lists. If given a null reference for attendeeEmail, returns an empty arraylist.
+	 */
+	public ArrayList<Event> getEventRegistrationRequests(String attendeeEmail) {
+		ArrayList<Event> ret = new ArrayList<Event>();
+		if (attendeeEmail == null)
+			return ret;
+		//attendeeEmail != null
+
+		for (Event e : allEvents) { //for all events
+
+			if (e.getApprovedRequests() != null && e.getApprovedRequests().containsValue(attendeeEmail)) {
+				ret.add(e);
+				continue; //if added event to ret, no need to go through the remaining 2 lists
+			}
+			//e.getApprovedRequests() == null || !e.getApprovedRequests().containsValue(attendeeEmail)
+
+			if (e.getPendingRequests() != null && e.getPendingRequests().containsValue(attendeeEmail)) {
+				ret.add(e);
+				continue; //if added event to ret, no need to go through the remaining list
+			}
+			//e.getPendingRequests() == null || !e.getPendingRequests().containsValue(attendeeEmail)
+
+			if (e.getRejectedRequests() != null && e.getRejectedRequests().containsValue(attendeeEmail)) {
+				ret.add(e);
+			}
+
+			//went through all 3 lists that an event has
+		}
+		//went through all events
+
+		sortEventsByStartTime(ret);
+		return ret;
+	}
+
+	/**
 	 * Returns the list of emails of the approved requests of the event specified by the given eventID.
 	 * @param eventID the event's eventID whose approvedRequests are to be returned
 	 * @return the list of emails of the approved requests of the event specified by the given eventID. Null if the specified eventID does not have an event associated to it.
