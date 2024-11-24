@@ -23,7 +23,7 @@ import ca.seg2105project.R;
 import ca.seg2105project.model.registrationRequestClasses.RegistrationRequestStatus;
 import ca.seg2105project.model.repositories.EventRepository;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
-import ca.seg2105project.ui.rvcomponents.EventRegistrationRequestListAdapter;
+import ca.seg2105project.ui.rvcomponents.OrganizerERRListAdapter;
 
 public class EventAttendeePendingRequests extends AppCompatActivity {
 
@@ -97,7 +97,7 @@ public class EventAttendeePendingRequests extends AppCompatActivity {
         Runnable setPendingRvList = new Runnable() {
             @Override
             public void run() {
-                pendingRequestsRv.setAdapter(new EventRegistrationRequestListAdapter(eventID,
+                pendingRequestsRv.setAdapter(new OrganizerERRListAdapter(eventID,
                         RegistrationRequestStatus.PENDING, new ArrayList<>(eventRepository.getPendingEventRequests(eventID)),
                         eventRepository, eamsApplication.getUserRepository(), findViewById(R.id.approve_all_request_btn)));
             }

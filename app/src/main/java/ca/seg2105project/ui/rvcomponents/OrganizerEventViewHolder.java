@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import ca.seg2105project.R;
 import ca.seg2105project.ui.activities.EventAttendeePendingRequests;
 
-public class EventViewHolder extends RecyclerView.ViewHolder{
+public class OrganizerEventViewHolder extends RecyclerView.ViewHolder{
 
     TextView eventTitleTV, eventDescriptionTV, eventDateTV, eventStartTimeTV, eventEndTimeTV, eventAddressTV;
 
@@ -25,7 +25,7 @@ public class EventViewHolder extends RecyclerView.ViewHolder{
      * @param eventItemView the view inflated from rvitem_event xml layout passed by EventListAdapter
      */
 
-    public EventViewHolder(@NonNull View eventItemView) {
+    public OrganizerEventViewHolder(@NonNull View eventItemView) {
         super(eventItemView);
         eventTitleTV = eventItemView.findViewById(R.id.event_title);
         eventDescriptionTV = eventItemView.findViewById(R.id.event_description);

@@ -22,7 +22,7 @@ import ca.seg2105project.R;
 import ca.seg2105project.model.registrationRequestClasses.RegistrationRequestStatus;
 import ca.seg2105project.model.repositories.EventRepository;
 import ca.seg2105project.model.repositories.LoginSessionRepository;
-import ca.seg2105project.ui.rvcomponents.EventRegistrationRequestListAdapter;
+import ca.seg2105project.ui.rvcomponents.OrganizerERRListAdapter;
 
 public class EventAttendeeRejectedRequests extends AppCompatActivity {
 
@@ -96,7 +96,7 @@ public class EventAttendeeRejectedRequests extends AppCompatActivity {
         Runnable setRejectedRvList = new Runnable() {
             @Override
             public void run() {
-                rejectedRequestsRv.setAdapter(new EventRegistrationRequestListAdapter(eventID,
+                rejectedRequestsRv.setAdapter(new OrganizerERRListAdapter(eventID,
                         RegistrationRequestStatus.REJECTED, new ArrayList<>(eventRepository.getRejectedEventRequests(eventID)),
                         eventRepository, eamsApplication.getUserRepository(), findViewById(R.id.approve_all_request_btn)));
             }

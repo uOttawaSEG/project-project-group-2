@@ -16,7 +16,10 @@ import ca.seg2105project.model.repositories.EventRepository;
 import ca.seg2105project.model.repositories.UserRepository;
 import ca.seg2105project.model.userClasses.User;
 
-public class EventRegistrationRequestListAdapter extends RecyclerView.Adapter<UserRequestViewHolder> {
+/**
+ * ERR is acronym for Event Registration Request
+ */
+public class OrganizerERRListAdapter extends RecyclerView.Adapter<UserRequestViewHolder> {
 
     // The eventID of the event that has the provided list of event registration request statuses
     private final String eventID;
@@ -31,9 +34,9 @@ public class EventRegistrationRequestListAdapter extends RecyclerView.Adapter<Us
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
 
-    public EventRegistrationRequestListAdapter(String eventID, RegistrationRequestStatus registrationRequestStatus,
-                                               ArrayList<String> eventRegistrationRequestEmails, EventRepository eventRepository,
-                                               UserRepository userRepository, Button approveAllEventRegistrationRequestsButton) {
+    public OrganizerERRListAdapter(String eventID, RegistrationRequestStatus registrationRequestStatus,
+                                   ArrayList<String> eventRegistrationRequestEmails, EventRepository eventRepository,
+                                   UserRepository userRepository, Button approveAllEventRegistrationRequestsButton) {
         this.eventID = eventID;
         this.registrationRequestStatus = registrationRequestStatus;
         this.eventRegistrationRequestEmails = eventRegistrationRequestEmails;
