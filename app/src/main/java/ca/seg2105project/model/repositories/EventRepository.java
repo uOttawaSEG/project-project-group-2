@@ -190,6 +190,7 @@ public class EventRepository {
 	 * @return true if the event can be deleted, false if it cannot be deleted
 	 */
 	public boolean canDeleteEvent (Event event) {
+		if (event.getApprovedRequests() == null) return true; //if the approvedRequests read from fb is null, that means that there are no approved requests, so can delete
 		return event.getApprovedRequests().isEmpty();
 	}
 
