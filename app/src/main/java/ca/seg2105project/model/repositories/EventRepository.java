@@ -233,34 +233,36 @@ public class EventRepository {
 	 */
 	public ArrayList<Event> getEventRegistrationRequests(String attendeeEmail) {
 		ArrayList<Event> ret = new ArrayList<Event>();
-		if (attendeeEmail == null)
-			return ret;
-		//attendeeEmail != null
 
-		for (Event e : allEvents) { //for all events
-
-			if (e.getApprovedRequests() != null && e.getApprovedRequests().containsValue(attendeeEmail)) {
+		for (Event e : allEvents) { //for all events, check if attendeeEmail is in one of its lists
+			if (attendeeHasRegisteredForEvent(attendeeEmail, e))
 				ret.add(e);
-				continue; //if added event to ret, no need to go through the remaining 2 lists
-			}
-			//e.getApprovedRequests() == null || !e.getApprovedRequests().containsValue(attendeeEmail)
-
-			if (e.getPendingRequests() != null && e.getPendingRequests().containsValue(attendeeEmail)) {
-				ret.add(e);
-				continue; //if added event to ret, no need to go through the remaining list
-			}
-			//e.getPendingRequests() == null || !e.getPendingRequests().containsValue(attendeeEmail)
-
-			if (e.getRejectedRequests() != null && e.getRejectedRequests().containsValue(attendeeEmail)) {
-				ret.add(e);
-			}
-
-			//went through all 3 lists that an event has
 		}
 		//went through all events
 
 		sortEventsByStartTime(ret);
 		return ret;
+	}
+
+	/**
+	 * A private helper method to determine if attendeeEmail is in any of event's 3 requests lists
+	 * @param attendeeEmail the attendeeEmail to check for
+	 * @param event the event to check in
+	 * @return true if attendeeEmail is in at least one request list of event, false otherwise. Also returns false if either of the given parameters are null references.
+	 */
+	private boolean attendeeHasRegisteredForEvent(String attendeeEmail, Event event) {
+		if (event == null || attendeeEmail == null)
+			return false;
+		//event != null && attendeeEmail != null
+
+		if (event.getApprovedRequests() != null && event.getApprovedRequests().containsValue(attendeeEmail)) //check in approved requests list
+			return true;
+		if (event.getPendingRequests() != null && event.getPendingRequests().containsValue(attendeeEmail)) //check in pending requests list
+			return true;
+		if (event.getRejectedRequests() != null && event.getRejectedRequests().containsValue(attendeeEmail)) //check in rejected requests list
+			return true;
+
+		return false; //if attendeeEmail was not in any of the lists
 	}
 
 	/**
