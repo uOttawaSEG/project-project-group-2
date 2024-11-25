@@ -250,20 +250,21 @@ public class EventRepository {
 			if (titleContainsKeyword || descriptionContainsKeyword)
 				ret.add(e);
 		}
+		//went through all events
 
 		sortEventsByStartTime(ret);
 		return ret;
 	}
 
 	/**
-	 * Returns a list of events where attendeeEmail is in the list of pending, rejected, or approved requests. Returns a list that has been sorted from earliest start time to latest.
-	 * @param attendeeEmail the attendee email whose list of events will be returned
-	 * @return an arraylist of type event containing all the events (sorted by start time) that have attendeeEmail in either 3 of the lists. If given a null reference for attendeeEmail, returns an empty arraylist.
+	 * Returns a list of upcoming events where attendeeEmail is in the list of pending, rejected, or approved requests. Returns a list that has been sorted from earliest start time to latest.
+	 * @param attendeeEmail the attendee email whose list of upcoming events will be returned
+	 * @return an arraylist of type event containing all the upcoming events (sorted by start time) that have attendeeEmail in either 3 of the lists. If given a null reference for attendeeEmail, returns an empty arraylist.
 	 */
 	public ArrayList<Event> getEventRegistrationRequests(String attendeeEmail) {
 		ArrayList<Event> ret = new ArrayList<Event>();
 
-		for (Event e : allEvents) { //for all events, check if attendeeEmail is in one of its lists
+		for (Event e : upcomingEvents) { //for all events, check if attendeeEmail is in one of its lists
 			if (attendeeHasRegisteredForEvent(attendeeEmail, e))
 				ret.add(e);
 		}
