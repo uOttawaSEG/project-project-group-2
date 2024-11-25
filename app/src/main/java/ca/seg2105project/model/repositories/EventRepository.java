@@ -385,6 +385,14 @@ public class EventRepository {
 		}
 	}
 
+
+	/**
+	 * Method to determine if attendee is able to cancel their event registration request
+	 * They are only allowed to cancel when event has not yet happened yet
+	 * and it is 24 hours away from the current time
+	 * @param e The event that the attendee is trying to cancel their registration for
+	 * @return whether the attendee is able to cancel their event registration request or not
+	 */
 	public boolean canCancelEventRegistrationRequest (Event e) {
 		//to cancel: request must be more than 24 hours away from now
 		LocalDate currentDate = LocalDate.now();
@@ -408,7 +416,7 @@ public class EventRepository {
 			} else if (curDateTime.getDayOfMonth()+1==eventDateTime.getDayOfMonth()) {
 				if(curDateTime.getHour()>eventDateTime.getHour()) { //hours make it within than 24hrs
 					return false;
-				} else if (curDateTime.getHour()==eventDateTime.getHour() && curDateTime.getMinute()>eventDateTime.getMinute())) { //mintues make it within 24 hrs
+				} else if (curDateTime.getHour()==eventDateTime.getHour() && curDateTime.getMinute()>eventDateTime.getMinute()) { //minutes make it within 24 hrs
  					return false;
 				}
 			}
@@ -417,10 +425,20 @@ public class EventRepository {
 
 
 	}
+
+
 	public void cancelEventRegistrationRequest (String attendeeEmail, Event e) {
 		//need to discuss this method with Issac
 	}
 
+	/**
+	 * Method to determine if attendee is able to register to an event
+	 * They are only allowed to register for an event that is currently happening or will happen
+	 * and when there are no time conflicts with other event's they are attending or possibly attending
+	 * @param attendeeEmail the email of the attendee trying to register for an event
+	 * @param e the event the attendee is trying to register for
+	 * @return whether the attendee is able to register for the event they chose 
+	 */
 	public boolean canRegisterForEvent (String attendeeEmail, Event e) {
 		//no time conflicts, haven't already registered, not a past event
 
@@ -443,36 +461,60 @@ public class EventRepository {
 
 			//attendee has been approved for event, check no time conflict
 			if(curEvent.getApprovedRequests()!=null && curEvent.getApprovedRequests().get(attendeeEmail)!=null) {
-				LocalDate curEventDate = curEvent.getLocalDate();
-				LocalTime curEventStartTime = curEvent.getLocalStartTime();
-				LocalTime curEventEndTime = curEvent.getLocalEndTime();
-				LocalDateTime curStartDateTime = LocalDateTime.of(curEventDate, curEventStartTime);
-				LocalDateTime curEndDateTime = LocalDateTime.of(curEventDate, curEventEndTime);
-
-				/*
-				4 possibilities for a conflict:
-				Note: curEvent refers to the current event we are checking in the events list that attendee already registered for
-				1. event start time is in between curEventTime while it ends after curEventTime
-				2. event end time is between the curEventTime and it starts before curEventTime
-				3. event starts and ends within curEventTime
-				4. curEventTime starts and ends within eventTime
-				 */
-
-				//catch first and third possibility:
-				if(eventStartDateTime.isAfter(curStartDateTime) && eventStartDateTime.isBefore(curEndDateTime)) {
+				if(hasConflict(e, curEvent)) {
 					return false;
-				} else if (eventEndDateTime.isAfter(curStartDateTime) && eventEndDateTime.isBefore(curEndDateTime)) { //checks for possibility #2
-					return false;
-				} else if (curStartDateTime.isAfter(eventStartDateTime) && curEndDateTime.isBefore(eventEndDateTime)) { //check 4th possibility
+				}
+			} else if(curEvent.getPendingRequests()!=null && curEvent.getPendingRequests().get(attendeeEmail)!=null) {
+				if (hasConflict(e, curEvent)) {
 					return false;
 				}
 			}
 		}
-
-
-	
+		return true;
 
 	}
+
+	/**
+	 * A private helper method to determine if there is a time conflict between two events 
+	 * There are four possibilties for a conflict, when event a is within event b or event b is within event a 
+	 * or when event a starts in between event b or ends in between event b 
+	 * @param e the first event we will use to check for time conflict (event a) 
+	 * @param curEvent the second event we will use to check time conflict (event b) 
+	 * @return whether there is a time conflict between the two events
+	 */
+	private boolean hasConflict(Event e, Event curEvent) {
+		LocalDate eventDate = e.getLocalDate();
+		LocalTime eventStartTime = e.getLocalStartTime();
+		LocalTime eventEndTime = e.getLocalEndTime();
+		LocalDateTime eventStartDateTime = LocalDateTime.of(eventDate, eventStartTime);
+		LocalDateTime eventEndDateTime = LocalDateTime.of(eventDate, eventEndTime);
+
+		LocalDate curEventDate = curEvent.getLocalDate();
+		LocalTime curEventStartTime = curEvent.getLocalStartTime();
+		LocalTime curEventEndTime = curEvent.getLocalEndTime();
+		LocalDateTime curStartDateTime = LocalDateTime.of(curEventDate, curEventStartTime);
+		LocalDateTime curEndDateTime = LocalDateTime.of(curEventDate, curEventEndTime);
+
+		/*
+		4 possibilities for a conflict:
+		Note: curEvent refers to the current event we are checking in the events list that attendee already registered for
+		1. event start time is in between curEventTime while it ends after curEventTime
+		2. event end time is between the curEventTime and it starts before curEventTime
+		3. event starts and ends within curEventTime
+		4. curEventTime starts and ends within eventTime
+		 */
+
+		//catch first and third possibility:
+		if(eventStartDateTime.isAfter(curStartDateTime) && eventStartDateTime.isBefore(curEndDateTime)) {
+			return true;
+		} else if (eventEndDateTime.isAfter(curStartDateTime) && eventEndDateTime.isBefore(curEndDateTime)) { //checks for possibility #2
+			return true;
+		} else if (curStartDateTime.isAfter(eventStartDateTime) && curEndDateTime.isBefore(eventEndDateTime)) { //check 4th possibility
+			return true;
+		}
+		return false; //no conflict since didn't meet the 4 possibilities
+	}
+
 	public void registerForEvent(String attendeeEmail, Event e) {
 		//put into pendingRequests if registrationRequired, put into approvedRequests if !registrationRequired
 	}
