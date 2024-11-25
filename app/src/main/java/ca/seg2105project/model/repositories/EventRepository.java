@@ -426,9 +426,26 @@ public class EventRepository {
 
 	}
 
-
+	/**
+	 * Method to cancel the attendee's event registration request
+	 * It checks if canCancel using the canCancelEventRegistrationRequest method
+	 * and then removes the request from pending or approved request list
+	 * @param attendeeEmail the email of the attendee trying to cancel registration for an event
+	 * @param e the event the attendee is trying to cancel register for
+	 */
 	public void cancelEventRegistrationRequest (String attendeeEmail, Event e) {
-		//need to discuss this method with Issac
+
+		if(canCancelEventRegistrationRequest(e)) {
+			if(e.getApprovedRequests().get(attendeeEmail)!=null) {
+				e.getApprovedRequests().remove(attendeeEmail);
+			} else if(e.getPendingRequests().get(attendeeEmail)!=null) {
+				e.getPendingRequests().remove(attendeeEmail);
+			}
+		}
+
+		deleteEvent(e.getEventID());
+		addEvent(e);
+
 	}
 
 	/**
@@ -437,7 +454,7 @@ public class EventRepository {
 	 * and when there are no time conflicts with other event's they are attending or possibly attending
 	 * @param attendeeEmail the email of the attendee trying to register for an event
 	 * @param e the event the attendee is trying to register for
-	 * @return whether the attendee is able to register for the event they chose 
+	 * @return whether the attendee is able to register for the event they chose
 	 */
 	public boolean canRegisterForEvent (String attendeeEmail, Event e) {
 		//no time conflicts, haven't already registered, not a past event
@@ -517,6 +534,8 @@ public class EventRepository {
 
 	public void registerForEvent(String attendeeEmail, Event e) {
 		//put into pendingRequests if registrationRequired, put into approvedRequests if !registrationRequired
+//		if(e.getRegistrationRequestsAreAutoApproved()) {
+//			e.getApprovedRequests().put()
 	}
 
 
