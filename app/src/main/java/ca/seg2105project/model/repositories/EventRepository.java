@@ -392,10 +392,12 @@ public class EventRepository {
 		LocalDateTime curDateTime = LocalDateTime.of(currentDate, currentTime);
 		LocalDate eventDate = e.getLocalDate();
 		LocalTime eventStartTime = e.getLocalStartTime();
+//		LocalTime eventEndTime = e.getLocalEndTime();
 		LocalDateTime eventDateTime = LocalDateTime.of(eventDate, eventStartTime);
+//		LocalDateTime eventEndDateTime = LocalDateTime.of(eventDate, eventStartTime);
 
 		//Note: I split it up into multiple if statements to make it easier to understand even though I could combine it
-		if(curDateTime.isAfter(eventDateTime)) { //event already passed
+		if(curDateTime.isAfter(eventDateTime)) { //event already happened/is happening
 			return false;
 		}
 
@@ -421,6 +423,55 @@ public class EventRepository {
 
 	public boolean canRegisterForEvent (String attendeeEmail, Event e) {
 		//no time conflicts, haven't already registered, not a past event
+
+		LocalDate currentDate = LocalDate.now();
+		LocalTime currentTime = LocalTime.now();
+		LocalDateTime curDateTime = LocalDateTime.of(currentDate, currentTime);
+		LocalDate eventDate = e.getLocalDate();
+		LocalTime eventStartTime = e.getLocalStartTime();
+		LocalTime eventEndTime = e.getLocalEndTime();
+		LocalDateTime eventStartDateTime = LocalDateTime.of(eventDate, eventStartTime);
+		LocalDateTime eventEndDateTime = LocalDateTime.of(eventDate, eventEndTime);
+
+
+		if(curDateTime.isAfter(eventEndDateTime)) { //event already passed, so cannot register
+			return false;
+		}
+
+		for(int i = 0; i<allEvents.size(); i++) {
+			Event curEvent = allEvents.get(i);
+
+			//attendee has been approved for event, check no time conflict
+			if(curEvent.getApprovedRequests()!=null && curEvent.getApprovedRequests().get(attendeeEmail)!=null) {
+				LocalDate curEventDate = curEvent.getLocalDate();
+				LocalTime curEventStartTime = curEvent.getLocalStartTime();
+				LocalTime curEventEndTime = curEvent.getLocalEndTime();
+				LocalDateTime curStartDateTime = LocalDateTime.of(curEventDate, curEventStartTime);
+				LocalDateTime curEndDateTime = LocalDateTime.of(curEventDate, curEventEndTime);
+
+				/*
+				4 possibilities for a conflict:
+				Note: curEvent refers to the current event we are checking in the events list that attendee already registered for
+				1. event start time is in between curEventTime while it ends after curEventTime
+				2. event end time is between the curEventTime and it starts before curEventTime
+				3. event starts and ends within curEventTime
+				4. curEventTime starts and ends within eventTime
+				 */
+
+				//catch first and third possibility:
+				if(eventStartDateTime.isAfter(curStartDateTime) && eventStartDateTime.isBefore(curEndDateTime)) {
+					return false;
+				} else if (eventEndDateTime.isAfter(curStartDateTime) && eventEndDateTime.isBefore(curEndDateTime)) { //checks for possibility #2
+					return false;
+				} else if (curStartDateTime.isAfter(eventStartDateTime) && curEndDateTime.isBefore(eventEndDateTime)) { //check 4th possibility
+					return false;
+				}
+			}
+		}
+
+
+	
+
 	}
 	public void registerForEvent(String attendeeEmail, Event e) {
 		//put into pendingRequests if registrationRequired, put into approvedRequests if !registrationRequired
