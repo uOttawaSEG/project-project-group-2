@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
 
+import ca.seg2105project.model.registrationRequestClasses.RegistrationRequestStatus;
+
 /**
  * A class to model an Event. If registrationRequired is false, then pendingRequests and rejectedRequests are set to null.
  */
@@ -26,7 +28,9 @@ public class Event {
 	 * @param organizerEmail the email of the organizer organizing this event
 	 * @param registrationRequestsAreAutoApproved true if the organizer has to manually approve event requests, false if the requests are automatically approved
 	 */
-	public Event (String eventID, String title, String description, LocalDate date, LocalTime startTime, LocalTime endTime, String eventAddress, String organizerEmail, boolean registrationRequestsAreAutoApproved) {
+	public Event (String eventID, String title, String description, LocalDate date,
+				  LocalTime startTime, LocalTime endTime, String eventAddress, String organizerEmail,
+				  boolean registrationRequestsAreAutoApproved) {
 		this.eventID = eventID;
 		this.title = title;
 		this.description = description;
@@ -179,5 +183,23 @@ public class Event {
 
 	public void setEventID (String eventId) {
 		this.eventID = eventId;
+	}
+
+	/**
+	 * Right now this method is only used to be able to test the RecyclerView adapters for the attendee
+	 * event related screens
+	 * @param email the email of the attendee who is making the request
+	 * @param status the status the request should have
+	 */
+	public void addRequest(String email, RegistrationRequestStatus status) {
+		if (status == RegistrationRequestStatus.PENDING) {
+			pendingRequests.put("randomhash", email);
+		} else if (status == RegistrationRequestStatus.REJECTED) {
+			rejectedRequests.put("randomhash", email);
+		} else if (status == RegistrationRequestStatus.APPROVED) {
+			approvedRequests.put("randomhash", email);
+		} else {
+			throw new NullPointerException();
+		}
 	}
 }

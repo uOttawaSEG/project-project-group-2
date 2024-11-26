@@ -6,11 +6,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import java.util.ArrayList;
 
 import ca.seg2105project.R;
-import ca.seg2105project.model.repositories.EventRepository;
-
+import ca.seg2105project.model.eventClasses.Event;
 
 public class AttendeeEventInfoOrEventRequestListAdapter extends
         RecyclerView.Adapter<AttendeeEventInfoOrEventRequestViewHolder> {
@@ -24,18 +24,20 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
 
     private final String attendeeEmail;
 
-    private final EventRepository eventRepository;
+    private final ArrayList<Event> events;
 
     /**
      *
      * @param useCase the use case for this adapter, either attendee ERR list or attendee event search list
      * @param attendeeEmail the email for the attendee that is viewing event information listed in this adapter
-     * @param eventRepository repository for all event info
+     * @param events When useCase is ATTENDEE_ERR_LIST, this list should be a list of events that the attendee
+     *               with email attendeeEmail has requested registration for. When useCase is ATTENDEE_EVENT_SEARCH_LIST,
+     *               this list should be a list of events that the attendee with email attendeeEmail has just searched for
      */
-    public AttendeeEventInfoOrEventRequestListAdapter(UseCase useCase, String attendeeEmail, EventRepository eventRepository) {
+    public AttendeeEventInfoOrEventRequestListAdapter(UseCase useCase, String attendeeEmail, ArrayList<Event> events) {
         this.useCase = useCase;
         this.attendeeEmail = attendeeEmail;
-        this.eventRepository = eventRepository;
+        this.events = events;
     }
 
     @NonNull
@@ -50,11 +52,27 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
 
     @Override
     public void onBindViewHolder(@NonNull AttendeeEventInfoOrEventRequestViewHolder holder, int position) {
+        holder.eventTitleTV.setText(events.get(position).getTitle());
+        String eventStartDateTime = events.get(position).getLocalDate().toString() + events.get(position).getLocalStartTime().toString();
+        holder.eventStartDateTimeTV.setText(eventStartDateTime);
+        String eventEndDateTime = events.get(position).getLocalDate().toString() + events.get(position).getLocalEndTime().toString();
+        holder.eventEndDateTimeTV.setText(eventEndDateTime);
+        holder.eventLocationTV.setText(events.get(position).getEventAddress());
 
+        if (useCase == UseCase.ATTENDEE_ERR_LIST) {
+            Event event = events.get(position);
+            if (event.getPendingRequests().containsValue(attendeeEmail)) {
+                holder.eventRequestStatusTV.setText("registration: pending");
+            } else if (event.getRejectedRequests().containsValue(attendeeEmail)) {
+                holder.eventRequestStatusTV.setText("registration: rejected");
+            } else {
+                holder.eventRequestStatusTV.setText("registration: approved");
+            }
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return events.size();
     }
 }

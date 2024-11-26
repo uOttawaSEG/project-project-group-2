@@ -28,9 +28,9 @@
         tools:text="Event Title" />
 
 
-    <!--Start Time-->
+    <!--Start DateTime-->
     <TextView
-        android:id="@+id/start_time_tv"
+        android:id="@+id/start_date_time_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/event_title_tv"
@@ -40,12 +40,12 @@
         tools:text="Starts at: " />
 
 
-    <!--End Time-->
+    <!--End DateTime-->
     <TextView
-        android:id="@+id/end_time_tv"
+        android:id="@+id/end_date_time_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/start_time_tv"
+        android:layout_below="@+id/start_date_time_tv"
         android:layout_toEndOf="@+id/eventbox_iv"
         android:textColor="@color/black"
         android:textSize="15dp"
@@ -57,11 +57,11 @@
         android:id="@+id/event_location_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/end_time_tv"
+        android:layout_below="@+id/end_date_time_tv"
         android:layout_toEndOf="@+id/eventbox_iv"
         android:textColor="@color/black"
         android:textSize="15dp"
-        tools:text="Location: 123 Cool Street, 2nd floor" />
+        tools:text="123 Cool Street, 2nd floor" />
 
     <!--Request Status-->
     <TextView
