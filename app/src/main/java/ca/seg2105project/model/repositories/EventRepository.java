@@ -400,30 +400,44 @@ public class EventRepository {
 		LocalDateTime curDateTime = LocalDateTime.of(currentDate, currentTime);
 		LocalDate eventDate = e.getLocalDate();
 		LocalTime eventStartTime = e.getLocalStartTime();
-//		LocalTime eventEndTime = e.getLocalEndTime();
 		LocalDateTime eventDateTime = LocalDateTime.of(eventDate, eventStartTime);
-//		LocalDateTime eventEndDateTime = LocalDateTime.of(eventDate, eventStartTime);
 
 		//Note: I split it up into multiple if statements to make it easier to understand even though I could combine it
 		if(curDateTime.isAfter(eventDateTime)) { //event already happened/is happening
 			return false;
 		}
 
+		//can only cancel request when not within 24 hours
+		return !within24Hours(curDateTime, eventDateTime);
+
+
+	}
+
+	/**
+	 * A private helper method to determine if there the event time is within 24 hours of the current time
+	 * To check if an event is within 24 hours of the current time, I need to check that the year and month are the same
+	 * Then I need to check that the days are the same (guaranteed within 24 hours) or differ by 1 (then need to check hours)
+	 * I check that the current hour is greater than the event hour (guarantees within 24 hours when current day is one day earlier than event day)
+	 * If hour is the same, I need to check that the current time minutes is greater than the event time minutes (this makes it almost 24 hours with only minutes of difference)
+	 * @param curDateTime the current time in LocalDateTime
+	 * @param eventDateTime the time of the event in LocalDateTime
+	 * @return whether the event time is within 24 hours of the current time
+	 */
+	private boolean within24Hours(LocalDateTime curDateTime, LocalDateTime eventDateTime) {
+
 		//check that it is within 24 hrs
 		if (curDateTime.getYear()==eventDateTime.getYear() && curDateTime.getMonth()==eventDateTime.getMonth()) { //same year and month
 			if (curDateTime.getDayOfMonth()==eventDateTime.getDayOfMonth()) { //same day so less than 24 hrs
-				return false;
+				return true;
 			} else if (curDateTime.getDayOfMonth()+1==eventDateTime.getDayOfMonth()) {
 				if(curDateTime.getHour()>eventDateTime.getHour()) { //hours make it within than 24hrs
-					return false;
+					return true;
 				} else if (curDateTime.getHour()==eventDateTime.getHour() && curDateTime.getMinute()>eventDateTime.getMinute()) { //minutes make it within 24 hrs
- 					return false;
+					return true;
 				}
 			}
 		}
-		return true;
-
-
+		return false;
 	}
 
 	/**
@@ -532,11 +546,34 @@ public class EventRepository {
 		return false; //no conflict since didn't meet the 4 possibilities
 	}
 
+	/**
+	 * Method to register attendee to an event
+	 * It checks if canCancel using the canCancelEventRegistrationRequest method
+	 * and then removes the request from pending or approved request list
+	 * @param attendeeEmail the email of the attendee trying to cancel registration for an event
+	 * @param e the event the attendee is trying to cancel register for
+	 */
 	public void registerForEvent(String attendeeEmail, Event e) {
 		//put into pendingRequests if registrationRequired, put into approvedRequests if !registrationRequired
-//		if(e.getRegistrationRequestsAreAutoApproved()) {
-//			e.getApprovedRequests().put()
+
+		//first check if can register for an event
+		if(canRegisterForEvent(attendeeEmail, e)) {
+			if (e.getRegistrationRequestsAreAutoApproved()) { //check if registration is autoapproved
+				e.getApprovedRequests().put(attendeeEmail, attendeeEmail);
+			} else { //place in pending request and await approval from organizer
+				e.getPendingRequests().put(attendeeEmail, attendeeEmail);
+			}
+		}
+
+		deleteEvent(e.getEventID());
+		addEvent(e);
+
 	}
+
+
+	// Kunala has PR up
+	//TODO: Need to cancel event from ogrnizer side and put my PR up
+
 
 
 }
