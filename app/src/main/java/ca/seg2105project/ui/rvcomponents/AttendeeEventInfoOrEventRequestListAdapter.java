@@ -64,13 +64,16 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
             Event event = events.get(position);
             if (event.getPendingRequests().containsValue(attendeeEmail)) {
                 holder.eventRequestStatusTV.setText("registration: pending");
+                holder.requestOrCancelBtn.setText("cancel registration");
+                // TODO: Set on click listener here for cancellation with appropriate checks for ability to cancel
             } else if (event.getRejectedRequests().containsValue(attendeeEmail)) {
                 holder.eventRequestStatusTV.setText("registration: rejected");
+                holder.requestOrCancelBtn.setVisibility(View.INVISIBLE);
             } else {
                 holder.eventRequestStatusTV.setText("registration: approved");
+                holder.requestOrCancelBtn.setText("cancel registration");
+                // TODO: Set on click listener here for cancellation with appropriate checks for ability to cancel
             }
-            holder.requestOrCancelBtn.setText("cancel registration");
-            // TODO: Set on click listener here for cancellation with appropriate checks for ability to cancel
         } else if (useCase == UseCase.ATTENDEE_EVENT_SEARCH_LIST) {
             holder.eventRequestStatusTV.setVisibility(View.INVISIBLE);
             holder.requestOrCancelBtn.setText("register");
