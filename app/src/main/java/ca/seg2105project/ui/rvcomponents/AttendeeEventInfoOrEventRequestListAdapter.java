@@ -1,6 +1,7 @@
 package ca.seg2105project.ui.rvcomponents;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -68,6 +69,13 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
             } else {
                 holder.eventRequestStatusTV.setText("registration: approved");
             }
+            holder.requestOrCancelBtn.setText("cancel registration");
+            // TODO: Set on click listener here for cancellation with appropriate checks for ability to cancel
+        } else if (useCase == UseCase.ATTENDEE_EVENT_SEARCH_LIST) {
+            holder.eventRequestStatusTV.setVisibility(View.INVISIBLE);
+            holder.requestOrCancelBtn.setText("register");
+            // TODO: Set on click listener here for registration with appropriate for ability to register
+            // as well as automatic approval if automatic approval is set for this event
         }
     }
 
