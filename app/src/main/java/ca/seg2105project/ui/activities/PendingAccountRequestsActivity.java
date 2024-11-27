@@ -53,7 +53,7 @@ public class PendingAccountRequestsActivity extends AppCompatActivity {
             finish();
         });
 
-        Button logoffBtn = findViewById(R.id.Logout_BTN);
+        Button logoffBtn = findViewById(R.id.logout_btn);
         logoffBtn.setOnClickListener(v -> {
             // Removes email from our shared preferences
             loginSessionRepository.endLoginSession();

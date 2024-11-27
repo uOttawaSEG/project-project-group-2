@@ -14,11 +14,6 @@ public class Organizer extends User {
 	protected String organizationName;
 	
 	/**
-	* An additional instance variable for Organizers. Holds the events the organizer has created.
-	*/
-	protected ArrayList<Event> events;
-	
-	/**
 	* A paramterized constructor for Organizer. Calls the parent (User)'s paramterized constructor. Additionally, sets the organizationName too.
 	* @param firstName the Organizer's first name
 	* @param lastName the Organizer's last name
@@ -31,7 +26,6 @@ public class Organizer extends User {
 	public Organizer (String firstName, String lastName, String emailAddress, String accountPassword, String address, String phoneNumber, String organizationName) {
 		super(firstName, lastName, emailAddress, accountPassword, address, phoneNumber);
 		this.organizationName = organizationName;
-		this.events = new ArrayList<Event>();
 	}
 
 	/**
@@ -53,14 +47,6 @@ public class Organizer extends User {
 	*/
 	public void setOrganizationName(String organizationName) {
 		this.organizationName = organizationName;
-	}
-	
-	/**
-	* A getter for events.
-	* @return the list of the events the organizer has created
-	*/
-	public ArrayList<Event> getEvents() {
-		return this.events;
 	}
 	
 	/**

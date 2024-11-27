@@ -53,7 +53,7 @@ public class RejectedAccountRequestsActivity extends AppCompatActivity {
         LoginSessionRepository loginSessionRepository = eamsApplication.getLoginSessionRepository();
         AccountRegistrationRequestRepository accountRegistrationRequestRepository = eamsApplication.getAccountRegistrationRequestRepository();
 
-        Button logoffBtn = findViewById(R.id.Logout_BTN);
+        Button logoffBtn = findViewById(R.id.logout_btn);
         logoffBtn.setOnClickListener(v -> {
             // Removes email from our shared preferences
             loginSessionRepository.endLoginSession();

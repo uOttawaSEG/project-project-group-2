@@ -79,7 +79,7 @@ public class OrganizerUpcomingEventsActivity extends AppCompatActivity {
     }
 
     private void setLogoutButtonLogic() {
-        Button logoutButton = findViewById(R.id.Logout_BTN);
+        Button logoutButton = findViewById(R.id.logout_btn);
         logoutButton.setOnClickListener(v -> {
             // Removes email from our shared preferences
             loginSessionRepository.endLoginSession();

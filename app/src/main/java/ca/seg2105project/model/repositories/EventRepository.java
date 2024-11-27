@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,7 +53,6 @@ public class EventRepository {
 	 * Updates the lists allEvents, pastEvents, and upcomingEvents. Does so 'in-place.' Takes its updated data from the firebase database.
 	 */
 	private void pullAllEvents() {
-		allEvents.clear();
 		eventsDatabase.addValueEventListener(new ValueEventListener() {
 
 			@Override
@@ -120,7 +120,6 @@ public class EventRepository {
 		return ret;
 	}
 
-
 	/**
  	* This method returns a list of past events in Firebase by returning pastEvents
  	* @return a full list of all past events
@@ -168,12 +167,42 @@ public class EventRepository {
         return true;
     }
 
+	/**
+	 * A helper method to get the event object with the given eventID. Returns null if there is no event with the given eventID.
+	 * @param eventID the unique eventID of the event to be returned
+	 * @return the event object with the given eventID. Null if no such event exists.
+	 */
+	private Event getEventByEventID (String eventID) {
+		for (Event e : allEvents) {
+			if (e.getEventID().equals(eventID))
+				return e;
+		}
+		//went through the entire allEvents list and found no event with the given eventID
+		return null;
+	}
 
 	/**
-     * Removes the event associated with a specific id from firebase 
-	 * @param eventID the event id that identifies the event we want to remove 
+	 * A method to determine if a given event can be deleted. A given event cannot be deleted if:
+	 * <p>
+	 *     - it has any approved requests
+	 * </p>
+	 * @param event the event that we need to determine if can be deleted or not. Must not be given a null event reference.
+	 * @return true if the event can be deleted, false if it cannot be deleted
+	 */
+	public boolean canDeleteEvent (Event event) {
+		if (event.getApprovedRequests() == null) return true; //if the approvedRequests read from fb is null, that means that there are no approved requests, so can delete
+		return event.getApprovedRequests().isEmpty();
+	}
+
+	/**
+     * Removes the event associated with a specific id from firebase if that event can be removed.
+	 * @param eventID the event id that identifies the event we want to remove. Must not be given a null String reference.
      */
-    public void deleteEvent(String eventID){ 
+    public void deleteEvent(String eventID) {
+		Event event = getEventByEventID(eventID);
+		if (event == null) return; //the event with the given eventID was not found
+		if (!canDeleteEvent(event)) return; //event cannot be deleted
+
 		Query eventIDQuery = eventsDatabase.orderByChild("eventID").equalTo(eventID); //filter data based on eventID field in fb and then get the one with the matching eventID
         
 		//listens for changes in eventIDQuery results 
@@ -389,5 +418,38 @@ public class EventRepository {
 		ret.add(eventToAdd);
 
 		return ret;
+	}
+
+	/**
+	 * A private helper method to sort an arraylist of type event in-place from earliest to latest start time.
+	 * This will make it so that the given events is transformed such that the events happening earlier have smaller indices than ones happening later.
+	 * Uses a selective sort algorithm, so runs in O(n^2) time if n = events.size()
+	 * @param events the list of events to be sorted in-place from earliest start time to latest
+	 */
+	private void sortEventsByStartTime (ArrayList<Event> events) {
+		int n = events.size();
+		for (int i = 0; i < n; i++) {
+			int earliestEventIndex = i;
+			for (int j = i + 1; j < n; j++) {
+				Event a = events.get(earliestEventIndex); //a = earliestEvent so far, at index earliestEventIndex
+				Event b = events.get(j); //b = the event being considered right now, at index j
+
+				LocalDate aDate = a.getLocalDate();
+				LocalTime aStartTime = a.getLocalStartTime();
+				LocalDateTime aDateTime = LocalDateTime.of(aDate, aStartTime); //the LocalDateTime object corresponding to the event a's start time
+				LocalDate bDate = b.getLocalDate();
+				LocalTime bStartTime = b.getLocalStartTime();
+				LocalDateTime bDateTime = LocalDateTime.of(bDate, bStartTime); //the LocalDateTime object corresponding to the event b's start time
+
+				if (bDateTime.isBefore(aDateTime)) {
+					//if b started before a did
+					earliestEventIndex = j;
+				}
+			}
+			//earliestEventIndex now has the index of the earliest event found from index i onwards, so now need to switch the event at index i with the event at index earliestEventIndex
+			Event temp = events.get(i);
+			events.set(i, events.get(earliestEventIndex));
+			events.set(earliestEventIndex, temp);
+		}
 	}
 }

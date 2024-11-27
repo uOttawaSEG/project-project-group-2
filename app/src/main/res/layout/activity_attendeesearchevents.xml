@@ -7,68 +7,76 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".ui.activities.EventAttendeePendingRequests"
+    tools:context=".ui.activities.AttendeeEventSearchActivity"
     tools:ignore="ExtraText">
 
     <TextView
-        android:id="@+id/activity_title"
+        android:id="@+id/see_new_events"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center"
-        android:text="Pending Attendee Requests"
+        android:text="New Events"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/see_rejected_event_request_btn"
+    <EditText
+        android:id="@+id/search_new_events"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:backgroundTint="@color/white"
-        android:text="Rejected Requests"
+        android:layout_height="48dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/white"
+        android:hint="Enter a single Keyword"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/activity_title"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/see_new_events"
+        app:layout_constraintEnd_toStartOf="@+id/search_btn"
         />
 
     <Button
-        android:id="@+id/approve_all_request_btn"
+        android:id="@+id/search_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:backgroundTint="@color/white"
-        android:text="Approve All"
+        android:text="search"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/see_rejected_event_request_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintStart_toEndOf="@id/search_new_events"
+        app:layout_constraintTop_toBottomOf="@id/see_new_events" />
 
     <Button
         android:id="@+id/logout_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="2dp"
+        android:layout_marginEnd="8dp"
         android:backgroundTint="@color/white"
         android:text="Log Out"
         android:textColor="@color/black"
-        android:textSize="18sp"
         android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/see_new_events"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/activity_title" />
+        />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/pending_attendee_requests_rv"
+        android:id="@+id/new_events_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="4dp"
-        android:paddingTop="148dp"
+        android:layout_marginTop="8dp"
+        android:paddingTop="96dp"
         android:translationZ="-1dp"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logout_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
