@@ -227,6 +227,75 @@ public class EventRepository {
     }
 
 	/**
+	 * Returns a list of upcoming events that the attendeeEmail has not registered for and that also contain the keyword in either their title or description.
+	 * @param keyword the keyword to search
+	 * @param attendeeEmail the attendeeEmail that must not be registered for any events in the returned events list
+	 * @return an arraylist of upcoming events that the attendeeEmail has not registered for and that also contain the keyword in either their title or description.
+	 */
+	public ArrayList<Event> getEventsByKeyword (String keyword, String attendeeEmail) {
+		ArrayList<Event> ret = new ArrayList<Event>();
+		for (Event e : upcomingEvents) { //for all upcoming events
+			if (attendeeHasRegisteredForEvent(attendeeEmail, e))
+				continue;
+			//attendee has not registered for e
+
+			boolean titleContainsKeyword = false;
+			if (e.getTitle() != null && e.getTitle().contains(keyword))
+				titleContainsKeyword = true;
+
+			boolean descriptionContainsKeyword = false;
+			if (e.getDescription() != null && e.getDescription().contains(keyword))
+				titleContainsKeyword = true;
+
+			if (titleContainsKeyword || descriptionContainsKeyword)
+				ret.add(e);
+		}
+		//went through all events
+
+		sortEventsByStartTime(ret);
+		return ret;
+	}
+
+	/**
+	 * Returns a list of upcoming events where attendeeEmail is in the list of pending, rejected, or approved requests. Returns a list that has been sorted from earliest start time to latest.
+	 * @param attendeeEmail the attendee email whose list of upcoming events will be returned
+	 * @return an arraylist of type event containing all the upcoming events (sorted by start time) that have attendeeEmail in either 3 of the lists. If given a null reference for attendeeEmail, returns an empty arraylist.
+	 */
+	public ArrayList<Event> getEventRegistrationRequests(String attendeeEmail) {
+		ArrayList<Event> ret = new ArrayList<Event>();
+
+		for (Event e : upcomingEvents) { //for all events, check if attendeeEmail is in one of its lists
+			if (attendeeHasRegisteredForEvent(attendeeEmail, e))
+				ret.add(e);
+		}
+		//went through all events
+
+		sortEventsByStartTime(ret);
+		return ret;
+	}
+
+	/**
+	 * A private helper method to determine if attendeeEmail is in any of event's 3 requests lists
+	 * @param attendeeEmail the attendeeEmail to check for
+	 * @param event the event to check in
+	 * @return true if attendeeEmail is in at least one request list of event, false otherwise. Also returns false if either of the given parameters are null references.
+	 */
+	private boolean attendeeHasRegisteredForEvent(String attendeeEmail, Event event) {
+		if (event == null || attendeeEmail == null)
+			return false;
+		//event != null && attendeeEmail != null
+
+		if (event.getApprovedRequests() != null && event.getApprovedRequests().containsValue(attendeeEmail)) //check in approved requests list
+			return true;
+		if (event.getPendingRequests() != null && event.getPendingRequests().containsValue(attendeeEmail)) //check in pending requests list
+			return true;
+		if (event.getRejectedRequests() != null && event.getRejectedRequests().containsValue(attendeeEmail)) //check in rejected requests list
+			return true;
+
+		return false; //if attendeeEmail was not in any of the lists
+	}
+
+	/**
 	 * Returns the list of emails of the approved requests of the event specified by the given eventID.
 	 * @param eventID the event's eventID whose approvedRequests are to be returned
 	 * @return the list of emails of the approved requests of the event specified by the given eventID. Null if the specified eventID does not have an event associated to it.
