@@ -11,7 +11,7 @@ import ca.seg2105project.R;
 
 public class AttendeeEventInfoOrEventRequestViewHolder extends RecyclerView.ViewHolder{
 
-    TextView eventTitleTV, eventStartTimeTV, eventEndTimeTV, eventLocationTV, eventRequestStatusTV;
+    TextView eventTitleTV, eventStartDateTimeTV, eventEndDateTimeTV, eventLocationTV, eventRequestStatusTV;
 
     Button requestOrCancelBtn;
     Button viewEventDetailsBtn;
@@ -23,8 +23,8 @@ public class AttendeeEventInfoOrEventRequestViewHolder extends RecyclerView.View
     public AttendeeEventInfoOrEventRequestViewHolder(@NonNull View attendeeEventInfoOrEventRequestItemView) {
         super(attendeeEventInfoOrEventRequestItemView);
         eventTitleTV = attendeeEventInfoOrEventRequestItemView.findViewById(R.id.event_title_tv);
-        eventStartTimeTV = attendeeEventInfoOrEventRequestItemView.findViewById(R.id.start_time_tv);
-        eventEndTimeTV = attendeeEventInfoOrEventRequestItemView.findViewById(R.id.end_time_tv);
+        eventStartDateTimeTV = attendeeEventInfoOrEventRequestItemView.findViewById(R.id.start_date_time_tv);
+        eventEndDateTimeTV = attendeeEventInfoOrEventRequestItemView.findViewById(R.id.end_date_time_tv);
         eventLocationTV = attendeeEventInfoOrEventRequestItemView.findViewById(R.id.event_location_tv);
         eventRequestStatusTV = attendeeEventInfoOrEventRequestItemView.findViewById(R.id.request_status_tv);
 
