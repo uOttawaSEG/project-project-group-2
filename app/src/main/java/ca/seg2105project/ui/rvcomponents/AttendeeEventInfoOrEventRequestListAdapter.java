@@ -5,7 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
+
 
 
 import java.util.ArrayList;
@@ -80,6 +82,28 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
             // TODO: Set on click listener here for registration with appropriate for ability to register
             // as well as automatic approval if automatic approval is set for this event
         }
+        holder.viewEventDetailsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext());
+                builder.setTitle("Event Details")
+                        .setMessage(
+                                "Title: " +
+                                        "Start: "  +
+                                        "Description: " +
+                                        "Date:  "   +
+                                        "startTime: "  +
+                                        "EndTime: "  +
+                                        "eventAddress: "
+
+                        )
+                        .setPositiveButton("Close", null);
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
     }
 
     @Override
