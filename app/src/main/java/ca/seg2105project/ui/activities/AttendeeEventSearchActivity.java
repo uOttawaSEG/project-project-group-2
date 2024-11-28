@@ -1,8 +1,8 @@
 package ca.seg2105project.ui.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -13,6 +13,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 import ca.seg2105project.EAMSApplication;
 import ca.seg2105project.R;
@@ -37,18 +39,33 @@ public class AttendeeEventSearchActivity extends AppCompatActivity {
 
         eamsApplication = (EAMSApplication) getApplication();
 
-        setUpEventSearchResultsRv();
+        setUpRvAndSearchButtonBehaviour();
     }
 
-    private void setUpEventSearchResultsRv() {
+    private void setUpRvAndSearchButtonBehaviour() {
         LoginSessionRepository loginSessionRepository = eamsApplication.getLoginSessionRepository();
         EventRepository eventRepository = eamsApplication.getEventRepository();
 
         RecyclerView rv = findViewById(R.id.event_search_results_rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        rv.setAdapter(new AttendeeEventInfoOrEventRequestListAdapter(
+
+        AttendeeEventInfoOrEventRequestListAdapter adapter = new AttendeeEventInfoOrEventRequestListAdapter(
                 AttendeeEventInfoOrEventRequestListAdapter.UseCase.ATTENDEE_EVENT_SEARCH_LIST,
                 loginSessionRepository.getActiveLoginSessionEmail(),
-                eventRepository.mockGetListOfEventsWithERRsFromAttendee(loginSessionRepository.getActiveLoginSessionEmail())));
+                new ArrayList<>());
+
+        rv.setAdapter(adapter);
+
+        Button searchButton = findViewById(R.id.search_btn);
+        searchButton.setOnClickListener(v -> {
+            EditText searchEditText = findViewById(R.id.search_et);
+            String enteredKeyword = searchEditText.getText().toString();
+
+            if (enteredKeyword.isEmpty()) {
+                Toast.makeText(this, "Please enter a keyword to search for", Toast.LENGTH_LONG).show();
+            } else {
+                adapter.updateEvents(eventRepository.getEventsByKeyword(enteredKeyword, loginSessionRepository.getActiveLoginSessionEmail()));
+            }
+        });
     }
 }

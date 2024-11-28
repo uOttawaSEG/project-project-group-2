@@ -25,7 +25,7 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
 
     private final String attendeeEmail;
 
-    private final ArrayList<Event> events;
+    private ArrayList<Event> events;
 
     /**
      *
@@ -62,11 +62,11 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
 
         if (useCase == UseCase.ATTENDEE_ERR_LIST) {
             Event event = events.get(position);
-            if (event.getPendingRequests().containsValue(attendeeEmail)) {
+            if (event.getPendingRequests() != null && event.getPendingRequests().containsValue(attendeeEmail)) {
                 holder.eventRequestStatusTV.setText("registration: pending");
                 holder.requestOrCancelBtn.setText("cancel registration");
                 // TODO: Set on click listener here for cancellation with appropriate checks for ability to cancel
-            } else if (event.getRejectedRequests().containsValue(attendeeEmail)) {
+            } else if (event.getRejectedRequests() != null && event.getRejectedRequests().containsValue(attendeeEmail)) {
                 holder.eventRequestStatusTV.setText("registration: rejected");
                 holder.requestOrCancelBtn.setVisibility(View.INVISIBLE);
             } else {
@@ -85,5 +85,14 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
     @Override
     public int getItemCount() {
         return events.size();
+    }
+
+    /**
+     * Method used in search use case to modify the search results
+     * @param newEvents the new set of events
+     */
+    public void updateEvents(ArrayList<Event> newEvents) {
+        events = newEvents;
+        notifyDataSetChanged();
     }
 }
