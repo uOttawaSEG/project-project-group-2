@@ -467,7 +467,7 @@ public class EventRepository {
 			} else if (e.getPendingRequests().get(attendeeEmail) != null) {
 				removeEventRegistrationRequest(e.getEventID(), attendeeEmail, RegistrationRequestStatus.PENDING);
 			}
-		} 
+		}
 	}
 
 	/**
@@ -556,10 +556,10 @@ public class EventRepository {
 
 	/**
 	 * Method to register attendee to an event
-	 * It checks if canCancel using the canCancelEventRegistrationRequest method
-	 * and then removes the request from pending or approved request list
-	 * @param attendeeEmail the email of the attendee trying to cancel registration for an event
-	 * @param e the event the attendee is trying to cancel register for
+	 * It checks if canRegister using the canRegisterForEvents method
+	 * and then adds the request from pending or approved request list
+	 * @param attendeeEmail the email of the attendee trying to create a registration for an event
+	 * @param e the event the attendee is trying to register for
 	 */
 	public void registerForEvent(String attendeeEmail, Event e) {
 		//put into pendingRequests if registrationRequired, put into approvedRequests if !registrationRequired
