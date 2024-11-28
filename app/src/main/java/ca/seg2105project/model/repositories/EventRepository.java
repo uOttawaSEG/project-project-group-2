@@ -291,9 +291,25 @@ public class EventRepository {
 	public void changeEventRegistrationRequestStatus(String eventID, String attendeeEmail,
 													 RegistrationRequestStatus currentStatus,
 													 RegistrationRequestStatus newStatus) {
-
 		// First remove the event registration request from the currentStatus list of event
 		// registration requests
+		removeEventRegistrationRequest(eventID, attendeeEmail, currentStatus);
+
+		// Add the email to the list of event registration requests of new status
+		String newStatusFbRegistrationRequestListKey = getFbRegistrationRequestListKey(newStatus);
+		eventsDatabase.child(eventID).child(newStatusFbRegistrationRequestListKey).push().setValue(attendeeEmail);
+	}
+
+
+	/**
+	 * Removes an existing event registration request
+	 * @param eventID The eventID of the event that the registration request is associated with
+	 * @param attendeeEmail the email of the attendee making the event registration request
+	 * @param currentStatus the current status of the event registration request
+	 */
+	public void removeEventRegistrationRequest(String eventID, String attendeeEmail,
+											   RegistrationRequestStatus currentStatus) {
+
 		String currentStatusFbRegistrationRequestListKey = getFbRegistrationRequestListKey(currentStatus);
 
 		Query registrationRequestQuery = eventsDatabase.child(eventID)
@@ -317,10 +333,6 @@ public class EventRepository {
 				registrationRequestQuery.removeEventListener(this);
 			}
 		});
-
-		// Add the email to the list of event registration requests of new status
-		String newStatusFbRegistrationRequestListKey = getFbRegistrationRequestListKey(newStatus);
-		eventsDatabase.child(eventID).child(newStatusFbRegistrationRequestListKey).push().setValue(attendeeEmail);
 	}
 
 	/**
@@ -450,16 +462,12 @@ public class EventRepository {
 	public void cancelEventRegistrationRequest (String attendeeEmail, Event e) {
 
 		if(canCancelEventRegistrationRequest(e)) {
-			if(e.getApprovedRequests().get(attendeeEmail)!=null) {
-				e.getApprovedRequests().remove(attendeeEmail);
-			} else if(e.getPendingRequests().get(attendeeEmail)!=null) {
-				e.getPendingRequests().remove(attendeeEmail);
+			if (e.getApprovedRequests().get(attendeeEmail) != null) {
+				removeEventRegistrationRequest(e.getEventID(), attendeeEmail, RegistrationRequestStatus.APPROVED);
+			} else if (e.getPendingRequests().get(attendeeEmail) != null) {
+				removeEventRegistrationRequest(e.getEventID(), attendeeEmail, RegistrationRequestStatus.PENDING);
 			}
-		}
-
-		deleteEvent(e.getEventID());
-		addEvent(e);
-
+		} 
 	}
 
 	/**
@@ -559,14 +567,13 @@ public class EventRepository {
 		//first check if can register for an event
 		if(canRegisterForEvent(attendeeEmail, e)) {
 			if (e.getRegistrationRequestsAreAutoApproved()) { //check if registration is autoapproved
-				e.getApprovedRequests().put(attendeeEmail, attendeeEmail);
+//				e.getApprovedRequests().put(attendeeEmail, attendeeEmail);
+				addEventRegistrationRequest(e.getEventID(), attendeeEmail, RegistrationRequestStatus.APPROVED);
 			} else { //place in pending request and await approval from organizer
-				e.getPendingRequests().put(attendeeEmail, attendeeEmail);
+//				e.getPendingRequests().put(attendeeEmail, attendeeEmail);
+				addEventRegistrationRequest(e.getEventID(), attendeeEmail, RegistrationRequestStatus.PENDING);
 			}
 		}
-
-		deleteEvent(e.getEventID());
-		addEvent(e);
 
 	}
 
