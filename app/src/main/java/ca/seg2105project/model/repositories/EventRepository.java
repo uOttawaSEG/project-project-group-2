@@ -16,10 +16,10 @@ import ca.seg2105project.model.eventClasses.Event;
 import ca.seg2105project.model.registrationRequestClasses.RegistrationRequestStatus;
 
 import com.google.firebase.database.DataSnapshot;
- import com.google.firebase.database.DatabaseError;
- import com.google.firebase.database.DatabaseReference;
- import com.google.firebase.database.FirebaseDatabase;
- import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A class for accessing any information on any registered user.
@@ -300,7 +300,6 @@ public class EventRepository {
 		eventsDatabase.child(eventID).child(newStatusFbRegistrationRequestListKey).push().setValue(attendeeEmail);
 	}
 
-
 	/**
 	 * Removes an existing event registration request
 	 * @param eventID The eventID of the event that the registration request is associated with
@@ -397,7 +396,6 @@ public class EventRepository {
 		}
 	}
 
-
 	/**
 	 * Method to determine if attendee is able to cancel their event registration request
 	 * They are only allowed to cancel when event has not yet happened yet
@@ -421,8 +419,6 @@ public class EventRepository {
 
 		//can only cancel request when not within 24 hours
 		return !within24Hours(curDateTime, eventDateTime);
-
-
 	}
 
 	/**
@@ -460,7 +456,6 @@ public class EventRepository {
 	 * @param e the event the attendee is trying to cancel register for
 	 */
 	public void cancelEventRegistrationRequest (String attendeeEmail, Event e) {
-
 		if(canCancelEventRegistrationRequest(e)) {
 			if (e.getApprovedRequests().get(attendeeEmail) != null) {
 				removeEventRegistrationRequest(e.getEventID(), attendeeEmail, RegistrationRequestStatus.APPROVED);
@@ -490,7 +485,6 @@ public class EventRepository {
 		LocalDateTime eventStartDateTime = LocalDateTime.of(eventDate, eventStartTime);
 		LocalDateTime eventEndDateTime = LocalDateTime.of(eventDate, eventEndTime);
 
-
 		if(curDateTime.isAfter(eventEndDateTime)) { //event already passed, so cannot register
 			return false;
 		}
@@ -510,7 +504,6 @@ public class EventRepository {
 			}
 		}
 		return true;
-
 	}
 
 	/**
@@ -567,13 +560,12 @@ public class EventRepository {
 		//first check if can register for an event
 		if(canRegisterForEvent(attendeeEmail, e)) {
 			if (e.getRegistrationRequestsAreAutoApproved()) { //check if registration is autoapproved
-//				e.getApprovedRequests().put(attendeeEmail, attendeeEmail);
 				addEventRegistrationRequest(e.getEventID(), attendeeEmail, RegistrationRequestStatus.APPROVED);
 			} else { //place in pending request and await approval from organizer
-//				e.getPendingRequests().put(attendeeEmail, attendeeEmail);
 				addEventRegistrationRequest(e.getEventID(), attendeeEmail, RegistrationRequestStatus.PENDING);
 			}
 		}
-
 	}
+
+	//END of EventRepository class
 }
