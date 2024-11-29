@@ -7,18 +7,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activities.WelcomeActivity"
-    tools:ignore="ExtraText">
+    tools:ignore="ExtraText"
+    android:background="@color/black">
 
     <TextView
         android:id="@+id/welcome_message_tv"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_width="416dp"
+        android:layout_height="89dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:gravity="center"
-        android:text="WELCOME"
+        android:text="Welcome! You are logged in as xyz"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -49,15 +54,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginEnd="2dp"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/upcoming_events_rv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:paddingTop="96dp"
-        android:translationZ="-1dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logout_btn" />
+:layout_constraintTop_toBottomOf="@id/logout_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
