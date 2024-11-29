@@ -576,11 +576,4 @@ public class EventRepository {
 		}
 
 	}
-
-
-	// Kunala has PR up
-	//TODO: Need to cancel event from ogrnizer side and put my PR up
-
-
-
 }
