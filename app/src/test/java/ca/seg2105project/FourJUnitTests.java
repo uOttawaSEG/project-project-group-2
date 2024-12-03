@@ -5,6 +5,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import ca.seg2105project.model.eventClasses.Event;
+import ca.seg2105project.model.userClasses.Administrator;
 import ca.seg2105project.model.userClasses.Attendee;
 import ca.seg2105project.model.userClasses.Organizer;
 
@@ -33,6 +38,33 @@ public class FourJUnitTests {
         String actual = org.getOrganizationName();
         String expected = "EAMS Events App";
         assertEquals(expected, actual);
+    }
+
+//    @Test
+//    /**
+//     * Tests the method toString() of an Adminstrator
+//     */
+//    public void testAdminstratorToString() {
+//        Administrator ad = new Administrator("admin@gmail.com", "pass");
+//        String expected = "Administrator Email Address: admin@gmail.com\n\tAccount Password: pass\n";
+//        String actual = ad.toString();
+//        assertEquals("toString of Adminstrator failed", expected, actual);
+//    }
+
+    @Test
+    /**
+     * Tests the method getEventId() for Event
+     */
+    public void testEventGetEventID() {
+        LocalDate d1 = LocalDate.of(2024, 11, 12);
+        LocalTime st1 = LocalTime.of(12, 30);
+        LocalTime et1 = LocalTime.of(14, 30);
+        //past event auto approve
+        Event e1 = new Event("12345EventID", "Event Testing", "testing getEventID()", d1, st1, et1, "45 Mann", "j6@g.com", true);
+
+        String expected = "12345EventID";
+        String actual = e1.getEventID();
+        assertEquals("getEventId() of Event class failed", expected, actual);
     }
 
 }
