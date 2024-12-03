@@ -1,8 +1,6 @@
 package ca.seg2105project;
 
 import static org.junit.Assert.*;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -17,7 +15,6 @@ import ca.seg2105project.model.userClasses.Organizer;
  * A class to handle the JUnit testing.
  */
 public class FourJUnitTests {
-
     @Test
     /**
      * Tests the method getFirstName() of an Attendee.
@@ -40,20 +37,9 @@ public class FourJUnitTests {
         assertEquals(expected, actual);
     }
 
-//    @Test
-//    /**
-//     * Tests the method toString() of an Adminstrator
-//     */
-//    public void testAdminstratorToString() {
-//        Administrator ad = new Administrator("admin@gmail.com", "pass");
-//        String expected = "Administrator Email Address: admin@gmail.com\n\tAccount Password: pass\n";
-//        String actual = ad.toString();
-//        assertEquals("toString of Adminstrator failed", expected, actual);
-//    }
-
     @Test
     /**
-     * Tests the method getEventId() for Event
+     * Tests the method getEventId() for Event.
      */
     public void testEventGetEventID() {
         LocalDate d1 = LocalDate.of(2024, 11, 12);
@@ -67,4 +53,13 @@ public class FourJUnitTests {
         assertEquals("getEventId() of Event class failed", expected, actual);
     }
 
+    @Test
+    /**
+     * Tests the fact that an Administrator's address is null but it still has a getAddress() method due to inheritance from User.
+     */
+    public void testAdministratorGetAddress() {
+        Administrator adm = new Administrator("mickey@gmail.com", "mickeysPassword");
+        String actual = adm.getAddress();
+        assertNull(actual);
+    }
 }
