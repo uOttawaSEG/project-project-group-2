@@ -1,19 +1,23 @@
 package ca.seg2105project.ui.rvcomponents;
 
+
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-
 import java.util.ArrayList;
 
 import ca.seg2105project.R;
 import ca.seg2105project.model.eventClasses.Event;
+import ca.seg2105project.model.registrationRequestClasses.RegistrationRequestStatus;
+import ca.seg2105project.model.repositories.EventRepository;
 
 public class AttendeeEventInfoOrEventRequestListAdapter extends
         RecyclerView.Adapter<AttendeeEventInfoOrEventRequestViewHolder> {
@@ -29,6 +33,8 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
 
     private ArrayList<Event> events;
 
+    private final EventRepository eventRepository;
+
     /**
      *
      * @param useCase the use case for this adapter, either attendee ERR list or attendee event search list
@@ -36,11 +42,13 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
      * @param events When useCase is ATTENDEE_ERR_LIST, this list should be a list of events that the attendee
      *               with email attendeeEmail has requested registration for. When useCase is ATTENDEE_EVENT_SEARCH_LIST,
      *               this list should be a list of events that the attendee with email attendeeEmail has just searched for
+     * @param eventRepository the event repository for EAMSApplication
      */
-    public AttendeeEventInfoOrEventRequestListAdapter(UseCase useCase, String attendeeEmail, ArrayList<Event> events) {
+    public AttendeeEventInfoOrEventRequestListAdapter(UseCase useCase, String attendeeEmail, ArrayList<Event> events, EventRepository eventRepository) {
         this.useCase = useCase;
         this.attendeeEmail = attendeeEmail;
         this.events = events;
+        this.eventRepository = eventRepository;
     }
 
     @NonNull
@@ -63,24 +71,64 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
         holder.eventLocationTV.setText(events.get(position).getEventAddress());
 
         if (useCase == UseCase.ATTENDEE_ERR_LIST) {
-            Event event = events.get(position);
+            Event event = events.get(holder.getAdapterPosition());
             if (event.getPendingRequests() != null && event.getPendingRequests().containsValue(attendeeEmail)) {
                 holder.eventRequestStatusTV.setText("registration: pending");
                 holder.requestOrCancelBtn.setText("cancel registration");
                 // TODO: Set on click listener here for cancellation with appropriate checks for ability to cancel
+                holder.requestOrCancelBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Event event = events.get(holder.getAdapterPosition());
+                        if (eventRepository.canCancelEventRegistrationRequest(event)) {
+                            eventRepository.cancelEventRegistrationRequest(attendeeEmail, event);
+                            holder.eventRequestStatusTV.setText("registration: canceled");
+                            events.remove(holder.getAdapterPosition());
+                            notifyDataSetChanged();
+                        }
+                        else{
+                            Toast.makeText(v.getContext(), "Cancellation not allowed for this event.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             } else if (event.getRejectedRequests() != null && event.getRejectedRequests().containsValue(attendeeEmail)) {
                 holder.eventRequestStatusTV.setText("registration: rejected");
                 holder.requestOrCancelBtn.setVisibility(View.INVISIBLE);
-            } else {
+            } else if (event.getApprovedRequests() != null && event.getApprovedRequests().containsValue(attendeeEmail)) {
                 holder.eventRequestStatusTV.setText("registration: approved");
                 holder.requestOrCancelBtn.setText("cancel registration");
-                // TODO: Set on click listener here for cancellation with appropriate checks for ability to cancel
+                holder.requestOrCancelBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Event event = events.get(holder.getAdapterPosition());
+                        if (eventRepository.canCancelEventRegistrationRequest(event)) {
+                            eventRepository.cancelEventRegistrationRequest(attendeeEmail, event);
+                            events.remove(holder.getAdapterPosition());
+                            notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(v.getContext(), "Cannot cancel registration within 24 hours of event start", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         } else if (useCase == UseCase.ATTENDEE_EVENT_SEARCH_LIST) {
             holder.eventRequestStatusTV.setVisibility(View.INVISIBLE);
             holder.requestOrCancelBtn.setText("register");
-            // TODO: Set on click listener here for registration with appropriate for ability to register
-            // as well as automatic approval if automatic approval is set for this event
+
+            holder.requestOrCancelBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Event event = events.get(holder.getAdapterPosition());
+                    if(eventRepository.canRegisterForEvent(attendeeEmail, event)) {
+                        eventRepository.registerForEvent(attendeeEmail, event);
+                        events.remove(holder.getAdapterPosition());
+                        notifyDataSetChanged();
+                    }
+                    else{
+                        Toast.makeText(v.getContext(), "Cannot register for this event", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
         holder.viewEventDetailsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,13 +136,12 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
                 AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext());
                 builder.setTitle("Event Details")
                         .setMessage(
-                                "Title: " +
-                                        "Start: "  +
-                                        "Description: " +
-                                        "Date:  "   +
-                                        "startTime: "  +
-                                        "EndTime: "  +
-                                        "eventAddress: "
+                                "Title: " + events.get(holder.getAdapterPosition()).getTitle() +
+                                        "\nDescription: " + events.get(holder.getAdapterPosition()).getDescription() +
+                                        "\nDate:  "   + events.get(holder.getAdapterPosition()).getLocalDate().toString() +
+                                        "\nstartTime: "  + events.get(holder.getAdapterPosition()).getLocalStartTime().toString() +
+                                        "\nEndTime: "  + events.get(holder.getAdapterPosition()).getLocalEndTime().toString() +
+                                        "\neventAddress: " + events.get(holder.getAdapterPosition()).getEventAddress()
 
                         )
                         .setPositiveButton("Close", null);
@@ -103,7 +150,6 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
                 dialog.show();
             }
         });
-
     }
 
     @Override

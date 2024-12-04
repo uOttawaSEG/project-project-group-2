@@ -202,4 +202,12 @@ public class Event {
 			throw new NullPointerException();
 		}
 	}
+
+	public void setApprovedRequests(HashMap<String, String> approvedRequests) {
+		this.approvedRequests = approvedRequests;
+	}
+
+	public void setPendingRequests(HashMap<String, String> pendingRequests) {
+		this.pendingRequests = pendingRequests;
+	}
 }
