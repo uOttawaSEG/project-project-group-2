@@ -67,7 +67,7 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
         holder.eventLocationTV.setText(events.get(position).getEventAddress());
 
         if (useCase == UseCase.ATTENDEE_ERR_LIST) {
-            Event event = events.get(position);
+            Event event = events.get(holder.getAdapterPosition());
             if (event.getPendingRequests() != null && event.getPendingRequests().containsValue(attendeeEmail)) {
                 holder.eventRequestStatusTV.setText("registration: pending");
                 holder.requestOrCancelBtn.setText("cancel registration");
@@ -76,12 +76,12 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
                     @Override
                     public void onClick(View v) {
                         EventRepository eventRepository = new EventRepository();
-                        Event event = events.get(position);
+                        Event event = events.get(holder.getAdapterPosition());
                         if (eventRepository.canCancelEventRegistrationRequest(event)) {
                             eventRepository.cancelEventRegistrationRequest(attendeeEmail, event);
                             holder.eventRequestStatusTV.setText("registration: canceled");
-                            events.remove(position);
-                            notifyItemRemoved(position);
+                            events.remove(holder.getAdapterPosition());
+                            notifyDataSetChanged();
                         }
                         else{
                             Toast.makeText(v.getContext(), "Cancellation not allowed for this event.", Toast.LENGTH_SHORT).show();
@@ -103,11 +103,11 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
                 @Override
                 public void onClick(View v) {
                     EventRepository eventRepository = new EventRepository();
-                    Event event = events.get(position);
+                    Event event = events.get(holder.getAdapterPosition());
                     if(eventRepository.canRegisterForEvent(attendeeEmail, event)) {
                         eventRepository.registerForEvent(attendeeEmail, event);
-                        events.remove(position);
-                        notifyItemRemoved(position);
+                        events.remove(holder.getAdapterPosition());
+                        notifyDataSetChanged();
                     }
                     else{
                         Toast.makeText(v.getContext(), "Cannot register for this event", Toast.LENGTH_SHORT).show();
@@ -121,13 +121,12 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
                 AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext());
                 builder.setTitle("Event Details")
                         .setMessage(
-                                "Title: " + events.get(position).getTitle() +
-                                        "\nStart: "  + events.get(position).getLocalStartTime().toString() +
-                                        "\nDescription: " + events.get(position).getDescription() +
-                                        "\nDate:  "   + events.get(position).getLocalDate().toString() +
-                                        "\nstartTime: "  + events.get(position).getLocalStartTime().toString() +
-                                        "\nEndTime: "  + events.get(position).getLocalEndTime().toString() +
-                                        "\neventAddress: " + events.get(position).getEventAddress()
+                                "Title: " + events.get(holder.getAdapterPosition()).getTitle() +
+                                        "\nDescription: " + events.get(holder.getAdapterPosition()).getDescription() +
+                                        "\nDate:  "   + events.get(holder.getAdapterPosition()).getLocalDate().toString() +
+                                        "\nstartTime: "  + events.get(holder.getAdapterPosition()).getLocalStartTime().toString() +
+                                        "\nEndTime: "  + events.get(holder.getAdapterPosition()).getLocalEndTime().toString() +
+                                        "\neventAddress: " + events.get(holder.getAdapterPosition()).getEventAddress()
 
                         )
                         .setPositiveButton("Close", null);
