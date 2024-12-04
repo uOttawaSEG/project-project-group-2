@@ -91,9 +91,23 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
             } else if (event.getRejectedRequests() != null && event.getRejectedRequests().containsValue(attendeeEmail)) {
                 holder.eventRequestStatusTV.setText("registration: rejected");
                 holder.requestOrCancelBtn.setVisibility(View.INVISIBLE);
-            } else {
+            } else if (event.getApprovedRequests() != null && event.getApprovedRequests().containsValue(attendeeEmail)) {
                 holder.eventRequestStatusTV.setText("registration: approved");
-                holder.requestOrCancelBtn.setVisibility(View.INVISIBLE);
+                holder.requestOrCancelBtn.setText("cancel registration");
+                holder.requestOrCancelBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EventRepository eventRepository = new EventRepository();
+                        Event event = events.get(position);
+                        if (eventRepository.canCancelEventRegistrationRequest(event)) {
+                            eventRepository.cancelEventRegistrationRequest(attendeeEmail, event);
+                            events.remove(position);
+                            notifyItemRemoved(position);
+                        } else {
+                            Toast.makeText(v.getContext(), "Cannot cancel registration within 24 hours of event start", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         } else if (useCase == UseCase.ATTENDEE_EVENT_SEARCH_LIST) {
             holder.eventRequestStatusTV.setVisibility(View.INVISIBLE);
