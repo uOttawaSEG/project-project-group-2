@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.google.firebase.database.Query;
 
@@ -190,13 +189,24 @@ public class EventRepository {
 	 * @param event the event that we need to determine if can be deleted or not. Must not be given a null event reference.
 	 * @return true if the event can be deleted, false if it cannot be deleted
 	 */
-	public boolean canDeleteEvent (Event event) {
+	private boolean canDeleteEvent (Event event) {
 		if (event.getApprovedRequests() == null) return true; //if the approvedRequests read from fb is null, that means that there are no approved requests, so can delete
 		return event.getApprovedRequests().isEmpty();
 	}
 
 	/**
-	 * Removes the event associated with a specific id from firebase if that event can be removed.
+	 * A method to determine if the event given by eventID can be deleted. See canDeleteEvent(Event) for deletion criteria
+	 * @param eventID the id of the event to be deleted
+	 * @return true if the event can be deleted and false if not.
+	 */
+	public boolean canDeleteEvent (String eventID) {
+		Event event = getEventByEventID(eventID);
+		if (event == null) return false;
+		return canDeleteEvent(event);
+	}
+
+	/**
+     * Removes the event associated with a specific id from firebase if that event can be removed.
 	 * @param eventID the event id that identifies the event we want to remove. Must not be given a null String reference.
 	 */
 	public void deleteEvent(String eventID) {
