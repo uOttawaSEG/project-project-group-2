@@ -2,6 +2,7 @@ package ca.seg2105project.ui.rvcomponents;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,12 +46,21 @@ public class OrganizerEventListAdapter extends RecyclerView.Adapter<OrganizerEve
         holder.eventId = events.get(position).getEventID();
 
         holder.deleteEventBtn.setOnClickListener(v -> {
-            // Remove event from fb
-            eventRepository.deleteEvent(events.get(position).getEventID());
+            // We use the event ID to check whether the event can be deleted because
+            // the Event object in our events list in this adapter may not reflect the current
+            // state of that event in fb. When using the eventID though we will always be checking
+            // against what is in fb.
+            if (!eventRepository.canDeleteEvent(events.get(position).getEventID())) {
+                Toast.makeText(holder.itemView.getContext(),
+                        "Can't delete an event with one or more approved registrations", Toast.LENGTH_LONG).show();
+            } else {
+                // Remove event from fb
+                eventRepository.deleteEvent(events.get(position).getEventID());
 
-            // Remove event from recycler view
-            events.remove(position);
-            notifyDataSetChanged();
+                // Remove event from recycler view
+                events.remove(position);
+                notifyDataSetChanged();
+            }
         });
     }
 
