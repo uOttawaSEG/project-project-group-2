@@ -52,7 +52,8 @@ public class AttendeeEventSearchActivity extends AppCompatActivity {
         AttendeeEventInfoOrEventRequestListAdapter adapter = new AttendeeEventInfoOrEventRequestListAdapter(
                 AttendeeEventInfoOrEventRequestListAdapter.UseCase.ATTENDEE_EVENT_SEARCH_LIST,
                 loginSessionRepository.getActiveLoginSessionEmail(),
-                new ArrayList<>());
+                new ArrayList<>(),
+                eventRepository);
 
         rv.setAdapter(adapter);
 

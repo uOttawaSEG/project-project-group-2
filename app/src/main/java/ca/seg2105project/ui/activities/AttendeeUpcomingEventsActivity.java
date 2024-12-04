@@ -51,7 +51,8 @@ public class AttendeeUpcomingEventsActivity extends AppCompatActivity {
         rv.setAdapter(new AttendeeEventInfoOrEventRequestListAdapter(
                 AttendeeEventInfoOrEventRequestListAdapter.UseCase.ATTENDEE_ERR_LIST,
                 loginSessionRepository.getActiveLoginSessionEmail(),
-                eventRepository.getEventRegistrationRequests(loginSessionRepository.getActiveLoginSessionEmail())));
+                eventRepository.getEventRegistrationRequests(loginSessionRepository.getActiveLoginSessionEmail()),
+                eventRepository));
     }
 
     private void setSearchForEventsButtonLogic() {

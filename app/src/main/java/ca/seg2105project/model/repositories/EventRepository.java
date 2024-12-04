@@ -655,11 +655,11 @@ public class EventRepository {
 			Event curEvent = allEvents.get(i);
 
 			//attendee has been approved for event, check no time conflict
-			if(curEvent.getApprovedRequests()!=null && curEvent.getApprovedRequests().get(attendeeEmail)!=null) {
+			if(curEvent.getApprovedRequests()!=null && curEvent.getApprovedRequests().containsValue(attendeeEmail)) {
 				if(hasConflict(e, curEvent)) {
 					return false;
 				}
-			} else if(curEvent.getPendingRequests()!=null && curEvent.getPendingRequests().get(attendeeEmail)!=null) {
+			} else if(curEvent.getPendingRequests()!=null && curEvent.getPendingRequests().containsValue(attendeeEmail)) {
 				if (hasConflict(e, curEvent)) {
 					return false;
 				}

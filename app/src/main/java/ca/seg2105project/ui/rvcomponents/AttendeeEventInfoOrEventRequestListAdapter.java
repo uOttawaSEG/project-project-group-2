@@ -33,6 +33,8 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
 
     private ArrayList<Event> events;
 
+    private final EventRepository eventRepository;
+
     /**
      *
      * @param useCase the use case for this adapter, either attendee ERR list or attendee event search list
@@ -40,11 +42,13 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
      * @param events When useCase is ATTENDEE_ERR_LIST, this list should be a list of events that the attendee
      *               with email attendeeEmail has requested registration for. When useCase is ATTENDEE_EVENT_SEARCH_LIST,
      *               this list should be a list of events that the attendee with email attendeeEmail has just searched for
+     * @param eventRepository the event repository for EAMSApplication
      */
-    public AttendeeEventInfoOrEventRequestListAdapter(UseCase useCase, String attendeeEmail, ArrayList<Event> events) {
+    public AttendeeEventInfoOrEventRequestListAdapter(UseCase useCase, String attendeeEmail, ArrayList<Event> events, EventRepository eventRepository) {
         this.useCase = useCase;
         this.attendeeEmail = attendeeEmail;
         this.events = events;
+        this.eventRepository = eventRepository;
     }
 
     @NonNull
@@ -75,7 +79,6 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
                 holder.requestOrCancelBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EventRepository eventRepository = new EventRepository();
                         Event event = events.get(holder.getAdapterPosition());
                         if (eventRepository.canCancelEventRegistrationRequest(event)) {
                             eventRepository.cancelEventRegistrationRequest(attendeeEmail, event);
@@ -97,7 +100,6 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
                 holder.requestOrCancelBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EventRepository eventRepository = new EventRepository();
                         Event event = events.get(holder.getAdapterPosition());
                         if (eventRepository.canCancelEventRegistrationRequest(event)) {
                             eventRepository.cancelEventRegistrationRequest(attendeeEmail, event);
@@ -116,7 +118,6 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
             holder.requestOrCancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    EventRepository eventRepository = new EventRepository();
                     Event event = events.get(holder.getAdapterPosition());
                     if(eventRepository.canRegisterForEvent(attendeeEmail, event)) {
                         eventRepository.registerForEvent(attendeeEmail, event);
