@@ -98,11 +98,11 @@ public class AttendeeEventInfoOrEventRequestListAdapter extends
                     @Override
                     public void onClick(View v) {
                         EventRepository eventRepository = new EventRepository();
-                        Event event = events.get(position);
+                        Event event = events.get(holder.getAdapterPosition());
                         if (eventRepository.canCancelEventRegistrationRequest(event)) {
                             eventRepository.cancelEventRegistrationRequest(attendeeEmail, event);
-                            events.remove(position);
-                            notifyItemRemoved(position);
+                            events.remove(holder.getAdapterPosition());
+                            notifyDataSetChanged();
                         } else {
                             Toast.makeText(v.getContext(), "Cannot cancel registration within 24 hours of event start", Toast.LENGTH_SHORT).show();
                         }
