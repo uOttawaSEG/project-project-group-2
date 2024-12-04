@@ -120,11 +120,6 @@ public class CreateEventActivity extends AppCompatActivity {
 
                 // For testing purposes, we add 5 pending attendee requests to every event that is created
                 eventRepository.addEvent(newEvent);
-                eventRepository.addEventRegistrationRequest(newEvent.getEventID(), "j@g.com", RegistrationRequestStatus.PENDING);
-                eventRepository.addEventRegistrationRequest(newEvent.getEventID(), "j2@g.com", RegistrationRequestStatus.PENDING);
-                eventRepository.addEventRegistrationRequest(newEvent.getEventID(), "j3@g.com", RegistrationRequestStatus.PENDING);
-                eventRepository.addEventRegistrationRequest(newEvent.getEventID(), "j4@g.com", RegistrationRequestStatus.PENDING);
-                eventRepository.addEventRegistrationRequest(newEvent.getEventID(), "j5@g.com", RegistrationRequestStatus.PENDING);
 
                 Intent launchOrganizerUpcomingEventsActivity = new Intent(this, OrganizerUpcomingEventsActivity.class);
                 startActivity(launchOrganizerUpcomingEventsActivity);

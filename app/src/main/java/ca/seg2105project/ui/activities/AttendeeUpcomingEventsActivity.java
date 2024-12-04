@@ -58,8 +58,16 @@ public class AttendeeUpcomingEventsActivity extends AppCompatActivity {
         Button searchForEventsButton = findViewById(R.id.search_for_events_btn);
         searchForEventsButton.setOnClickListener(v -> {
             Intent launchEventSearchActivityIntent = new Intent(this, AttendeeEventSearchActivity.class);
-            startActivity(launchEventSearchActivityIntent);
+            startActivityForResult(launchEventSearchActivityIntent, 1);
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            setUpUpcomingEventsRv();
+        }
     }
 
     private void setLogoutButtonLogic() {

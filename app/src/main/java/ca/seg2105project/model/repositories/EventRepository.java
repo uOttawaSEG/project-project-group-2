@@ -30,17 +30,17 @@ public class EventRepository {
 
 	//Two types of events in firebase (upcoming and past) 
 	private final ArrayList<Event> upcomingEvents; //NOTE: WE ARE ESTABLISHING THAT EVENT HAPPENING RIGHT NOW IS STILL AN UPCOMING EVENT (ATTENDEES CAN STILL REGISTER) 
-    private final ArrayList<Event> pastEvents;
+	private final ArrayList<Event> pastEvents;
 	private final ArrayList<Event> allEvents;
 
 	//firebase database references
 	private final DatabaseReference eventsDatabase;
 
-    public EventRepository() {
+	public EventRepository() {
 		// Initializing Firebase database references
 		eventsDatabase = FirebaseDatabase.getInstance().getReference("events");
 
-        //initialize the list of upcomingEvents and pastEvents, then update the lists from fb
+		//initialize the list of upcomingEvents and pastEvents, then update the lists from fb
 		upcomingEvents = new ArrayList<>();
 		pastEvents = new ArrayList<>();
 		allEvents = new ArrayList<>();
@@ -102,7 +102,7 @@ public class EventRepository {
 	 * This method returns a list of upcoming events in Firebase by returning upcomingEvents
 	 * @return a full list of all upcoming events
 	 */
-    public ArrayList<Event> getAllUpcomingEvents() {
+	public ArrayList<Event> getAllUpcomingEvents() {
 		return upcomingEvents;
 	}
 
@@ -122,10 +122,10 @@ public class EventRepository {
 	}
 
 	/**
- 	* This method returns a list of past events in Firebase by returning pastEvents
- 	* @return a full list of all past events
- 	*/
-    public ArrayList<Event> getAllPastEvents() {
+	 * This method returns a list of past events in Firebase by returning pastEvents
+	 * @return a full list of all past events
+	 */
+	public ArrayList<Event> getAllPastEvents() {
 		return pastEvents;
 	}
 
@@ -144,29 +144,29 @@ public class EventRepository {
 	}
 
 	/**
-     * Adds new Event to event section in Firebase DB
-     * @param newEvent the new event--either an upcoming or past event--to be added to DB
-     * @return whether or not the new event was successfully added to the DB
-     */
-    public boolean addEvent(Event newEvent) {
+	 * Adds new Event to event section in Firebase DB
+	 * @param newEvent the new event--either an upcoming or past event--to be added to DB
+	 * @return whether or not the new event was successfully added to the DB
+	 */
+	public boolean addEvent(Event newEvent) {
 		// generating a unique key for the event
-        String eventID = eventsDatabase.push().getKey();
+		String eventID = eventsDatabase.push().getKey();
 
-        // We failed to create a reference to a new child in the event section of Firebase
-        if (eventID == null) {
-            return false;
-        }
+		// We failed to create a reference to a new child in the event section of Firebase
+		if (eventID == null) {
+			return false;
+		}
 
 		//if event doesn't already have an eventID, set it to the fb key
 		if (newEvent.getEventID() == null) {
 			newEvent.setEventID(eventID);
 		}
 
-        // Add the event to the event section
-        eventsDatabase.child(eventID).setValue(newEvent);
+		// Add the event to the event section
+		eventsDatabase.child(eventID).setValue(newEvent);
 
-        return true;
-    }
+		return true;
+	}
 
 	/**
 	 * A helper method to get the event object with the given eventID. Returns null if there is no event with the given eventID.
@@ -196,36 +196,36 @@ public class EventRepository {
 	}
 
 	/**
-     * Removes the event associated with a specific id from firebase if that event can be removed.
+	 * Removes the event associated with a specific id from firebase if that event can be removed.
 	 * @param eventID the event id that identifies the event we want to remove. Must not be given a null String reference.
-     */
-    public void deleteEvent(String eventID) {
+	 */
+	public void deleteEvent(String eventID) {
 		Event event = getEventByEventID(eventID);
 		if (event == null) return; //the event with the given eventID was not found
 		if (!canDeleteEvent(event)) return; //event cannot be deleted
 
 		Query eventIDQuery = eventsDatabase.orderByChild("eventID").equalTo(eventID); //filter data based on eventID field in fb and then get the one with the matching eventID
-        
-		//listens for changes in eventIDQuery results 
+
+		//listens for changes in eventIDQuery results
 		eventIDQuery.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) { 
-                if(dataSnapshot.exists()){
-                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){ //should only be one event but looping just in case 
-                        String key = snapshot.getKey();
-                        eventsDatabase.child(key).removeValue()
-                                .addOnSuccessListener(v -> Log.d("Firebase", "Successfully deleted event from eventID: " + eventID))
-                                .addOnFailureListener(e -> Log.e("Firebase", "Error trying to delete event from eventID: " + eventID));
-                    }
-                }
-				eventsDatabase.removeEventListener(this);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				if(dataSnapshot.exists()){
+					for(DataSnapshot snapshot : dataSnapshot.getChildren()){ //should only be one event but looping just in case
+						String key = snapshot.getKey();
+						eventsDatabase.child(key).removeValue()
+								.addOnSuccessListener(v -> Log.d("Firebase", "Successfully deleted event from eventID: " + eventID))
+								.addOnFailureListener(e -> Log.e("Firebase", "Error trying to delete event from eventID: " + eventID));
+					}
+				}
 				eventsDatabase.removeEventListener(this);
 			}
-        });
-    }
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+				eventsDatabase.removeEventListener(this);
+			}
+		});
+	}
 
 	/**
 	 * Returns a list of upcoming events that the attendeeEmail has not registered for and that also contain the keyword in either their title or description.
@@ -383,21 +383,27 @@ public class EventRepository {
 		Query registrationRequestQuery = eventsDatabase.child(eventID)
 				.child(currentStatusFbRegistrationRequestListKey).orderByValue().equalTo(attendeeEmail);
 
-		registrationRequestQuery.addValueEventListener(new ValueEventListener() {
+		registrationRequestQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot snapshot) {
 				if (snapshot.exists()) {
 					for (DataSnapshot registrationRequestSnapshot: snapshot.getChildren()) {
 						String key = registrationRequestSnapshot.getKey();
 						eventsDatabase.child(eventID).child(currentStatusFbRegistrationRequestListKey)
-								.child(key).removeValue();
+								.child(key).removeValue()
+								.addOnSuccessListener(aVoid -> Log.d("Firebase", "Succesfullt removed registration request for: " + attendeeEmail))
+								.addOnFailureListener(e -> Log.e("Firebase", "Failed to remove registration request", e));
 					}
+				}
+				else{
+					Log.e("Firebase", "No registration request found for: " + attendeeEmail);
 				}
 				registrationRequestQuery.removeEventListener(this);
 			}
 
 			@Override
 			public void onCancelled(@NonNull DatabaseError error) {
+				Log.e("Firebase", "Error querying registration requests");
 				registrationRequestQuery.removeEventListener(this);
 			}
 		});
@@ -429,7 +435,9 @@ public class EventRepository {
 	 */
 	public void addEventRegistrationRequest(String eventID, String attendeeEmail, RegistrationRequestStatus status) {
 		String fbRegistrationRequestListKey = getFbRegistrationRequestListKey(status);
-		eventsDatabase.child(eventID).child(fbRegistrationRequestListKey).push().setValue(attendeeEmail);
+		eventsDatabase.child(eventID).child(fbRegistrationRequestListKey).push().setValue(attendeeEmail)
+				.addOnSuccessListener(aVoid -> Log.d("Firebase", "Registration request added successfully"))
+				.addOnFailureListener(e -> Log.e("Firebase", "Failed to add registration request", e));
 	}
 
 	public ArrayList<Event> mockGetListOfEventsWithERRsFromAttendee(String attendeeEmail) {
@@ -593,13 +601,25 @@ public class EventRepository {
 	 * @param attendeeEmail the email of the attendee trying to cancel registration for an event
 	 * @param e the event the attendee is trying to cancel register for
 	 */
-	public void cancelEventRegistrationRequest (String attendeeEmail, Event e) {
-		if(canCancelEventRegistrationRequest(e)) {
-			if (e.getApprovedRequests().get(attendeeEmail) != null) {
-				removeEventRegistrationRequest(e.getEventID(), attendeeEmail, RegistrationRequestStatus.APPROVED);
-			} else if (e.getPendingRequests().get(attendeeEmail) != null) {
-				removeEventRegistrationRequest(e.getEventID(), attendeeEmail, RegistrationRequestStatus.PENDING);
-			}
+	public void cancelEventRegistrationRequest(String attendeeEmail, Event e) {
+		if (e == null) {
+			Log.e("EventRepository", "Event is null, cannot cancel registration.");
+			return;
+		}
+		if (attendeeEmail == null || attendeeEmail.isEmpty()) {
+			Log.e("EventRepository", "Attendee email is null or empty, cannot cancel registration.");
+			return;
+		}
+		if(e.getApprovedRequests() != null && e.getApprovedRequests().containsValue(attendeeEmail)) {
+			Log.d("EventRepository", "Removing approved request for attendee");
+			removeEventRegistrationRequest(e.getEventID(), attendeeEmail, RegistrationRequestStatus.APPROVED);
+		}
+		else if(e.getPendingRequests() != null && e.getPendingRequests().containsValue(attendeeEmail)) {
+			Log.d("EventRepository", "Removing pending request for attendee");
+			removeEventRegistrationRequest(e.getEventID(), attendeeEmail, RegistrationRequestStatus.PENDING);
+		}
+		else{
+			Log.d("EventRepository", "No matching request found");
 		}
 	}
 
