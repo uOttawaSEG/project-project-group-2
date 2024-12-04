@@ -558,13 +558,7 @@ public class EventRepository {
 		LocalTime eventStartTime = e.getLocalStartTime();
 		LocalDateTime eventDateTime = LocalDateTime.of(eventDate, eventStartTime);
 
-		//Note: I split it up into multiple if statements to make it easier to understand even though I could combine it
-		if(curDateTime.isAfter(eventDateTime)) { //event already happened/is happening
-			return false;
-		}
-
-		//can only cancel request when not within 24 hours
-		return !within24Hours(curDateTime, eventDateTime);
+		return !curDateTime.isAfter(eventDateTime) && !within24Hours(curDateTime, eventDateTime);
 	}
 
 	/**
