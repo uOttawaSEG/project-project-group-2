@@ -449,76 +449,7 @@ public class EventRepository {
 				.addOnSuccessListener(aVoid -> Log.d("Firebase", "Registration request added successfully"))
 				.addOnFailureListener(e -> Log.e("Firebase", "Failed to add registration request", e));
 	}
-
-	public ArrayList<Event> mockGetListOfEventsWithERRsFromAttendee(String attendeeEmail) {
-		ArrayList<Event> ret = new ArrayList<>();
-
-		Event eventToAdd = new Event(
-				"event1",
-				"Event 1",
-				"The First Event",
-				LocalDate.of(2024, 12, 1),
-				LocalTime.of(11, 0),
-				LocalTime.of(12, 0),
-				"Event 1 Address",
-				"event1org@gmail.com",
-				false);
-
-		eventToAdd.addRequest(attendeeEmail, RegistrationRequestStatus.PENDING);
-
-		ret.add(eventToAdd);
-
-		eventToAdd = new Event(
-				"event2",
-				"Event 2",
-				"The Second Event",
-				LocalDate.of(2024, 12, 2),
-				LocalTime.of(11, 0),
-				LocalTime.of(12, 0),
-				"Event Address",
-				"eventorg@gmail.com",
-				false
-		);
-
-		eventToAdd.addRequest(attendeeEmail, RegistrationRequestStatus.REJECTED);
-
-		ret.add(eventToAdd);
-
-		eventToAdd = new Event(
-				"event3",
-				"Event 3",
-				"The Third Event",
-				LocalDate.of(2024, 12, 3),
-				LocalTime.of(11, 0),
-				LocalTime.of(12, 0),
-				"Event Address",
-				"eventorg@gmail.com",
-				false
-		);
-
-		eventToAdd.addRequest(attendeeEmail, RegistrationRequestStatus.APPROVED);
-
-		ret.add(eventToAdd);
-
-		eventToAdd = new Event(
-				"event4",
-				"Event 4",
-				"The Second Event",
-				LocalDate.of(2024, 12, 4),
-				LocalTime.of(11, 0),
-				LocalTime.of(12, 0),
-				"Event Address",
-				"eventorg@gmail.com",
-				false
-		);
-
-		eventToAdd.addRequest(attendeeEmail, RegistrationRequestStatus.PENDING);
-
-		ret.add(eventToAdd);
-
-		return ret;
-	}
-
+	
 	/**
 	 * A private helper method to sort an arraylist of type event in-place from earliest to latest start time.
 	 * This will make it so that the given events is transformed such that the events happening earlier have smaller indices than ones happening later.
@@ -669,9 +600,9 @@ public class EventRepository {
 	}
 
 	/**
-	 * A private helper method to determine if there is a time conflict between two events 
-	 * There are four possibilties for a conflict, when event a is within event b or event b is within event a 
-	 * or when event a starts in between event b or ends in between event b 
+	 * A private helper method to determine if there is a time conflict between two events.
+	 * There are conflicts if one event overlaps the other at all over the time they are both 'running'.
+	 * If one ends at the exact minute another one starts, they are not in conflict.
 	 * @param e the first event we will use to check for time conflict (event a) 
 	 * @param curEvent the second event we will use to check time conflict (event b) 
 	 * @return whether there is a time conflict between the two events
@@ -690,23 +621,21 @@ public class EventRepository {
 		LocalDateTime curEndDateTime = LocalDateTime.of(curEventDate, curEventEndTime);
 
 		/*
-		4 possibilities for a conflict:
-		Note: curEvent refers to the current event we are checking in the events list that attendee already registered for
-		1. event start time is in between curEventTime while it ends after curEventTime
-		2. event end time is between the curEventTime and it starts before curEventTime
-		3. event starts and ends within curEventTime
-		4. curEventTime starts and ends within eventTime
-		 */
+		We are going to look at e with respect to curEvent, so we will 'fix' curEvent and then look at where e could be with respect to that fixed curEvent.
+		We are going to use the fact that for both e and cur, the start time is before the end time.
+		*/
 
-		//catch first and third possibility:
-		if(eventStartDateTime.isAfter(curStartDateTime) && eventStartDateTime.isBefore(curEndDateTime)) {
-			return true;
-		} else if (eventEndDateTime.isAfter(curStartDateTime) && eventEndDateTime.isBefore(curEndDateTime)) { //checks for possibility #2
-			return true;
-		} else if (curStartDateTime.isAfter(eventStartDateTime) && curEndDateTime.isBefore(eventEndDateTime)) { //check 4th possibility
-			return true;
+		if (eventEndDateTime.isBefore(curStartDateTime) || eventEndDateTime.isEqual(curStartDateTime)) {
+			//e ended before cur started or e ends right as cur begins
+			return false;
 		}
-		return false; //no conflict since didn't meet the 4 possibilities
+		if (eventStartDateTime.isAfter(curEndDateTime) || eventStartDateTime.isEqual(curEndDateTime)) {
+			//e started after cur ended || e starts right as cur ends
+			return false;
+		}
+
+		//e did not end before cur started and e did not start after cur ended
+		return true;
 	}
 
 	/**
