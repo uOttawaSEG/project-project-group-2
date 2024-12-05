@@ -449,76 +449,7 @@ public class EventRepository {
 				.addOnSuccessListener(aVoid -> Log.d("Firebase", "Registration request added successfully"))
 				.addOnFailureListener(e -> Log.e("Firebase", "Failed to add registration request", e));
 	}
-
-	public ArrayList<Event> mockGetListOfEventsWithERRsFromAttendee(String attendeeEmail) {
-		ArrayList<Event> ret = new ArrayList<>();
-
-		Event eventToAdd = new Event(
-				"event1",
-				"Event 1",
-				"The First Event",
-				LocalDate.of(2024, 12, 1),
-				LocalTime.of(11, 0),
-				LocalTime.of(12, 0),
-				"Event 1 Address",
-				"event1org@gmail.com",
-				false);
-
-		eventToAdd.addRequest(attendeeEmail, RegistrationRequestStatus.PENDING);
-
-		ret.add(eventToAdd);
-
-		eventToAdd = new Event(
-				"event2",
-				"Event 2",
-				"The Second Event",
-				LocalDate.of(2024, 12, 2),
-				LocalTime.of(11, 0),
-				LocalTime.of(12, 0),
-				"Event Address",
-				"eventorg@gmail.com",
-				false
-		);
-
-		eventToAdd.addRequest(attendeeEmail, RegistrationRequestStatus.REJECTED);
-
-		ret.add(eventToAdd);
-
-		eventToAdd = new Event(
-				"event3",
-				"Event 3",
-				"The Third Event",
-				LocalDate.of(2024, 12, 3),
-				LocalTime.of(11, 0),
-				LocalTime.of(12, 0),
-				"Event Address",
-				"eventorg@gmail.com",
-				false
-		);
-
-		eventToAdd.addRequest(attendeeEmail, RegistrationRequestStatus.APPROVED);
-
-		ret.add(eventToAdd);
-
-		eventToAdd = new Event(
-				"event4",
-				"Event 4",
-				"The Second Event",
-				LocalDate.of(2024, 12, 4),
-				LocalTime.of(11, 0),
-				LocalTime.of(12, 0),
-				"Event Address",
-				"eventorg@gmail.com",
-				false
-		);
-
-		eventToAdd.addRequest(attendeeEmail, RegistrationRequestStatus.PENDING);
-
-		ret.add(eventToAdd);
-
-		return ret;
-	}
-
+	
 	/**
 	 * A private helper method to sort an arraylist of type event in-place from earliest to latest start time.
 	 * This will make it so that the given events is transformed such that the events happening earlier have smaller indices than ones happening later.
