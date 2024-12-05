@@ -89,13 +89,20 @@ public class CreateEventActivity extends AppCompatActivity {
                 int enteredEndHour = Integer.parseInt(enteredEndTime[0]);
                 int enteredEndMinute = Integer.parseInt(enteredEndTime[1]);
 
+                if (enteredStartHour > enteredEndHour || 
+                    (enteredStartHour == enteredEndHour && enteredStartMinute >= enteredEndMinute)) {
+                    Toast.makeText(this, "End time must be after start time", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 if (enteredStartMinute % 30 != 0) {
                     Toast.makeText(this, "Start time must be in 30-minute increments", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                if (enteredEndMinute % 30 != 0) {
-                    Toast.makeText(this, "End time must be in 30-minute increments", Toast.LENGTH_LONG).show();
+                if (enteredStartHour > enteredEndHour ||
+                        (enteredStartHour == enteredEndHour && enteredStartMinute >= enteredEndMinute)) {
+                    Toast.makeText(this, "End time must be after start time", Toast.LENGTH_LONG).show();
                     return;
                 }
 
